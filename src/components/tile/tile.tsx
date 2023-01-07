@@ -18,7 +18,7 @@ export default function Tile({ color, position, image }: TileProps) {
       className={className}
       style={{
         backgroundImage: image
-          ? `url('${process.env.PUBLIC_URL + image}') fixed`
+          ? `url('${process.env.PUBLIC_URL + image}')`
           : "none",
       }}
     ></div>
