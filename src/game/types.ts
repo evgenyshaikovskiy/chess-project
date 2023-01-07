@@ -7,6 +7,7 @@ export enum Piece {
   PAWN = "pawn",
   BISHOP = "bishop",
   KNIGHT = "knight",
+  LANCE = 'lance',
   ROOK = "rook",
   QUEEN = "queen",
   KING = "king",

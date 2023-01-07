@@ -1,4 +1,4 @@
-import { Color } from "../../models/types";
+import { Color } from "../../game/types";
 import { Tile } from "../tile/tile";
 import "./board.styles.scss";
 

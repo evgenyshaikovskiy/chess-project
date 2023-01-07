@@ -1,4 +1,4 @@
-import { Color } from "../../models/types";
+import { Color } from "../../game/types";
 import "./tile.styles.scss";
 
 type TileProps = {
