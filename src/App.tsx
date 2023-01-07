@@ -1,12 +1,9 @@
-import { Board } from "./components/board/board";
+import ChessGame from "./components/game/chess-game";
 
 function App() {
-  return (
-    <div className="App">
-      <div>Hello world</div>
-      <Board></Board>
-    </div>
-  );
+  return <div className="App">
+    <ChessGame></ChessGame>
+  </div>;
 }
 
 export default App;

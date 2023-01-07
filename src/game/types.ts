@@ -3,11 +3,11 @@ export enum Color {
   BLACK = "black",
 }
 
-export enum Piece {
+export enum PieceType {
   PAWN = "pawn",
   BISHOP = "bishop",
   KNIGHT = "knight",
-  LANCE = 'lance',
+  LANCE = "lance",
   ROOK = "rook",
   QUEEN = "queen",
   KING = "king",

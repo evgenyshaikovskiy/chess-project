@@ -1,11 +1,13 @@
+import { Position } from "../../game/position";
 import { Color } from "../../game/types";
 import "./tile.styles.scss";
 
 type TileProps = {
   color: Color;
+  position: Position;
 };
 
-export const Tile = ({ color }: TileProps) => {
-  const tileClassName = `tile-${color}`;
-  return <div className={tileClassName}></div>;
-};
+export default function Tile({ color, position }: TileProps) {
+  const tileClassName = `${color}-tile`;
+  return <div className={tileClassName}>{position.key}</div>;
+}
