@@ -1,0 +1,25 @@
+.black-tile {
+  background-color: rgb(40, 75, 40);
+}
+
+.white-tile {
+  background-color: antiquewhite;
+}
+
+.black-tile,
+.white-tile {
+  place-content: center;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 80px 80px;
+}
+
+.piece-tile {
+  &:hover {
+    cursor: grab;
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+}
