@@ -1,3 +1,11 @@
 .board-wrapper {
-  color: black;
+  display: flex;
+}
+
+.tiles-wrapper {
+  // styles for board
+  display: grid;
+  grid-template-columns: repeat(10, 70px);
+  grid-template-rows: repeat(10, 70px);
+  grid-auto-flow: row;
 }

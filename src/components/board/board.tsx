@@ -1,5 +1,23 @@
-import './board.styles.scss'
+import { Color } from "../../models/types";
+import { Tile } from "../tile/tile";
+import "./board.styles.scss";
 
 export const Board = () => {
-  return <div className="board-wrapper">This is board components</div>;
+  let color = Color.BLACK;
+
+  let arr = [];
+  for (let i = 0; i < 100; i++) {
+    arr.push(i);
+  }
+
+  return (
+    <div className="board-wrapper">
+      <div className="tiles-wrapper">
+        {arr.map((tiles, index) => {
+          const tileColor = tiles % 2 === 0 ? Color.WHITE : Color.BLACK;
+          return <Tile color={tileColor} key={index}></Tile>;
+        })}
+      </div>
+    </div>
+  );
 };
