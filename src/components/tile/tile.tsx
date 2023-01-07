@@ -1,9 +1,8 @@
 import { Position } from "../../game/position";
-import { Color } from "../../game/types";
 import "./tile.styles.scss";
 
 type TileProps = {
-  color: Color;
+  color: string;
   position: Position;
   image?: string;
 };

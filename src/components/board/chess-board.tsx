@@ -1,15 +1,14 @@
 import { Position } from "../../game/position";
 import "./chess-board.styles.scss";
-import { Color } from "../../game/types";
 import Tile from "../tile/tile";
 import { useState } from "react";
 
 type ChessBoardProps = {
-  initPositions: Position[][];
+  initPositions: Position[];
 };
 
 export const ChessBoard = ({ initPositions }: ChessBoardProps) => {
-  const [positions, setPositions] = useState<Position[][]>(initPositions);
+  const [positions, setPositions] = useState<Position[]>(initPositions);
 
   // when first created need to initialize tiles
   // careful with rerendering, so it does not call tiles method again
@@ -20,17 +19,12 @@ export const ChessBoard = ({ initPositions }: ChessBoardProps) => {
         {positions
           .flatMap((x) => x)
           .map((position) => {
-            const color =
-              (position.x + position.y) % 2 === 0 ? Color.BLACK : Color.WHITE;
-
-            // optimization for react keys
-            const uniqKey = (position.x + 1) * 10 + (position.y + 1);
             return (
               <Tile
-                color={color}
+                color={position.tileColor}
                 position={position}
                 image={position.piece?.image}
-                key={uniqKey}
+                key={position.number_key}
               ></Tile>
             );
           })}

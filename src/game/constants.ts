@@ -107,4 +107,4 @@ positions[9][9].placePiece(
   new Piece(positions[9][9], PieceType.ROOK, Color.BLACK)
 );
 
-export const initialBoard: Board = new Board(positions);
+export const initialBoard: Board = new Board(positions.flatMap((x) => x));
