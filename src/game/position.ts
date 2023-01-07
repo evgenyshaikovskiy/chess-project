@@ -9,7 +9,7 @@ export class Position {
   public number_key: number;
 
   public tileColor: string;
-  
+
   // undefined means there are no piece at position
   public piece?: Piece;
 

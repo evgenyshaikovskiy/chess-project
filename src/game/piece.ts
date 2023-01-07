@@ -1,7 +1,7 @@
 import { Position } from "./position";
 import { Color, PieceType } from "./types";
 
-export class Piece {
+export abstract class Piece {
   public image: string;
   public position: Position;
   public type: PieceType;
@@ -12,6 +12,7 @@ export class Piece {
     position: Position,
     type: PieceType,
     color: Color,
+    // maybe be redudant
     possibleMoves: Position[] = []
   ) {
     this.image = `/assets/images/${type}_${color}.png`;
@@ -30,14 +31,8 @@ export class Piece {
     return this.position.isSamePosition(other);
   }
 
-  public clone(): Piece {
-    return new Piece(
-      this.position.clone(),
-      this.type,
-      this.color,
-      this.possibleMoves?.map((m) => m.clone())
-    );
-  }
+  // abstract methods
+  public abstract getPossibleMoves(): Position[];
 
   // check type of piece(could be refactored)
   get isPawn(): boolean {

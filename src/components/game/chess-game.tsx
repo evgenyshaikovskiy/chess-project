@@ -8,7 +8,7 @@ export default function ChessGame() {
 
   return (
     <div className="chess-game-wrapper">
-      <ChessBoard initPositions={board.positions}></ChessBoard>
+      <ChessBoard initPositions={board.positions} ></ChessBoard>
     </div>
   );
 }

@@ -20,6 +20,11 @@ export default function Tile({ color, position, image }: TileProps) {
           ? `url('${process.env.PUBLIC_URL + image}')`
           : "none",
       }}
+      onClick={() => {
+        if (position.piece) {
+          console.log(position.piece.getPossibleMoves());
+        }
+      }}
     ></div>
   );
 }

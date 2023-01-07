@@ -8,8 +8,6 @@ export class Board {
   }
 
   public clone(): Board {
-    return new Board(
-      this.positions.map((row) => row.clone())
-    );
+    return new Board(this.positions.map((row) => row.clone()));
   }
 }
