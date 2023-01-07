@@ -14,7 +14,7 @@ export class Piece {
     color: Color,
     possibleMoves: Position[] = []
   ) {
-    this.image = `assets/images/${type}_${color}`;
+    this.image = `/assets/images/${type}_${color}.png`;
     this.position = position;
     this.type = type;
     this.color = color;

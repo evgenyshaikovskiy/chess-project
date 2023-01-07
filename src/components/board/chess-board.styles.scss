@@ -5,7 +5,7 @@
 .tiles-wrapper {
   // styles for board
   display: grid;
-  grid-template-columns: repeat(10, 70px);
-  grid-template-rows: repeat(10, 70px);
+  grid-template-columns: repeat(10, 100px);
+  grid-template-rows: repeat(10, 100px);
   grid-auto-flow: row;
 }
