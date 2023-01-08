@@ -28,18 +28,18 @@ export class Pawn extends Piece {
     // calculate all keys
     // restrictions on left and right side
     const oneSquareForwardKey =
-      this.position.y === 1 || this.position.y === 8
+      this.position.y === 0 || this.position.y === 9
         ? -1
         : Position.calculateNumericKey(
             this.position.x,
-            this.position.y + this.pawnDirection * 10
+            this.position.y + this.pawnDirection * 1
           );
 
     const twoSquareForwardKey = !this.isFirstMove
       ? -1
       : Position.calculateNumericKey(
           this.position.x,
-          this.position.y + this.pawnDirection * 20
+          this.position.y + this.pawnDirection * 2
         );
 
     const leftSquareCaptureKey =
@@ -47,7 +47,7 @@ export class Pawn extends Piece {
         ? -1
         : Position.calculateNumericKey(
             this.position.x - 1,
-            this.position.y + this.pawnDirection * 10
+            this.position.y + this.pawnDirection * 1
           );
 
     const rightSquareCaptureKey =
@@ -55,7 +55,7 @@ export class Pawn extends Piece {
         ? -1
         : Position.calculateNumericKey(
             this.position.x - 1,
-            this.position.y + this.pawnDirection * 10
+            this.position.y + this.pawnDirection * 1
           );
 
     // switch to const??
@@ -90,5 +90,10 @@ export class Pawn extends Piece {
     if (rightSquareCapturePos && rightSquareCapturePos.isOccupied()) {
       this.possibleMoves.push(rightSquareCapturePos);
     }
+
+    console.log('keys: ', [oneSquareForwardKey, twoSquareForwardKey, leftSquareCaptureKey, rightSquareCaptureKey])
+    console.log('position: ', this.position);
+    console.log('possible moves: ', this.possibleMoves);
+    console.log('direction', this.pawnDirection);
   }
 }
