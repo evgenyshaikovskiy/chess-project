@@ -12,7 +12,23 @@ export class Lance extends Piece {
     super(position, PieceType.LANCE, color, possibleMoves);
   }
 
-  public updatePossibleMoves(positions: Position[]): void {}
+  public updatePossibleMoves(positions: Position[]): void {
+    // moves to all sides one square
+    this.possibleMoves = [];
+
+    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 0, 2, positions, this.color, 1))
+    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 0, -2, positions, this.color, 1))
+    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 2, 0, positions, this.color, 1))
+    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -2, 0, positions, this.color, 1))
+    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -1, 2, positions, this.color, 1))
+    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 1, 2, positions, this.color, 1))
+    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -2, 1, positions, this.color, 1))
+    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 2, 1, positions, this.color, 1))
+    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -1, -2, positions, this.color, 1))
+    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 1, -2, positions, this.color, 1))
+    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 2, -1, positions, this.color, 1))
+    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -2, -1, positions, this.color, 1))
+  }
 
   public moveTo(position: Position): void {
     position.placePiece(this);
