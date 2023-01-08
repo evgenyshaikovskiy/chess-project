@@ -30,6 +30,11 @@ export class Position {
     return this.piece !== undefined;
   }
 
+  public isOccupiedByOpponent(pieceColor: Color): boolean {
+    return this.isOccupied() && this.piece!.color !== pieceColor;
+  }
+
+  // refactor two methods
   public placePiece(piece: Piece) {
     // make previous piece position as undefined
     piece.position.piece = undefined;

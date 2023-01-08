@@ -79,7 +79,7 @@ export class Pawn extends Piece {
       (p) => p.number_key === leftSquareCaptureKey
     );
 
-    if (leftSquareCapturePos && leftSquareCapturePos.isOccupied()) {
+    if (leftSquareCapturePos && leftSquareCapturePos.isOccupiedByOpponent(this.color)) {
       this.possibleMoves.push(leftSquareCapturePos);
     }
 
@@ -87,7 +87,7 @@ export class Pawn extends Piece {
     let rightSquareCapturePos = positions.find(
       (p) => p.number_key === rightSquareCaptureKey
     );
-    if (rightSquareCapturePos && rightSquareCapturePos.isOccupied()) {
+    if (rightSquareCapturePos && rightSquareCapturePos.isOccupiedByOpponent(this.color)) {
       this.possibleMoves.push(rightSquareCapturePos);
     }
 

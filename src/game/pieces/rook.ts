@@ -13,10 +13,27 @@ export class Rook extends Piece {
   }
 
   public updatePossibleMoves(positions: Position[]): void {
-    // right and left movements
+    this.possibleMoves = [];
+
+    if (this.position.y !== 9) {
+      this.possibleMoves.push(...Piece.findStraightMoves(this.position.x, this.position.y, 1, positions, this.color));
+    }
+
+    if (this.position.y !== 0) {
+      this.possibleMoves.push(...Piece.findStraightMoves(this.position.x, this.position.y, -1, positions, this.color));
+    }
+
+    if (this.position.x !== 0) {
+      this.possibleMoves.push(...Piece.findSideMoves(this.position.x, this.position.y, -1, positions, this.color));
+    }
+
+    if (this.position.x !== 9) {
+      this.possibleMoves.push(...Piece.findSideMoves(this.position.x, this.position.y, 1, positions, this.color));
+    }
+    
   }
 
   public moveTo(position: Position): void {
-      
+    position.placePiece(this);
   }
 }
