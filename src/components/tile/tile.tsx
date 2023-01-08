@@ -5,9 +5,11 @@ type TileProps = {
   color: string;
   position: Position;
   image?: string;
+  isHighlighted: boolean;
+  onTileClick: (position: Position) => void;
 };
 
-export default function Tile({ color, position, image }: TileProps) {
+export default function Tile({ color, position, image, onTileClick}: TileProps) {
   const className: string = [`${color}-tile`, image && "piece-tile"]
     .filter(Boolean)
     .join(" ");
@@ -20,11 +22,7 @@ export default function Tile({ color, position, image }: TileProps) {
           ? `url('${process.env.PUBLIC_URL + image}')`
           : "none",
       }}
-      onClick={() => {
-        if (position.piece) {
-          console.log(position.piece.getPossibleMoves());
-        }
-      }}
+      onClick={() => onTileClick(position)}
     ></div>
   );
 }

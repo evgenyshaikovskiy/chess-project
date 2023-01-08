@@ -12,7 +12,7 @@ export class Rook extends Piece {
     super(position, PieceType.ROOK, color, possibleMoves);
   }
 
-  public getPossibleMoves(): Position[] {
-    return [];
+  public updatePossibleMoves(): void {
+    console.log('updating');
   }
 }

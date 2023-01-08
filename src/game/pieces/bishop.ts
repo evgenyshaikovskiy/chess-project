@@ -12,7 +12,7 @@ export class Bishop extends Piece {
     super(position, PieceType.BISHOP, color, possibleMoves);
   }
 
-  public getPossibleMoves(): Position[] {
-    return [];
+  public updatePossibleMoves(): void{
+    console.log('updated');
   }
 }

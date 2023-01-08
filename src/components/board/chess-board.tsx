@@ -5,12 +5,28 @@ import { useState } from "react";
 
 type ChessBoardProps = {
   initPositions: Position[];
+  updateMoves: () => void;
 };
 
-export const ChessBoard = ({ initPositions }: ChessBoardProps) => {
+export const ChessBoard = ({ initPositions, updateMoves }: ChessBoardProps) => {
   const [positions, setPositions] = useState<Position[]>(initPositions);
+  const [isAllMovesUpdated, setIsAllMovesUpdated] = useState<Boolean>(false);
 
-  // when first created need to initialize tiles
+  // if all moves aren't updated => update them
+  if (!isAllMovesUpdated) {
+    updateMoves();
+    setIsAllMovesUpdated(true);
+  }
+
+  // when move is maked, need to set variable to false
+  function onTileClickCallback(position: Position) {
+    if (position.isOccupied() && !isAllMovesUpdated) {
+      console.log("click", position);
+      // it should highlight possible moves for piece on that tile
+    }
+  }
+
+  // TODO: refactor so it would pass only position of a tile
   // careful with rerendering, so it does not call tiles method again
   return (
     <div className="chess-board-wrapper">
@@ -21,10 +37,12 @@ export const ChessBoard = ({ initPositions }: ChessBoardProps) => {
           .map((position) => {
             return (
               <Tile
+                onTileClick={onTileClickCallback}
                 color={position.tileColor}
                 position={position}
                 image={position.piece?.image}
                 key={position.number_key}
+                isHighlighted={false}
               ></Tile>
             );
           })}

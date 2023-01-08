@@ -7,6 +7,14 @@ export class Board {
     this.positions = positions;
   }
 
+  public updateMovesForAllPieces() {
+    this.positions.forEach((position) => {
+      if (position.isOccupied()) {
+        position.piece?.updatePossibleMoves();
+      }
+    })
+  }
+
   public clone(): Board {
     return new Board(this.positions.map((row) => row.clone()));
   }
