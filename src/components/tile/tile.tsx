@@ -1,15 +1,26 @@
 import { Position } from "../../game/position";
-import { Color } from "../../game/types";
 import "./tile.styles.scss";
 
 type TileProps = {
-  color: Color;
+  color: string;
   position: Position;
   image?: string;
+  isHighlighted: boolean;
+  onTileClick: (position: Position, isHighlighted: boolean) => void;
 };
 
-export default function Tile({ color, position, image }: TileProps) {
-  const className: string = [`${color}-tile`, image && "piece-tile"]
+export default function Tile({
+  color,
+  position,
+  image,
+  onTileClick,
+  isHighlighted,
+}: TileProps) {
+  const className: string = [
+    `${color}-tile`,
+    image && "piece-tile",
+    isHighlighted && "highlighted",
+  ]
     .filter(Boolean)
     .join(" ");
 
@@ -21,6 +32,7 @@ export default function Tile({ color, position, image }: TileProps) {
           ? `url('${process.env.PUBLIC_URL + image}')`
           : "none",
       }}
+      onClick={() => onTileClick(position, isHighlighted)}
     ></div>
   );
 }
