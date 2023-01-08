@@ -14,8 +14,13 @@ export default function Tile({
   position,
   image,
   onTileClick,
+  isHighlighted,
 }: TileProps) {
-  const className: string = [`${color}-tile`, image && "piece-tile"]
+  const className: string = [
+    `${color}-tile`,
+    image && "piece-tile",
+    isHighlighted && "highlighted",
+  ]
     .filter(Boolean)
     .join(" ");
 

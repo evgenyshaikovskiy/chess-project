@@ -11,6 +11,7 @@ type ChessBoardProps = {
 export const ChessBoard = ({ initPositions, updateMoves }: ChessBoardProps) => {
   const [positions, setPositions] = useState<Position[]>(initPositions);
   const [isAllMovesUpdated, setIsAllMovesUpdated] = useState<Boolean>(false);
+  const [highlightedSquares, setHighlightedSquares] = useState<Position[]>([]);
 
   // if all moves aren't updated => update them
   if (!isAllMovesUpdated) {
@@ -20,9 +21,11 @@ export const ChessBoard = ({ initPositions, updateMoves }: ChessBoardProps) => {
 
   // when move is maked, need to set variable to false
   function onTileClickCallback(position: Position) {
-    if (position.isOccupied() && !isAllMovesUpdated) {
+    if (position.isOccupied() && isAllMovesUpdated) {
       console.log("click", position);
       // it should highlight possible moves for piece on that tile
+      setHighlightedSquares([...position.piece!.possibleMoves]);
+      console.log(highlightedSquares);
     }
   }
 
@@ -42,7 +45,7 @@ export const ChessBoard = ({ initPositions, updateMoves }: ChessBoardProps) => {
                 position={position}
                 image={position.piece?.image}
                 key={position.number_key}
-                isHighlighted={false}
+                isHighlighted={highlightedSquares.includes(position)}
               ></Tile>
             );
           })}

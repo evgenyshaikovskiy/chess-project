@@ -5,7 +5,7 @@ export abstract class Piece {
   public image: string;
   public position: Position;
   public type: PieceType;
-  public possibleMoves?: Position[];
+  public possibleMoves: Position[];
   public color: Color;
 
   constructor(
