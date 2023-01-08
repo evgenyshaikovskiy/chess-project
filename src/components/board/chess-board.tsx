@@ -7,9 +7,14 @@ import { Piece } from "../../game/piece";
 type ChessBoardProps = {
   initPositions: Position[];
   updateMoves: () => void;
+  movePiece: (piece: Piece, position: Position) => void;
 };
 
-export const ChessBoard = ({ initPositions, updateMoves }: ChessBoardProps) => {
+export const ChessBoard = ({
+  initPositions,
+  updateMoves,
+  movePiece,
+}: ChessBoardProps) => {
   const [positions, setPositions] = useState<Position[]>(initPositions);
   const [isAllMovesUpdated, setIsAllMovesUpdated] = useState<Boolean>(false);
   const [highlightedSquares, setHighlightedSquares] = useState<Position[]>([]);
@@ -36,11 +41,13 @@ export const ChessBoard = ({ initPositions, updateMoves }: ChessBoardProps) => {
       setSelectedPiece(position.piece);
     }
 
-    if (isHighlighted) {
-      selectedPiece?.moveTo(position);
+    if (isHighlighted && selectedPiece) {
+      movePiece(selectedPiece, position);
+
+      // move position in positions array
+      // selectedPiece?.moveTo(position);
       setHighlightedSquares([]);
       setSelectedPiece(undefined);
-
       setIsAllMovesUpdated(false);
     }
 
