@@ -23,7 +23,7 @@ export class Rook extends Piece {
           0,
           1,
           positions,
-          this.color,
+          this.color
         )
       );
     }
@@ -36,7 +36,7 @@ export class Rook extends Piece {
           0,
           -1,
           positions,
-          this.color,
+          this.color
         )
       );
     }
@@ -49,7 +49,7 @@ export class Rook extends Piece {
           -1,
           0,
           positions,
-          this.color,
+          this.color
         )
       );
     }
@@ -62,7 +62,7 @@ export class Rook extends Piece {
           1,
           0,
           positions,
-          this.color,
+          this.color
         )
       );
     }

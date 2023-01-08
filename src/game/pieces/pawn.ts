@@ -97,8 +97,7 @@ export class Pawn extends Piece {
     if (leftSquareCapturePos) {
       if (this.color === Color.WHITE) {
         leftSquareCapturePos!.isTargetedByWhitePiece = true;
-      }
-      else {
+      } else {
         leftSquareCapturePos!.isTargetedByBlackPiece = true;
       }
     }
@@ -106,8 +105,7 @@ export class Pawn extends Piece {
     if (rightSquareCapturePos) {
       if (this.color === Color.WHITE) {
         rightSquareCapturePos!.isTargetedByWhitePiece = true;
-      }
-      else {
+      } else {
         rightSquareCapturePos!.isTargetedByBlackPiece = true;
       }
     }

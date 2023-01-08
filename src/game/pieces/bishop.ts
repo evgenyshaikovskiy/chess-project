@@ -23,7 +23,7 @@ export class Bishop extends Piece {
           1,
           1,
           positions,
-          this.color,
+          this.color
         )
       );
       this.possibleMoves.push(
@@ -33,7 +33,7 @@ export class Bishop extends Piece {
           -1,
           1,
           positions,
-          this.color,
+          this.color
         )
       );
     }
@@ -46,7 +46,7 @@ export class Bishop extends Piece {
           1,
           -1,
           positions,
-          this.color,
+          this.color
         )
       );
       this.possibleMoves.push(
@@ -56,7 +56,7 @@ export class Bishop extends Piece {
           -1,
           -1,
           positions,
-          this.color,
+          this.color
         )
       );
     }

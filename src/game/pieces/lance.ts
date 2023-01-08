@@ -16,18 +16,138 @@ export class Lance extends Piece {
     this.possibleMoves = [];
 
     // moves to all sides one square
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 0, 2, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 0, -2, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 2, 0, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -2, 0, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -1, 2, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 1, 2, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -2, 1, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 2, 1, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -1, -2, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 1, -2, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 2, -1, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -2, -1, positions, this.color, 1))
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        0,
+        2,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        0,
+        -2,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        2,
+        0,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        -2,
+        0,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        -1,
+        2,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        1,
+        2,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        -2,
+        1,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        2,
+        1,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        -1,
+        -2,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        1,
+        -2,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        2,
+        -1,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        -2,
+        -1,
+        positions,
+        this.color,
+        1
+      )
+    );
 
     this.targetSquares();
   }

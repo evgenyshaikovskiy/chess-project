@@ -15,23 +15,101 @@ export class King extends Piece {
   public updatePossibleMoves(positions: Position[]): void {
     this.possibleMoves = [];
 
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 1, 1, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 1, -1, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -1, 1, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -1, -1, positions, this.color, 1))
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        1,
+        1,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        1,
+        -1,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        -1,
+        1,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        -1,
+        -1,
+        positions,
+        this.color,
+        1
+      )
+    );
 
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 1, 0, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 0, 1, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 0, -1, positions, this.color, 1))
-    this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -1, 0, positions, this.color, 1))
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        1,
+        0,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        0,
+        1,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        0,
+        -1,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        -1,
+        0,
+        positions,
+        this.color,
+        1
+      )
+    );
 
     // target squares
     this.targetSquares();
   }
 
-  public excludeTargetedSquaresFromPossibleMoves(): void {
-    
-  }
+  public excludeTargetedSquaresFromPossibleMoves(): void {}
 
   public moveTo(position: Position): void {
     position.placePiece(this);

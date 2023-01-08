@@ -10,7 +10,9 @@ export class Board {
     this.positions = positions;
 
     // maybe there is a way without casting
-    this.pieces = positions.filter((p) => p.isOccupied()).map((p) => p.piece as unknown as Piece);
+    this.pieces = positions
+      .filter((p) => p.isOccupied())
+      .map((p) => p.piece as unknown as Piece);
   }
 
   public updateMovesForAllPieces(): void {
@@ -32,11 +34,19 @@ export class Board {
   }
 
   public excludeIllegalKingMoves(): void {
-    const [whiteKing] = this.pieces.filter((p) => p.isKing && p.color === Color.WHITE);
-    const [blackKing] = this.pieces.filter((p) => p.isKing && p.color === Color.BLACK);
+    const [whiteKing] = this.pieces.filter(
+      (p) => p.isKing && p.color === Color.WHITE
+    );
+    const [blackKing] = this.pieces.filter(
+      (p) => p.isKing && p.color === Color.BLACK
+    );
 
-    whiteKing.possibleMoves = whiteKing.possibleMoves.filter((p) => !p.isTargetedByBlackPiece);
-    blackKing.possibleMoves = blackKing.possibleMoves.filter((p) => !p.isTargetedByWhitePiece);
+    whiteKing.possibleMoves = whiteKing.possibleMoves.filter(
+      (p) => !p.isTargetedByBlackPiece
+    );
+    blackKing.possibleMoves = blackKing.possibleMoves.filter(
+      (p) => !p.isTargetedByWhitePiece
+    );
   }
 
   public clone(): Board {

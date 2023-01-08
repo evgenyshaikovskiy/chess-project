@@ -43,7 +43,7 @@ export abstract class Piece {
     y_direction: number,
     positions: Position[],
     pieceColor: Color,
-    limit = 9,
+    limit = 9
   ): Position[] {
     const moves: Position[] = [];
 
@@ -60,7 +60,10 @@ export abstract class Piece {
         break;
       }
 
-      const squareKey = Position.calculateNumericKey(targetCoordinateX, targetCoordinateY);
+      const squareKey = Position.calculateNumericKey(
+        targetCoordinateX,
+        targetCoordinateY
+      );
       const squarePos = positions.find((p) => p.numeric_key === squareKey);
 
       if (squarePos) {
@@ -68,8 +71,7 @@ export abstract class Piece {
           // move is not available if it is occupied by friendly piece, but nevertheless it is targeted
           if (pieceColor === Color.WHITE) {
             squarePos.isTargetedByWhitePiece = true;
-          }
-          else {
+          } else {
             squarePos.isTargetedByBlackPiece = true;
           }
 
@@ -91,11 +93,10 @@ export abstract class Piece {
     this.possibleMoves.forEach((p) => {
       if (this.color === Color.WHITE) {
         p.isTargetedByWhitePiece = true;
-      }
-      else {
+      } else {
         p.isTargetedByBlackPiece = true;
       }
-    })
+    });
   }
 
   // check type of piece(could be refactored)
