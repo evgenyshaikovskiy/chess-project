@@ -58,35 +58,37 @@ export class Pawn extends Piece {
             this.position.y + this.pawnDirection * 10
           );
 
-    // moves
-    const indexOfOneSquareForwardPos = positions.findIndex(
-      (position) => position.number_key === oneSquareForwardKey
+    // switch to const??
+    let oneSquareForwardPos = positions.find(
+      (p) => p.number_key === oneSquareForwardKey
     );
 
-    
-    if (!positions[indexOfOneSquareForwardPos].isOccupied()) {
-      this.possibleMoves.push(positions[indexOfOneSquareForwardPos]);
-      const indexOfTwoSquareForwardPos = positions.findIndex(
-        (position) => position.number_key === twoSquareForwardKey
+    if (oneSquareForwardPos && !oneSquareForwardPos.isOccupied()) {
+      this.possibleMoves.push(oneSquareForwardPos);
+
+      let twoSquareForwardPos = positions.find(
+        (p) => p.number_key === twoSquareForwardKey
       );
 
-      if (!positions[indexOfTwoSquareForwardPos].isOccupied()) {
-        this.possibleMoves.push(positions[indexOfTwoSquareForwardPos]);
+      if (twoSquareForwardPos && !twoSquareForwardPos.isOccupied()) {
+        this.possibleMoves.push(twoSquareForwardPos);
       }
     }
 
-    const indexOfLeftCapturePos = positions.findIndex(
-      (position) => position.number_key === leftSquareCaptureKey
+    let leftSquareCapturePos = positions.find(
+      (p) => p.number_key === leftSquareCaptureKey
     );
-    if (positions[indexOfLeftCapturePos].isOccupied()) {
-      this.possibleMoves.push(positions[indexOfLeftCapturePos]);
+
+    if (leftSquareCapturePos && leftSquareCapturePos.isOccupied()) {
+      this.possibleMoves.push(leftSquareCapturePos);
     }
 
-    const indexOfRightCapturePos = positions.findIndex(
-      (position) => position.number_key === rightSquareCaptureKey
+
+    let rightSquareCapturePos = positions.find(
+      (p) => p.number_key === rightSquareCaptureKey
     );
-    if (positions[indexOfRightCapturePos].isOccupied()) {
-      this.possibleMoves.push(positions[indexOfLeftCapturePos]);
+    if (rightSquareCapturePos && rightSquareCapturePos.isOccupied()) {
+      this.possibleMoves.push(rightSquareCapturePos);
     }
   }
 }
