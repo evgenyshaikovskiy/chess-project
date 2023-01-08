@@ -7,6 +7,11 @@ import { Position } from "../../game/position";
 
 export default function ChessGame() {
   const [board] = useState<Board>(initialBoard);
+  const [isWhiteTurn, setIsWhiteTurn] = useState<Boolean>(true);
+
+  function toggleTurn() {
+    setIsWhiteTurn(!isWhiteTurn);
+  }
 
   function updateMovesCallback() {
     board.updateMovesForAllPieces();
@@ -19,10 +24,15 @@ export default function ChessGame() {
   return (
     <div className="chess-game-wrapper">
       <ChessBoard
-        movePiece={movePieceToPositionCallback}
+        isWhiteTurn={isWhiteTurn}
         initPositions={board.positions}
+        movePiece={movePieceToPositionCallback}
+        toggleTurn={toggleTurn}
         updateMoves={updateMovesCallback}
       ></ChessBoard>
+      <div>
+        It is {isWhiteTurn ? "white turn to move" : "black turn to move"}
+      </div>
     </div>
   );
 }

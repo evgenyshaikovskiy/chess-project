@@ -3,15 +3,20 @@ import "./chess-board.styles.scss";
 import Tile from "../tile/tile";
 import { useState } from "react";
 import { Piece } from "../../game/piece";
+import { Color } from "../../game/types";
 
 type ChessBoardProps = {
   initPositions: Position[];
+  isWhiteTurn: Boolean;
+  toggleTurn: () => void;
   updateMoves: () => void;
   movePiece: (piece: Piece, position: Position) => void;
 };
 
 export const ChessBoard = ({
   initPositions,
+  isWhiteTurn,
+  toggleTurn,
   updateMoves,
   movePiece,
 }: ChessBoardProps) => {
@@ -21,6 +26,8 @@ export const ChessBoard = ({
   const [selectedPiece, setSelectedPiece] = useState<Piece>();
 
   // if all moves aren't updated => update them
+
+  // THERE IS A BUG, THAT HIGHLIGHT OPPONENT PIECES ON YOUR MOVE 
   if (!isAllMovesUpdated) {
     updateMoves();
     setIsAllMovesUpdated(true);
@@ -41,14 +48,22 @@ export const ChessBoard = ({
       setSelectedPiece(position.piece);
     }
 
-    if (isHighlighted && selectedPiece) {
-      movePiece(selectedPiece, position);
+    // TO DO probably need to add optimization so
+    // on blacks turn only updating blacks pieces
+    // on whites turn only updating white pieces
 
-      // move position in positions array
-      // selectedPiece?.moveTo(position);
-      setHighlightedSquares([]);
-      setSelectedPiece(undefined);
-      setIsAllMovesUpdated(false);
+    if (
+      selectedPiece &&
+      ((selectedPiece.color === Color.WHITE && isWhiteTurn) ||
+        (selectedPiece.color === Color.BLACK && !isWhiteTurn))
+    ) {
+      if (isHighlighted) {
+        movePiece(selectedPiece, position);
+        toggleTurn();
+        setHighlightedSquares([]);
+        setSelectedPiece(undefined);
+        setIsAllMovesUpdated(false);
+      }
     }
 
     if (!isHighlighted && !position.isOccupied()) {
