@@ -14,5 +14,7 @@ export class Lance extends Piece {
 
   public updatePossibleMoves(positions: Position[]): void {}
 
-  public moveTo(position: Position): void {}
+  public moveTo(position: Position): void {
+    position.placePiece(this);
+  }
 }

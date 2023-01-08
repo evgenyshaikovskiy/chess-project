@@ -13,8 +13,9 @@ export class King extends Piece {
   }
 
   public updatePossibleMoves(positions: Position[]): void {
-    console.log("updated");
   }
 
-  public moveTo(position: Position): void {}
+  public moveTo(position: Position): void {
+    position.placePiece(this);
+  }
 }
