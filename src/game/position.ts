@@ -18,12 +18,12 @@ export class Position {
     this.y = y;
     this.key = HORIZONTAL_AXIS[x] + VERTICAL_AXIS[y];
     this.piece = piece;
-    this.number_key = x + y * 10;
+    this.number_key = Position.calculateNumericKey(x, y);
     this.tileColor = (x + y) % 2 === 0 ? Color.BLACK : Color.WHITE;
   }
 
   public isSamePosition(other: Position): boolean {
-    return other.key === this.key;
+    return other.number_key === this.number_key;
   }
 
   public isOccupied(): boolean {
@@ -34,7 +34,15 @@ export class Position {
     this.piece = piece;
   }
 
+  public removePiece() {
+    this.piece = undefined;
+  }
+
   public clone(): Position {
     return new Position(this.x, this.y, this.piece);
+  }
+
+  public static calculateNumericKey(x: number, y: number) {
+    return x + 10 * y;
   }
 }

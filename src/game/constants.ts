@@ -68,4 +68,6 @@ positions[9][7].placePiece(new Knight(positions[9][7], Color.BLACK));
 positions[9][8].placePiece(new Lance(positions[9][8], Color.BLACK));
 positions[9][9].placePiece(new Rook(positions[9][9], Color.BLACK));
 
-export const initialBoard: Board = new Board(positions.flatMap((x) => x.reverse()).reverse());
+export const initialBoard: Board = new Board(
+  positions.flatMap((x) => x.reverse()).reverse()
+);

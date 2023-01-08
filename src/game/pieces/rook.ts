@@ -12,7 +12,7 @@ export class Rook extends Piece {
     super(position, PieceType.ROOK, color, possibleMoves);
   }
 
-  public updatePossibleMoves(): void {
-    console.log('updating');
+  public updatePossibleMoves(positions: Position[]): void {
+    // right and left movements
   }
 }

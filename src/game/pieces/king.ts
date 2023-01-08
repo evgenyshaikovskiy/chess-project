@@ -12,7 +12,7 @@ export class King extends Piece {
     super(position, PieceType.KING, color, possibleMoves);
   }
 
-  public updatePossibleMoves(): void{
-    console.log('updated')
+  public updatePossibleMoves(positions: Position[]): void {
+    console.log("updated");
   }
 }

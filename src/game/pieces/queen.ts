@@ -12,7 +12,7 @@ export class Queen extends Piece {
     super(position, PieceType.QUEEN, color, possibleMoves);
   }
 
-  public updatePossibleMoves(): void{
-    console.log('updated')
+  public updatePossibleMoves(positions: Position[]): void {
+    console.log("updated");
   }
 }

@@ -9,7 +9,12 @@ type TileProps = {
   onTileClick: (position: Position) => void;
 };
 
-export default function Tile({ color, position, image, onTileClick}: TileProps) {
+export default function Tile({
+  color,
+  position,
+  image,
+  onTileClick,
+}: TileProps) {
   const className: string = [`${color}-tile`, image && "piece-tile"]
     .filter(Boolean)
     .join(" ");

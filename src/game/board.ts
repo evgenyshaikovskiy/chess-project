@@ -10,9 +10,9 @@ export class Board {
   public updateMovesForAllPieces() {
     this.positions.forEach((position) => {
       if (position.isOccupied()) {
-        position.piece?.updatePossibleMoves();
+        position.piece?.updatePossibleMoves(this.positions);
       }
-    })
+    });
   }
 
   public clone(): Board {

@@ -12,7 +12,7 @@ export class Knight extends Piece {
     super(position, PieceType.KNIGHT, color, possibleMoves);
   }
 
-  public updatePossibleMoves(): void{
-    console.log('updated')
+  public updatePossibleMoves(positions: Position[]): void {
+    console.log("updated");
   }
 }

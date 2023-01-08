@@ -12,7 +12,7 @@ export class Lance extends Piece {
     super(position, PieceType.LANCE, color, possibleMoves);
   }
 
-  public updatePossibleMoves(): void{
-    console.log('updated')
+  public updatePossibleMoves(positions: Position[]): void {
+    console.log("updated");
   }
 }
