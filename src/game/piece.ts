@@ -56,14 +56,50 @@ export abstract class Piece {
       const squareKey = calculationFunc(x, y + step * direction);
       const squarePos = positions.find((p) => p.numeric_key === squareKey);
       if (squarePos) {
-        console.log(squareKey);
-
         if (squarePos.isOccupied()) {
           if (squarePos.isOccupiedByOpponent(pieceColor)) {
             moves.push(squarePos);
           }
           break;
         }
+        moves.push(squarePos);
+      }
+    }
+
+    return moves;
+  }
+
+  public static findDiagonalMoves(
+    x: number,
+    y: number,
+    x_direction: number,
+    y_direction: number,
+    positions: Position[],
+    pieceColor: Color,
+    calculationFunc: (x: number, y: number) => number
+  ): Position[] {
+    const moves: Position[] = [];
+
+    for (let step = 1; step <= 9; step++) {
+      const targetCoordinateX = x + step * x_direction;
+      const targetCoordinateY = y + step * y_direction;
+
+      if (targetCoordinateX < 0 || targetCoordinateX > 9 || targetCoordinateY < 0 || targetCoordinateY > 9) {
+        break;
+      }
+
+      const squareKey = calculationFunc(targetCoordinateX, targetCoordinateY);
+      const squarePos = positions.find((p) => p.numeric_key === squareKey);
+
+      if (squarePos) {
+        if (squarePos.isOccupied()) {
+          if (squarePos.isOccupiedByOpponent(pieceColor)) {
+            moves.push(squarePos);
+          }
+          
+          break;
+        }
+
         moves.push(squarePos);
       }
     }
