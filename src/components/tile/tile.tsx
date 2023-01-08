@@ -6,7 +6,7 @@ type TileProps = {
   position: Position;
   image?: string;
   isHighlighted: boolean;
-  onTileClick: (position: Position) => void;
+  onTileClick: (position: Position, isHighlighted: boolean) => void;
 };
 
 export default function Tile({
@@ -32,7 +32,7 @@ export default function Tile({
           ? `url('${process.env.PUBLIC_URL + image}')`
           : "none",
       }}
-      onClick={() => onTileClick(position)}
+      onClick={() => onTileClick(position, isHighlighted)}
     ></div>
   );
 }

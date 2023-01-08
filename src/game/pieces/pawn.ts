@@ -54,7 +54,7 @@ export class Pawn extends Piece {
       this.position.x === 9
         ? -1
         : Position.calculateNumericKey(
-            this.position.x - 1,
+            this.position.x + 1,
             this.position.y + this.pawnDirection * 1
           );
 
@@ -91,9 +91,17 @@ export class Pawn extends Piece {
       this.possibleMoves.push(rightSquareCapturePos);
     }
 
-    console.log('keys: ', [oneSquareForwardKey, twoSquareForwardKey, leftSquareCaptureKey, rightSquareCaptureKey])
-    console.log('position: ', this.position);
-    console.log('possible moves: ', this.possibleMoves);
-    console.log('direction', this.pawnDirection);
+    // console.log('keys: ', [oneSquareForwardKey, twoSquareForwardKey, leftSquareCaptureKey, rightSquareCaptureKey])
+    // console.log('position: ', this.position);
+    // console.log('possible moves: ', this.possibleMoves);
+    // console.log('direction', this.pawnDirection);
+  }
+
+  public moveTo(position: Position): void {
+    if (this.isFirstMove) {
+      this.isFirstMove = false;
+    }
+
+    position.placePiece(this);
   }
 }

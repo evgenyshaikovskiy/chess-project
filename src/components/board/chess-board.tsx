@@ -2,6 +2,7 @@ import { Position } from "../../game/position";
 import "./chess-board.styles.scss";
 import Tile from "../tile/tile";
 import { useState } from "react";
+import { Piece } from "../../game/piece";
 
 type ChessBoardProps = {
   initPositions: Position[];
@@ -12,6 +13,7 @@ export const ChessBoard = ({ initPositions, updateMoves }: ChessBoardProps) => {
   const [positions, setPositions] = useState<Position[]>(initPositions);
   const [isAllMovesUpdated, setIsAllMovesUpdated] = useState<Boolean>(false);
   const [highlightedSquares, setHighlightedSquares] = useState<Position[]>([]);
+  const [selectedPiece, setSelectedPiece] = useState<Piece>();
 
   // if all moves aren't updated => update them
   if (!isAllMovesUpdated) {
@@ -20,12 +22,29 @@ export const ChessBoard = ({ initPositions, updateMoves }: ChessBoardProps) => {
   }
 
   // when move is maked, need to set variable to false
-  function onTileClickCallback(position: Position) {
-    if (position.isOccupied() && isAllMovesUpdated) {
-      console.log("click", position);
+  function onTileClickCallback(position: Position, isHighlighted: boolean) {
+
+    // occupied tile
+    if (position.isOccupied()) {
       // it should highlight possible moves for piece on that tile
       setHighlightedSquares([...position.piece!.possibleMoves]);
-      console.log(highlightedSquares);
+
+      // save last selected piece
+      setSelectedPiece(position.piece)
+    }
+
+    if (isHighlighted) {
+      console.log('hoooray');
+      selectedPiece?.moveTo(position);
+      setHighlightedSquares([]);
+      setSelectedPiece(undefined);
+
+      setIsAllMovesUpdated(false);
+    }
+
+    if (!isHighlighted && !position.isOccupied()) {
+      setHighlightedSquares([]);
+      setSelectedPiece(undefined);
     }
   }
 

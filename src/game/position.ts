@@ -31,7 +31,10 @@ export class Position {
   }
 
   public placePiece(piece: Piece) {
+    // make previous piece position as undefined
+    piece.position.piece = undefined;
     this.piece = piece;
+    this.piece.position = this;
   }
 
   public removePiece() {

@@ -33,6 +33,8 @@ export abstract class Piece {
 
   // abstract methods
   public abstract updatePossibleMoves(positions: Position[]): void;
+  
+  public abstract moveTo(position: Position): void;
 
   // check type of piece(could be refactored)
   get isPawn(): boolean {

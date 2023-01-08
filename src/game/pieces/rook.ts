@@ -15,4 +15,8 @@ export class Rook extends Piece {
   public updatePossibleMoves(positions: Position[]): void {
     // right and left movements
   }
+
+  public moveTo(position: Position): void {
+      
+  }
 }

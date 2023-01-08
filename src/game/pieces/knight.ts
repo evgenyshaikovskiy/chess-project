@@ -15,4 +15,8 @@ export class Knight extends Piece {
   public updatePossibleMoves(positions: Position[]): void {
     console.log("updated");
   }
+  
+  public moveTo(position: Position): void {
+      
+  }
 }
