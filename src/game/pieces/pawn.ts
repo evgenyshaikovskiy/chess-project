@@ -60,14 +60,14 @@ export class Pawn extends Piece {
 
     // switch to const??
     let oneSquareForwardPos = positions.find(
-      (p) => p.number_key === oneSquareForwardKey
+      (p) => p.numeric_key === oneSquareForwardKey
     );
 
     if (oneSquareForwardPos && !oneSquareForwardPos.isOccupied()) {
       this.possibleMoves.push(oneSquareForwardPos);
 
       let twoSquareForwardPos = positions.find(
-        (p) => p.number_key === twoSquareForwardKey
+        (p) => p.numeric_key === twoSquareForwardKey
       );
 
       if (twoSquareForwardPos && !twoSquareForwardPos.isOccupied()) {
@@ -76,18 +76,23 @@ export class Pawn extends Piece {
     }
 
     let leftSquareCapturePos = positions.find(
-      (p) => p.number_key === leftSquareCaptureKey
+      (p) => p.numeric_key === leftSquareCaptureKey
     );
 
-    if (leftSquareCapturePos && leftSquareCapturePos.isOccupiedByOpponent(this.color)) {
+    if (
+      leftSquareCapturePos &&
+      leftSquareCapturePos.isOccupiedByOpponent(this.color)
+    ) {
       this.possibleMoves.push(leftSquareCapturePos);
     }
 
-
     let rightSquareCapturePos = positions.find(
-      (p) => p.number_key === rightSquareCaptureKey
+      (p) => p.numeric_key === rightSquareCaptureKey
     );
-    if (rightSquareCapturePos && rightSquareCapturePos.isOccupiedByOpponent(this.color)) {
+    if (
+      rightSquareCapturePos &&
+      rightSquareCapturePos.isOccupiedByOpponent(this.color)
+    ) {
       this.possibleMoves.push(rightSquareCapturePos);
     }
 

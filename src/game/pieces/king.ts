@@ -16,7 +16,5 @@ export class King extends Piece {
     console.log("updated");
   }
 
-  public moveTo(position: Position): void {
-      
-  }
+  public moveTo(position: Position): void {}
 }

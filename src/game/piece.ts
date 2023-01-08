@@ -33,12 +33,18 @@ export abstract class Piece {
 
   // abstract methods
   public abstract updatePossibleMoves(positions: Position[]): void;
-  
+
   public abstract moveTo(position: Position): void;
 
   // refactor it to more suitable class
-  // could be united to one method if provided corresponding calculation method.
-  public static findStraightMoves(x: number, y: number, direction: number, positions: Position[], pieceColor: Color): Position[] {
+  public static findStraightMoves(
+    x: number,
+    y: number,
+    direction: number,
+    positions: Position[],
+    pieceColor: Color,
+    calculationFunc: (x: number, y: number) => number
+  ): Position[] {
     const moves: Position[] = [];
 
     for (let step = 1; step <= 9; step++) {
@@ -47,36 +53,8 @@ export abstract class Piece {
         break;
       }
 
-      const squareKey = Position.calculateNumericKey(x, y + step * direction);
-      const squarePos = positions.find((p) => p.number_key === squareKey);
-      if (squarePos) {
-        console.log(squareKey);
-
-        if (squarePos.isOccupied()) {
-          if (squarePos.isOccupiedByOpponent(pieceColor)) {
-            moves.push(squarePos);
-          }
-          break;
-        }
-        moves.push(squarePos);
-      }
-    }
-    
-    return moves;
-  }
-
-  public static findSideMoves(x: number, y: number, direction: number, positions: Position[], pieceColor: Color): Position[] {
-    const moves: Position[] = [];
-
-    for (let step = 1; step <= 9; step++) {
-      const targetCoordinate = x + step * direction;
-      if (targetCoordinate < 0 || targetCoordinate > 9) {
-        break;
-      }
-
-      const squareKey = Position.calculateNumericKey(x + step * direction, y);
-      const squarePos = positions.find((p) => p.number_key === squareKey);
-
+      const squareKey = calculationFunc(x, y + step * direction);
+      const squarePos = positions.find((p) => p.numeric_key === squareKey);
       if (squarePos) {
         console.log(squareKey);
 

@@ -6,7 +6,7 @@ export class Position {
   public y: number;
 
   public key: string;
-  public number_key: number;
+  public numeric_key: number;
 
   public tileColor: string;
 
@@ -18,12 +18,12 @@ export class Position {
     this.y = y;
     this.key = HORIZONTAL_AXIS[x] + VERTICAL_AXIS[y];
     this.piece = piece;
-    this.number_key = Position.calculateNumericKey(x, y);
+    this.numeric_key = Position.calculateNumericKey(x, y);
     this.tileColor = (x + y) % 2 === 0 ? Color.BLACK : Color.WHITE;
   }
 
   public isSamePosition(other: Position): boolean {
-    return other.number_key === this.number_key;
+    return other.numeric_key === this.numeric_key;
   }
 
   public isOccupied(): boolean {

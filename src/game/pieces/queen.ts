@@ -12,10 +12,7 @@ export class Queen extends Piece {
     super(position, PieceType.QUEEN, color, possibleMoves);
   }
 
-  public updatePossibleMoves(positions: Position[]): void {
-  }
+  public updatePossibleMoves(positions: Position[]): void {}
 
-  public moveTo(position: Position): void {
-      
-  }
+  public moveTo(position: Position): void {}
 }

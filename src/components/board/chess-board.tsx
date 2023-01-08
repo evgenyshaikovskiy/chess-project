@@ -23,17 +23,17 @@ export const ChessBoard = ({ initPositions, updateMoves }: ChessBoardProps) => {
 
   // when move is maked, need to set variable to false
   function onTileClickCallback(position: Position, isHighlighted: boolean) {
-    console.log('clicked', position);
+    console.log("clicked", position);
 
     // occupied tile
     if (position.isOccupied()) {
       // it should highlight possible moves for piece on that tile
 
-      console.log('possible moves for square', position.piece?.possibleMoves);
+      console.log("possible moves for square", position.piece?.possibleMoves);
       setHighlightedSquares([...position.piece!.possibleMoves]);
 
       // save last selected piece
-      setSelectedPiece(position.piece)
+      setSelectedPiece(position.piece);
     }
 
     if (isHighlighted) {
@@ -65,7 +65,7 @@ export const ChessBoard = ({ initPositions, updateMoves }: ChessBoardProps) => {
                 color={position.tileColor}
                 position={position}
                 image={position.piece?.image}
-                key={position.number_key}
+                key={position.numeric_key}
                 isHighlighted={highlightedSquares.includes(position)}
               ></Tile>
             );
