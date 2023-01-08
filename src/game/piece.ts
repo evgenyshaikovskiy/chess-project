@@ -42,11 +42,12 @@ export abstract class Piece {
     x_direction: number,
     y_direction: number,
     positions: Position[],
-    pieceColor: Color
+    pieceColor: Color,
+    limit = 9,
   ): Position[] {
     const moves: Position[] = [];
 
-    for (let step = 1; step <= 9; step++) {
+    for (let step = 1; step <= limit; step++) {
       const targetCoordinateX = current_x + step * x_direction;
       const targetCoordinateY = current_y + step * y_direction;
 
