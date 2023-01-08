@@ -17,10 +17,11 @@ export class Rook extends Piece {
 
     if (this.position.y !== 9) {
       this.possibleMoves.push(
-        ...Piece.findDiagonalMoves(
+        ...Piece.findMoves(
           this.position.x,
           this.position.y,
-          0,1,
+          0,
+          1,
           positions,
           this.color,
           (x: number, y: number) => x + 10 * y
@@ -30,10 +31,11 @@ export class Rook extends Piece {
 
     if (this.position.y !== 0) {
       this.possibleMoves.push(
-        ...Piece.findDiagonalMoves(
+        ...Piece.findMoves(
           this.position.x,
           this.position.y,
-          0,-1,
+          0,
+          -1,
           positions,
           this.color,
           (x: number, y: number) => x + 10 * y
@@ -43,9 +45,11 @@ export class Rook extends Piece {
 
     if (this.position.x !== 0) {
       this.possibleMoves.push(
-        ...Piece.findDiagonalMoves(
+        ...Piece.findMoves(
           this.position.x,
-          this.position.y, -1, 0,
+          this.position.y,
+          -1,
+          0,
           positions,
           this.color,
           (x: number, y: number) => x + 10 * y
@@ -55,9 +59,11 @@ export class Rook extends Piece {
 
     if (this.position.x !== 9) {
       this.possibleMoves.push(
-        ...Piece.findDiagonalMoves(
+        ...Piece.findMoves(
           this.position.x,
-          this.position.y, 1, 0,
+          this.position.y,
+          1,
+          0,
           positions,
           this.color,
           (x: number, y: number) => x + 10 * y

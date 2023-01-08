@@ -17,13 +17,53 @@ export class Bishop extends Piece {
 
     // find upper diagonal movements
     if (this.position.y !== 9) {
-      this.possibleMoves.push(...Piece.findDiagonalMoves(this.position.x, this.position.y, 1, 1, positions, this.color, (x: number, y: number) => x + 10*y));
-      this.possibleMoves.push(...Piece.findDiagonalMoves(this.position.x, this.position.y, -1, 1, positions, this.color, (x: number, y: number) => x + 10*y));
+      this.possibleMoves.push(
+        ...Piece.findMoves(
+          this.position.x,
+          this.position.y,
+          1,
+          1,
+          positions,
+          this.color,
+          (x: number, y: number) => x + 10 * y
+        )
+      );
+      this.possibleMoves.push(
+        ...Piece.findMoves(
+          this.position.x,
+          this.position.y,
+          -1,
+          1,
+          positions,
+          this.color,
+          (x: number, y: number) => x + 10 * y
+        )
+      );
     }
 
     if (this.position.y !== 0) {
-      this.possibleMoves.push(...Piece.findDiagonalMoves(this.position.x, this.position.y, 1, -1, positions, this.color, (x: number, y: number) => x + 10*y));
-      this.possibleMoves.push(...Piece.findDiagonalMoves(this.position.x, this.position.y, -1, -1, positions, this.color, (x: number, y: number) => x + 10*y));
+      this.possibleMoves.push(
+        ...Piece.findMoves(
+          this.position.x,
+          this.position.y,
+          1,
+          -1,
+          positions,
+          this.color,
+          (x: number, y: number) => x + 10 * y
+        )
+      );
+      this.possibleMoves.push(
+        ...Piece.findMoves(
+          this.position.x,
+          this.position.y,
+          -1,
+          -1,
+          positions,
+          this.color,
+          (x: number, y: number) => x + 10 * y
+        )
+      );
     }
   }
 

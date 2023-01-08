@@ -36,42 +36,9 @@ export abstract class Piece {
 
   public abstract moveTo(position: Position): void;
 
-  // refactor it to more suitable class
-  public static findStraightMoves(
-    x: number,
-    y: number,
-    direction: number,
-    positions: Position[],
-    pieceColor: Color,
-    calculationFunc: (x: number, y: number) => number
-  ): Position[] {
-    const moves: Position[] = [];
-
-    for (let step = 1; step <= 9; step++) {
-      const targetCoordinate = y + step * direction;
-      if (targetCoordinate < 0 || targetCoordinate > 9) {
-        break;
-      }
-
-      const squareKey = calculationFunc(x, y + step * direction);
-      const squarePos = positions.find((p) => p.numeric_key === squareKey);
-      if (squarePos) {
-        if (squarePos.isOccupied()) {
-          if (squarePos.isOccupiedByOpponent(pieceColor)) {
-            moves.push(squarePos);
-          }
-          break;
-        }
-        moves.push(squarePos);
-      }
-    }
-
-    return moves;
-  }
-
-  public static findDiagonalMoves(
-    x: number,
-    y: number,
+  public static findMoves(
+    current_x: number,
+    current_y: number,
     x_direction: number,
     y_direction: number,
     positions: Position[],
@@ -81,10 +48,15 @@ export abstract class Piece {
     const moves: Position[] = [];
 
     for (let step = 1; step <= 9; step++) {
-      const targetCoordinateX = x + step * x_direction;
-      const targetCoordinateY = y + step * y_direction;
+      const targetCoordinateX = current_x + step * x_direction;
+      const targetCoordinateY = current_y + step * y_direction;
 
-      if (targetCoordinateX < 0 || targetCoordinateX > 9 || targetCoordinateY < 0 || targetCoordinateY > 9) {
+      if (
+        targetCoordinateX < 0 ||
+        targetCoordinateX > 9 ||
+        targetCoordinateY < 0 ||
+        targetCoordinateY > 9
+      ) {
         break;
       }
 
@@ -96,7 +68,7 @@ export abstract class Piece {
           if (squarePos.isOccupiedByOpponent(pieceColor)) {
             moves.push(squarePos);
           }
-          
+
           break;
         }
 
