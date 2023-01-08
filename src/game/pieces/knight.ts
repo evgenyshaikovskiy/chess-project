@@ -14,7 +14,7 @@ export class Knight extends Piece {
 
   public updatePossibleMoves(positions: Position[]): void {
     this.possibleMoves = [];
-    
+
     this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -1, 2, positions, this.color, 1))
     this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 1, 2, positions, this.color, 1))
     this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -2, 1, positions, this.color, 1))
@@ -23,6 +23,8 @@ export class Knight extends Piece {
     this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 1, -2, positions, this.color, 1))
     this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, 2, -1, positions, this.color, 1))
     this.possibleMoves.push(...Piece.findMoves(this.position.x, this.position.y, -2, -1, positions, this.color, 1))
+
+    this.targetSquares();
   }
 
   public moveTo(position: Position): void {

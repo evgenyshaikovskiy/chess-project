@@ -14,7 +14,6 @@ export class Bishop extends Piece {
 
   public updatePossibleMoves(positions: Position[]): void {
     this.possibleMoves = [];
-
     // find upper diagonal movements
     if (this.position.y !== 9) {
       this.possibleMoves.push(
@@ -61,6 +60,8 @@ export class Bishop extends Piece {
         )
       );
     }
+
+    this.targetSquares();
   }
 
   public moveTo(position: Position): void {

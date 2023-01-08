@@ -13,6 +13,10 @@ export class Position {
   // undefined means there are no piece at position
   public piece?: Piece;
 
+  // means square is targeted by black or white piece
+  public isTargetedByBlackPiece: boolean;
+  public isTargetedByWhitePiece: boolean;
+
   constructor(x: number, y: number, piece?: Piece) {
     this.x = x;
     this.y = y;
@@ -20,6 +24,9 @@ export class Position {
     this.piece = piece;
     this.numeric_key = Position.calculateNumericKey(x, y);
     this.tileColor = (x + y) % 2 === 0 ? Color.BLACK : Color.WHITE;
+
+    this.isTargetedByBlackPiece = false;
+    this.isTargetedByWhitePiece = false;
   }
 
   public isSamePosition(other: Position): boolean {

@@ -65,6 +65,14 @@ export abstract class Piece {
 
       if (squarePos) {
         if (squarePos.isOccupied()) {
+          // move is not available if it is occupied by friendly piece, but nevertheless it is targeted
+          if (pieceColor === Color.WHITE) {
+            squarePos.isTargetedByWhitePiece = true;
+          }
+          else {
+            squarePos.isTargetedByBlackPiece = true;
+          }
+
           if (squarePos.isOccupiedByOpponent(pieceColor)) {
             moves.push(squarePos);
           }
@@ -77,6 +85,17 @@ export abstract class Piece {
     }
 
     return moves;
+  }
+
+  public targetSquares() {
+    this.possibleMoves.forEach((p) => {
+      if (this.color === Color.WHITE) {
+        p.isTargetedByWhitePiece = true;
+      }
+      else {
+        p.isTargetedByBlackPiece = true;
+      }
+    })
   }
 
   // check type of piece(could be refactored)

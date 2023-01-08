@@ -66,6 +66,8 @@ export class Rook extends Piece {
         )
       );
     }
+
+    this.targetSquares();
   }
 
   public moveTo(position: Position): void {

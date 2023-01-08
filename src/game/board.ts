@@ -8,11 +8,21 @@ export class Board {
   }
 
   public updateMovesForAllPieces() {
+    this.unTargetAllSquares();
+
     this.positions.forEach((position) => {
       if (position.isOccupied()) {
         position.piece?.updatePossibleMoves(this.positions);
       }
     });
+    
+  }
+
+  public unTargetAllSquares() {
+    this.positions.forEach((pos) => {
+      pos.isTargetedByBlackPiece = false;
+      pos.isTargetedByWhitePiece = false;
+    })
   }
 
   public clone(): Board {

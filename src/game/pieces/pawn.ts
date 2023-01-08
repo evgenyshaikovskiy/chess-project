@@ -21,8 +21,6 @@ export class Pawn extends Piece {
 
   public updatePossibleMoves(positions: Position[]): void {
     // TODO: check restrictions, add promotion move
-
-    // empty old moves
     this.possibleMoves = [];
 
     // calculate all keys
@@ -95,6 +93,26 @@ export class Pawn extends Piece {
     ) {
       this.possibleMoves.push(rightSquareCapturePos);
     }
+
+    if (leftSquareCapturePos) {
+      if (this.color === Color.WHITE) {
+        leftSquareCapturePos!.isTargetedByWhitePiece = true;
+      }
+      else {
+        leftSquareCapturePos!.isTargetedByBlackPiece = true;
+      }
+    }
+
+    if (rightSquareCapturePos) {
+      if (this.color === Color.WHITE) {
+        rightSquareCapturePos!.isTargetedByWhitePiece = true;
+      }
+      else {
+        rightSquareCapturePos!.isTargetedByBlackPiece = true;
+      }
+    }
+
+    // this.targetSquares();
   }
 
   public moveTo(position: Position): void {
