@@ -24,7 +24,6 @@ export class Queen extends Piece {
           1,
           positions,
           this.color,
-          (x: number, y: number) => x + 10 * y
         )
       );
       this.possibleMoves.push(
@@ -35,7 +34,6 @@ export class Queen extends Piece {
           1,
           positions,
           this.color,
-          (x: number, y: number) => x + 10 * y
         )
       );
       this.possibleMoves.push(
@@ -46,7 +44,6 @@ export class Queen extends Piece {
           1,
           positions,
           this.color,
-          (x: number, y: number) => x + 10 * y
         )
       );
     }
@@ -60,7 +57,6 @@ export class Queen extends Piece {
           -1,
           positions,
           this.color,
-          (x: number, y: number) => x + 10 * y
         )
       );
 
@@ -72,7 +68,6 @@ export class Queen extends Piece {
           -1,
           positions,
           this.color,
-          (x: number, y: number) => x + 10 * y
         )
       );
 
@@ -84,7 +79,6 @@ export class Queen extends Piece {
           -1,
           positions,
           this.color,
-          (x: number, y: number) => x + 10 * y
         )
       );
     }
@@ -98,7 +92,6 @@ export class Queen extends Piece {
           0,
           positions,
           this.color,
-          (x: number, y: number) => x + 10 * y
         )
       );
     }   
@@ -112,7 +105,6 @@ export class Queen extends Piece {
           0,
           positions,
           this.color,
-          (x: number, y: number) => x + 10 * y
         )
       );
     }

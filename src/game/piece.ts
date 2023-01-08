@@ -42,8 +42,7 @@ export abstract class Piece {
     x_direction: number,
     y_direction: number,
     positions: Position[],
-    pieceColor: Color,
-    calculationFunc: (x: number, y: number) => number
+    pieceColor: Color
   ): Position[] {
     const moves: Position[] = [];
 
@@ -60,7 +59,7 @@ export abstract class Piece {
         break;
       }
 
-      const squareKey = calculationFunc(targetCoordinateX, targetCoordinateY);
+      const squareKey = Position.calculateNumericKey(targetCoordinateX, targetCoordinateY);
       const squarePos = positions.find((p) => p.numeric_key === squareKey);
 
       if (squarePos) {
