@@ -33,6 +33,11 @@ export const ChessBoard = ({
     setIsAllMovesUpdated(true);
   }
 
+  const switchMove = () => {
+    toggleTurn();
+    setPositions([...positions.reverse()]);
+  };
+
   // when move is maked, need to set variable to false
   function onTileClickCallback(position: Position, isHighlighted: boolean) {
     console.log("clicked", position);
@@ -44,8 +49,6 @@ export const ChessBoard = ({
         (position.piece!.color === Color.BLACK && !isWhiteTurn))
     ) {
       // it should highlight possible moves for piece on that tile
-
-      console.log("possible moves for square", position.piece?.possibleMoves);
       setHighlightedSquares([...position.piece!.possibleMoves]);
 
       // save last selected piece
@@ -63,7 +66,7 @@ export const ChessBoard = ({
     ) {
       if (isHighlighted) {
         movePiece(selectedPiece, position);
-        toggleTurn();
+        switchMove();
         setHighlightedSquares([]);
         setSelectedPiece(undefined);
         setIsAllMovesUpdated(false);
@@ -96,14 +99,6 @@ export const ChessBoard = ({
               ></Tile>
             );
           })}
-      </div>
-      <div className="flip-board-btn-wrapper">
-        <button
-          className="flip-board-btn"
-          onClick={() => setPositions([...positions.reverse()])}
-        >
-          Flip Board
-        </button>
       </div>
     </div>
   );

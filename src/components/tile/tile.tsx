@@ -19,11 +19,10 @@ export default function Tile({
   const className: string = [
     `${color}-tile`,
     image && "piece-tile",
-    isHighlighted && "highlighted",
   ]
     .filter(Boolean)
     .join(" ");
-
+  
   return (
     <div
       className={className}
@@ -33,6 +32,8 @@ export default function Tile({
           : "none",
       }}
       onClick={() => onTileClick(position, isHighlighted)}
-    ></div>
+    >
+      <div className={isHighlighted ? 'highlighted' : 'none'}></div>
+    </div>
   );
 }
