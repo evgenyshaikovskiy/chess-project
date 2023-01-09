@@ -27,7 +27,7 @@ export const ChessBoard = ({
 
   // if all moves aren't updated => update them
 
-  // THERE IS A BUG, THAT HIGHLIGHT OPPONENT PIECES ON YOUR MOVE 
+  // THERE IS A BUG, THAT HIGHLIGHT OPPONENT PIECES ON YOUR MOVE
   if (!isAllMovesUpdated) {
     updateMoves();
     setIsAllMovesUpdated(true);
@@ -38,7 +38,11 @@ export const ChessBoard = ({
     console.log("clicked", position);
 
     // occupied tile
-    if (position.isOccupied()) {
+    if (
+      position.isOccupied() &&
+      ((position.piece!.color === Color.WHITE && isWhiteTurn) ||
+        (position.piece!.color === Color.BLACK && !isWhiteTurn))
+    ) {
       // it should highlight possible moves for piece on that tile
 
       console.log("possible moves for square", position.piece?.possibleMoves);
