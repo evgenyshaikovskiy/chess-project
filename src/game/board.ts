@@ -34,7 +34,7 @@ export class Board {
   public updateMovesForAllPieces(): void {
     this.unTargetAllSquares();
     this.pieces.forEach((p) => p.updatePossibleMoves(this.positions));
-    this.excludeIllegalKingMoves();
+    this.excludeIllegalMoves();
   }
 
   public unTargetAllSquares(): void {
@@ -49,22 +49,29 @@ export class Board {
     piece.moveTo(position);
   }
 
-  public excludeIllegalKingMoves(): void {
-    this.whiteKing.possibleMoves = this.whiteKing.possibleMoves.filter(
-      (p) => !p.isTargetedByBlackPiece
-    );
+  public excludeIllegalMoves(): void {
+    this.pieces.forEach((p) => {
+      if (p.color === Color.WHITE) {
+        p.excludeIllegalMoves(this.positions, this.whiteKing);
+      } else {
+        p.excludeIllegalMoves(this.positions, this.blackKing);
+      }
+    });
+    // this.whiteKing.possibleMoves = this.whiteKing.possibleMoves.filter(
+    //   (p) => !p.isTargetedByBlackPiece
+    // );
 
-    this.blackKing.possibleMoves = this.blackKing.possibleMoves.filter(
-      (p) => !p.isTargetedByWhitePiece
-    );
+    // this.blackKing.possibleMoves = this.blackKing.possibleMoves.filter(
+    //   (p) => !p.isTargetedByWhitePiece
+    // );
 
-    if (this.blackKing.position.isTargetedByWhitePiece) {
-      this.blackKing.isUnderAttack = true;
-    }
-    
-    if (this.whiteKing.position.isTargetedByBlackPiece) {
-      this.whiteKing.isUnderAttack = true;
-    }
+    // if (this.blackKing.position.isTargetedByWhitePiece) {
+    //   this.blackKing.isUnderAttack = true;
+    // }
+
+    // if (this.whiteKing.position.isTargetedByBlackPiece) {
+    //   this.whiteKing.isUnderAttack = true;
+    // }
   }
 
   public clone(): Board {

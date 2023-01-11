@@ -16,13 +16,10 @@ export default function Tile({
   onTileClick,
   isHighlighted,
 }: TileProps) {
-  const className: string = [
-    `${color}-tile`,
-    image && "piece-tile",
-  ]
+  const className: string = [`${color}-tile`, image && "piece-tile"]
     .filter(Boolean)
     .join(" ");
-  
+
   return (
     <div
       className={className}
@@ -33,7 +30,7 @@ export default function Tile({
       }}
       onClick={() => onTileClick(position, isHighlighted)}
     >
-      <div className={isHighlighted ? 'highlighted' : 'none'}></div>
+      <div className={isHighlighted ? "highlighted" : "none"}></div>
     </div>
   );
 }

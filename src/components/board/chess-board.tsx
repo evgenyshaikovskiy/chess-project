@@ -28,9 +28,8 @@ export const ChessBoard = ({
   const [verticalAxis, setVerticalAxis] = useState<string[]>(
     VERTICAL_AXIS.slice().reverse()
   );
-  const [horizontalAxis, setHorizontalAxis] = useState<string[]>(
-    HORIZONTAL_AXIS
-  );
+  const [horizontalAxis, setHorizontalAxis] =
+    useState<string[]>(HORIZONTAL_AXIS);
 
   // if all moves aren't updated => update them
   if (!isAllMovesUpdated) {
@@ -90,39 +89,39 @@ export const ChessBoard = ({
   // careful with rerendering, so it does not call tiles method again
   // refactor styles so axises and board are in one container
   return (
-      <div className="chess-board-wrapper">
-        <div className="chess-board-vertical-axis">
-          {verticalAxis.map((val, index) => (
-            <div className="vertical-axis-element" key={index}>
-              {val}
-            </div>
-          ))}
-        </div>
-        <div className="chess-board-tiles-wrapper">
-          {/* could be refactored later */}
-          {positions
-            .flatMap((x) => x)
-            .map((position) => {
-              return (
-                <Tile
-                  onTileClick={onTileClickCallback}
-                  color={position.tileColor}
-                  position={position}
-                  image={position.piece?.image}
-                  key={position.numeric_key}
-                  isHighlighted={highlightedSquares.includes(position)}
-                ></Tile>
-              );
-            })}
-        </div>
-        <div className="chess-board-horizontal-axis">
-          {horizontalAxis.map((val, index) => (
-            <div className="horizontal-axis-element" key={index}>
-              {val}
-            </div>
-          ))}
-        </div>
+    <div className="chess-board-wrapper">
+      <div className="chess-board-vertical-axis">
+        {verticalAxis.map((val, index) => (
+          <div className="vertical-axis-element" key={index}>
+            {val}
+          </div>
+        ))}
       </div>
+      <div className="chess-board-tiles-wrapper">
+        {/* could be refactored later */}
+        {positions
+          .flatMap((x) => x)
+          .map((position) => {
+            return (
+              <Tile
+                onTileClick={onTileClickCallback}
+                color={position.tileColor}
+                position={position}
+                image={position.piece?.image}
+                key={position.numeric_key}
+                isHighlighted={highlightedSquares.includes(position)}
+              ></Tile>
+            );
+          })}
+      </div>
+      <div className="chess-board-horizontal-axis">
+        {horizontalAxis.map((val, index) => (
+          <div className="horizontal-axis-element" key={index}>
+            {val}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

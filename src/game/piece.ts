@@ -1,3 +1,4 @@
+import { King } from "./pieces/king";
 import { Position } from "./position";
 import { Color, PieceType } from "./types";
 
@@ -35,6 +36,8 @@ export abstract class Piece {
   public abstract updatePossibleMoves(positions: Position[]): void;
 
   public abstract moveTo(position: Position): void;
+
+  public abstract excludeIllegalMoves(position: Position[], king: King): void;
 
   public static findMoves(
     current_x: number,

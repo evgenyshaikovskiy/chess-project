@@ -116,4 +116,12 @@ export class King extends Piece {
   public moveTo(position: Position): void {
     position.placePiece(this);
   }
+
+  public excludeIllegalMoves(): void {
+    this.possibleMoves = this.possibleMoves.filter(
+      (p) =>
+        (this.color === Color.BLACK && !p.isTargetedByWhitePiece) ||
+        (this.color === Color.WHITE && !p.isTargetedByBlackPiece)
+    );
+  }
 }
