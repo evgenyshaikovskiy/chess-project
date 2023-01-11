@@ -4,12 +4,16 @@ import { Position } from "../position";
 import { Color } from "../types";
 
 export class King extends Piece {
+  public isUnderAttack: boolean;
+
   constructor(
     position: Position,
     color: Color,
     possibleMoves: Position[] = []
   ) {
     super(position, PieceType.KING, color, possibleMoves);
+
+    this.isUnderAttack = false;
   }
 
   public updatePossibleMoves(positions: Position[]): void {
@@ -108,8 +112,6 @@ export class King extends Piece {
     // target squares
     this.targetSquares();
   }
-
-  public excludeTargetedSquaresFromPossibleMoves(): void {}
 
   public moveTo(position: Position): void {
     position.placePiece(this);

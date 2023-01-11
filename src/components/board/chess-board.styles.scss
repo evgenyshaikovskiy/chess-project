@@ -1,11 +1,39 @@
 .chess-board-wrapper {
-  display: flex;
+  display: grid;
+  grid-template-columns: 50px 800px;
 }
 
-.tiles-wrapper {
+.chess-board-tiles-wrapper {
   // styles for board
   display: grid;
   grid-template-columns: repeat(10, 80px);
   grid-template-rows: repeat(10, 80px);
   grid-auto-flow: row;
+}
+
+.chess-board-vertical-axis {
+  display: grid;
+  grid-template-rows: repeat(10, 80px);
+  grid-auto-flow: row;
+}
+
+.chess-board-horizontal-axis {
+  display: grid;
+  grid-template-columns: repeat(10, 80px);
+  grid-auto-flow: column;
+
+  margin-left: 50px;
+
+  .horizontal-axis-element {
+    height: 50px;
+  }
+}
+
+.horizontal-axis-element, .vertical-axis-element {
+  font-size: larger;
+  font-weight: 700;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }

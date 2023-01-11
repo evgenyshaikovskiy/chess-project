@@ -7,10 +7,11 @@ import { Position } from "../../game/position";
 
 export default function ChessGame() {
   const [board] = useState<Board>(initialBoard);
-  const [isWhiteTurn, setIsWhiteTurn] = useState<Boolean>(true);
+  const [isWhiteTurn, setIsWhiteTurn] = useState<Boolean>(board.isWhiteTurnToMove);
 
   function toggleTurn() {
     setIsWhiteTurn(!isWhiteTurn);
+    board.isWhiteTurnToMove = !board.isWhiteTurnToMove;
   }
 
   function updateMovesCallback() {

@@ -1,10 +1,16 @@
 import { Piece } from "./piece";
+import { King } from "./pieces/king";
 import { Position } from "./position";
 import { Color } from "./types";
 
 export class Board {
   public positions: Position[];
   public pieces: Piece[];
+
+  public whiteKing: King;
+  public blackKing: King;
+
+  public isWhiteTurnToMove: boolean;
 
   constructor(positions: Position[]) {
     this.positions = positions;
@@ -13,6 +19,16 @@ export class Board {
     this.pieces = positions
       .filter((p) => p.isOccupied())
       .map((p) => p.piece as unknown as Piece);
+
+    this.whiteKing = this.pieces.find(
+      (p) => p.isKing && p.color === Color.WHITE
+    ) as King;
+
+    this.blackKing = this.pieces.find(
+      (p) => p.isKing && p.color === Color.BLACK
+    ) as King;
+
+    this.isWhiteTurnToMove = true;
   }
 
   public updateMovesForAllPieces(): void {
@@ -34,19 +50,21 @@ export class Board {
   }
 
   public excludeIllegalKingMoves(): void {
-    const [whiteKing] = this.pieces.filter(
-      (p) => p.isKing && p.color === Color.WHITE
-    );
-    const [blackKing] = this.pieces.filter(
-      (p) => p.isKing && p.color === Color.BLACK
-    );
-
-    whiteKing.possibleMoves = whiteKing.possibleMoves.filter(
+    this.whiteKing.possibleMoves = this.whiteKing.possibleMoves.filter(
       (p) => !p.isTargetedByBlackPiece
     );
-    blackKing.possibleMoves = blackKing.possibleMoves.filter(
+
+    this.blackKing.possibleMoves = this.blackKing.possibleMoves.filter(
       (p) => !p.isTargetedByWhitePiece
     );
+
+    if (this.blackKing.position.isTargetedByWhitePiece) {
+      this.blackKing.isUnderAttack = true;
+    }
+    
+    if (this.whiteKing.position.isTargetedByBlackPiece) {
+      this.whiteKing.isUnderAttack = true;
+    }
   }
 
   public clone(): Board {
