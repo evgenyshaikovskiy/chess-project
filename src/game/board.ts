@@ -57,6 +57,7 @@ export class Board {
         p.excludeIllegalMoves(this.positions, this.blackKing);
       }
     });
+    
     // this.whiteKing.possibleMoves = this.whiteKing.possibleMoves.filter(
     //   (p) => !p.isTargetedByBlackPiece
     // );

@@ -35,7 +35,9 @@ export abstract class Piece {
   // abstract methods
   public abstract updatePossibleMoves(positions: Position[]): void;
 
-  public abstract moveTo(position: Position): void;
+  public moveTo(position: Position): void {
+    position.placePiece(this);
+  }
 
   public abstract excludeIllegalMoves(position: Position[], king: King): void;
 

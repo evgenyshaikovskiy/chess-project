@@ -113,10 +113,6 @@ export class King extends Piece {
     this.targetSquares();
   }
 
-  public moveTo(position: Position): void {
-    position.placePiece(this);
-  }
-
   public excludeIllegalMoves(): void {
     this.possibleMoves = this.possibleMoves.filter(
       (p) =>

@@ -108,9 +108,5 @@ export class Knight extends Piece {
     this.targetSquares();
   }
 
-  public moveTo(position: Position): void {
-    position.placePiece(this);
-  }
-
   public excludeIllegalMoves(position: Position[], king: King): void {}
 }

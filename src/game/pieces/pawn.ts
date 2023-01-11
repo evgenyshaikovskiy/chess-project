@@ -115,11 +115,10 @@ export class Pawn extends Piece {
   }
 
   public moveTo(position: Position): void {
+    super.moveTo(position);
     if (this.isFirstMove) {
       this.isFirstMove = false;
     }
-
-    position.placePiece(this);
   }
 
   public excludeIllegalMoves(position: Position[], king: King): void {}
