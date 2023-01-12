@@ -1,16 +1,13 @@
 import { Piece } from "./piece";
-import { King } from "./pieces/king";
 import { Position } from "./position";
-import { Color } from "./types";
+import { Color, GameState } from "./types";
 
 export class Board {
   public positions: Position[];
   public pieces: Piece[];
-
-  public whiteKing: King;
-  public blackKing: King;
-
   public isWhiteTurnToMove: boolean;
+
+  public gameState: GameState;
 
   constructor(positions: Position[]) {
     this.positions = positions;
@@ -20,21 +17,23 @@ export class Board {
       .filter((p) => p.isOccupied())
       .map((p) => p.piece as unknown as Piece);
 
-    this.whiteKing = this.pieces.find(
-      (p) => p.isKing && p.color === Color.WHITE
-    ) as King;
-
-    this.blackKing = this.pieces.find(
-      (p) => p.isKing && p.color === Color.BLACK
-    ) as King;
-
     this.isWhiteTurnToMove = true;
+
+    this.gameState = GameState.GameIsRunning;
   }
 
   public updateMovesForAllPieces(): void {
     this.unTargetAllSquares();
     this.pieces.forEach((p) => p.updatePossibleMoves(this.positions));
     this.excludeIllegalMoves();
+
+    if (this.checkForBlackVictory()) {
+      this.gameState = GameState.BlackVictory;
+    }
+
+    if (this.checkForWhiteVictory()) {
+      this.gameState = GameState.WhiteVictory;
+    }
   }
 
   public unTargetAllSquares(): void {
@@ -44,6 +43,14 @@ export class Board {
     });
   }
 
+  public checkForWhiteVictory() {
+    return this.findBlackKing() === undefined;
+  }
+
+  public checkForBlackVictory() {
+    return this.findWhiteKing() === undefined;
+  }
+
   public movePieceTo(piece: Piece, position: Position): void {
     this.pieces = this.pieces.filter((p) => !p.isSamePosition(position));
     piece.moveTo(position);
@@ -51,13 +58,21 @@ export class Board {
 
   // TODO: add moves that prevents
   public excludeIllegalMoves(): void {
-    this.whiteKing.possibleMoves = this.whiteKing.possibleMoves.filter(
-      (p) => !p.isTargetedByBlackPiece
-    );
+    const whiteKing = this.findWhiteKing();
+    const blackKing = this.findBlackKing();
 
-    this.blackKing.possibleMoves = this.blackKing.possibleMoves.filter(
-      (p) => !p.isTargetedByWhitePiece
-    );
+    if (whiteKing && blackKing) {
+      whiteKing.possibleMoves = whiteKing.possibleMoves.filter((p) => !p.isTargetedByBlackPiece);
+      blackKing.possibleMoves = blackKing.possibleMoves.filter((p) => !p.isTargetedByWhitePiece);
+    }
+  }
+
+  private findWhiteKing() {
+    return this.pieces.find((p) => p.isKing && p.color === Color.WHITE);
+  }
+
+  private findBlackKing() {
+    return this.pieces.find((p) => p.isKing && p.color === Color.BLACK);
   }
 
   public clone(): Board {
