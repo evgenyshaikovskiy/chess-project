@@ -109,8 +109,6 @@ export class Pawn extends Piece {
         rightSquareCapturePos!.isTargetedByBlackPiece = true;
       }
     }
-
-    this.targetSquares();
   }
 
   public moveTo(position: Position): void {

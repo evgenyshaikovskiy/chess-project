@@ -1,4 +1,3 @@
-import { King } from "./pieces/king";
 import { Position } from "./position";
 import { Color, PieceType } from "./types";
 
@@ -13,7 +12,6 @@ export abstract class Piece {
     position: Position,
     type: PieceType,
     color: Color,
-    // maybe be redudant
     possibleMoves: Position[] = []
   ) {
     this.image = `/assets/images/${type}_${color}.png`;
@@ -71,13 +69,6 @@ export abstract class Piece {
 
       if (squarePos) {
         if (squarePos.isOccupied()) {
-          // move is not available if it is occupied by friendly piece, but nevertheless it is targeted
-          if (pieceColor === Color.WHITE) {
-            squarePos.isTargetedByWhitePiece = true;
-          } else {
-            squarePos.isTargetedByBlackPiece = true;
-          }
-
           if (squarePos.isOccupiedByOpponent(pieceColor)) {
             moves.push(squarePos);
           }
