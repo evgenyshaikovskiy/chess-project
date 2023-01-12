@@ -2,7 +2,6 @@ import { PieceType } from "./../types";
 import { Piece } from "../piece";
 import { Position } from "../position";
 import { Color } from "../types";
-import { King } from "./king";
 
 export class Bishop extends Piece {
   constructor(
@@ -64,6 +63,4 @@ export class Bishop extends Piece {
 
     this.targetSquares();
   }
-
-  public excludeIllegalMoves(position: Position[], king: King): void {}
 }

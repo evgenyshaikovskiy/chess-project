@@ -32,14 +32,12 @@ export abstract class Piece {
     return this.position.isSamePosition(other);
   }
 
-  // abstract methods
-  public abstract updatePossibleMoves(positions: Position[]): void;
-
   public moveTo(position: Position): void {
     position.placePiece(this);
   }
 
-  public abstract excludeIllegalMoves(position: Position[], king: King): void;
+  // abstract methods
+  public abstract updatePossibleMoves(positions: Position[]): void;
 
   public static findMoves(
     current_x: number,

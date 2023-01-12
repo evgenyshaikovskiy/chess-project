@@ -2,7 +2,6 @@ import { PieceType } from "./../types";
 import { Piece } from "../piece";
 import { Position } from "../position";
 import { Color } from "../types";
-import { King } from "./king";
 
 export class Pawn extends Piece {
   private pawnDirection: number;
@@ -111,7 +110,7 @@ export class Pawn extends Piece {
       }
     }
 
-    // this.targetSquares();
+    this.targetSquares();
   }
 
   public moveTo(position: Position): void {
@@ -120,6 +119,4 @@ export class Pawn extends Piece {
       this.isFirstMove = false;
     }
   }
-
-  public excludeIllegalMoves(position: Position[], king: King): void {}
 }

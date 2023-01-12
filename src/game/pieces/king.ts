@@ -4,16 +4,12 @@ import { Position } from "../position";
 import { Color } from "../types";
 
 export class King extends Piece {
-  public isUnderAttack: boolean;
-
   constructor(
     position: Position,
     color: Color,
     possibleMoves: Position[] = []
   ) {
     super(position, PieceType.KING, color, possibleMoves);
-
-    this.isUnderAttack = false;
   }
 
   public updatePossibleMoves(positions: Position[]): void {
@@ -109,15 +105,6 @@ export class King extends Piece {
       )
     );
 
-    // target squares
     this.targetSquares();
-  }
-
-  public excludeIllegalMoves(): void {
-    this.possibleMoves = this.possibleMoves.filter(
-      (p) =>
-        (this.color === Color.BLACK && !p.isTargetedByWhitePiece) ||
-        (this.color === Color.WHITE && !p.isTargetedByBlackPiece)
-    );
   }
 }

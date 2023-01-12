@@ -14,6 +14,9 @@ type ChessBoardProps = {
   movePiece: (piece: Piece, position: Position) => void;
 };
 
+// TODO:
+// add castling
+// add checked state
 export const ChessBoard = ({
   initPositions,
   isWhiteTurn,
@@ -44,7 +47,6 @@ export const ChessBoard = ({
     setVerticalAxis([...verticalAxis.reverse()]);
   };
 
-  // when move is maked, need to set variable to false
   function onTileClickCallback(position: Position, isHighlighted: boolean) {
     console.log("clicked", position);
 
