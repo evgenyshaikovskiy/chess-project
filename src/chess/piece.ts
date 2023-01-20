@@ -39,52 +39,6 @@ export abstract class Piece {
 
   public abstract clone(): Piece;
 
-  public static findMoves(
-    current_x: number,
-    current_y: number,
-    x_direction: number,
-    y_direction: number,
-    positions: Position[],
-    pieceColor: Color,
-    limit = 9
-  ): Position[] {
-    const moves: Position[] = [];
-
-    for (let step = 1; step <= limit; step++) {
-      const targetCoordinateX = current_x + step * x_direction;
-      const targetCoordinateY = current_y + step * y_direction;
-
-      if (
-        targetCoordinateX < 0 ||
-        targetCoordinateX > 9 ||
-        targetCoordinateY < 0 ||
-        targetCoordinateY > 9
-      ) {
-        break;
-      }
-
-      const squareKey = Position.calculateNumericKey(
-        targetCoordinateX,
-        targetCoordinateY
-      );
-      const squarePos = positions.find((p) => p.numeric_key === squareKey);
-
-      if (squarePos) {
-        if (squarePos.isOccupied()) {
-          if (squarePos.isOccupiedByOpponent(pieceColor)) {
-            moves.push(squarePos);
-          }
-
-          break;
-        }
-
-        moves.push(squarePos);
-      }
-    }
-
-    return moves;
-  }
-
   public targetSquares() {
     this.possibleMoves.forEach((p) => {
       if (this.color === Color.WHITE) {

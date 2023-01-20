@@ -1,3 +1,4 @@
+import { findMoves } from "./../game";
 import { PieceType } from "../types";
 import { Piece } from "../piece";
 import { Position } from "../position";
@@ -17,7 +18,7 @@ export class Lance extends Piece {
 
     // moves to all sides one square
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         0,
@@ -28,7 +29,7 @@ export class Lance extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         0,
@@ -39,7 +40,7 @@ export class Lance extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         2,
@@ -50,7 +51,7 @@ export class Lance extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         -2,
@@ -61,7 +62,7 @@ export class Lance extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         -1,
@@ -72,7 +73,7 @@ export class Lance extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         1,
@@ -83,7 +84,7 @@ export class Lance extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         -2,
@@ -94,7 +95,7 @@ export class Lance extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         2,
@@ -105,7 +106,7 @@ export class Lance extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         -1,
@@ -116,7 +117,7 @@ export class Lance extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         1,
@@ -127,7 +128,7 @@ export class Lance extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         2,
@@ -138,7 +139,7 @@ export class Lance extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         -2,

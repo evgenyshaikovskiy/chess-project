@@ -1,3 +1,4 @@
+import { calculateNumericKey } from "./../game";
 import { PieceType } from "../types";
 import { Piece } from "../piece";
 import { Position } from "../position";
@@ -28,14 +29,14 @@ export class Pawn extends Piece {
     const oneSquareForwardKey =
       this.position.y === 0 || this.position.y === 9
         ? -1
-        : Position.calculateNumericKey(
+        : calculateNumericKey(
             this.position.x,
-            this.position.y + this.pawnDirection * 1
+            this.position.y + this.pawnDirection
           );
 
     const twoSquareForwardKey = !this.isFirstMove
       ? -1
-      : Position.calculateNumericKey(
+      : calculateNumericKey(
           this.position.x,
           this.position.y + this.pawnDirection * 2
         );
@@ -43,17 +44,17 @@ export class Pawn extends Piece {
     const leftSquareCaptureKey =
       this.position.x === 0
         ? -1
-        : Position.calculateNumericKey(
+        : calculateNumericKey(
             this.position.x - 1,
-            this.position.y + this.pawnDirection * 1
+            this.position.y + this.pawnDirection
           );
 
     const rightSquareCaptureKey =
       this.position.x === 9
         ? -1
-        : Position.calculateNumericKey(
+        : calculateNumericKey(
             this.position.x + 1,
-            this.position.y + this.pawnDirection * 1
+            this.position.y + this.pawnDirection
           );
 
     // switch to const??

@@ -1,15 +1,19 @@
+import { findMoves } from "./../game";
 import { PieceType } from "../types";
 import { Piece } from "../piece";
 import { Position } from "../position";
 import { Color } from "../types";
 
 export class Rook extends Piece {
+  public isFirstMove: boolean;
+
   constructor(
     position: Position,
     color: Color,
     possibleMoves: Position[] = []
   ) {
     super(position, PieceType.ROOK, color, possibleMoves);
+    this.isFirstMove = true;
   }
 
   public updatePossibleMoves(positions: Position[]): void {
@@ -17,7 +21,7 @@ export class Rook extends Piece {
 
     if (this.position.y !== 9) {
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           0,
@@ -30,7 +34,7 @@ export class Rook extends Piece {
 
     if (this.position.y !== 0) {
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           0,
@@ -43,7 +47,7 @@ export class Rook extends Piece {
 
     if (this.position.x !== 0) {
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           -1,
@@ -56,7 +60,7 @@ export class Rook extends Piece {
 
     if (this.position.x !== 9) {
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           1,
@@ -72,5 +76,12 @@ export class Rook extends Piece {
 
   public clone(): Piece {
     return new Rook(this.position, this.color, this.possibleMoves);
+  }
+
+  public moveTo(position: Position): void {
+    super.moveTo(position);
+    if (this.isFirstMove) {
+      this.isFirstMove = false;
+    }
   }
 }

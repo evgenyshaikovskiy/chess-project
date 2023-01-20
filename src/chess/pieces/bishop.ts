@@ -2,6 +2,7 @@ import { PieceType } from "../types";
 import { Piece } from "../piece";
 import { Position } from "../position";
 import { Color } from "../types";
+import { findMoves } from "../game";
 
 export class Bishop extends Piece {
   constructor(
@@ -17,7 +18,7 @@ export class Bishop extends Piece {
     // find upper diagonal movements
     if (this.position.y !== 9) {
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           1,
@@ -27,7 +28,7 @@ export class Bishop extends Piece {
         )
       );
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           -1,
@@ -40,7 +41,7 @@ export class Bishop extends Piece {
 
     if (this.position.y !== 0) {
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           1,
@@ -50,7 +51,7 @@ export class Bishop extends Piece {
         )
       );
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           -1,

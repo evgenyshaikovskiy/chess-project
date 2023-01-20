@@ -2,6 +2,7 @@ import { PieceType } from "../types";
 import { Piece } from "../piece";
 import { Position } from "../position";
 import { Color } from "../types";
+import { findMoves } from "../game";
 
 export class Knight extends Piece {
   constructor(
@@ -16,7 +17,7 @@ export class Knight extends Piece {
     this.possibleMoves = [];
 
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         -1,
@@ -27,7 +28,7 @@ export class Knight extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         1,
@@ -38,7 +39,7 @@ export class Knight extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         -2,
@@ -49,7 +50,7 @@ export class Knight extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         2,
@@ -60,7 +61,7 @@ export class Knight extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         -1,
@@ -71,7 +72,7 @@ export class Knight extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         1,
@@ -82,7 +83,7 @@ export class Knight extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         2,
@@ -93,7 +94,7 @@ export class Knight extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         -2,

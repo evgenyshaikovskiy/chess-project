@@ -1,3 +1,4 @@
+import { calculateNumericKey } from "./game";
 import { HORIZONTAL_AXIS, VERTICAL_AXIS } from "./constants";
 import { Piece } from "./piece";
 import { Color } from "./types";
@@ -31,7 +32,7 @@ export class Position {
       this.piece = piece;
       this.piece.position = this;
     }
-    this.numeric_key = Position.calculateNumericKey(x, y);
+    this.numeric_key = calculateNumericKey(x, y);
     this.tileColor = (x + y) % 2 === 0 ? Color.BLACK : Color.WHITE;
 
     this.isTargetedByBlackPiece = isTargetedByBlackPiece;
@@ -58,10 +59,6 @@ export class Position {
     this.piece.position = this;
   }
 
-  public removePiece() {
-    this.piece = undefined;
-  }
-
   public clone(): Position {
     return new Position(
       this.x,
@@ -70,9 +67,5 @@ export class Position {
       this.isTargetedByBlackPiece,
       this.isTargetedByWhitePiece
     );
-  }
-
-  public static calculateNumericKey(x: number, y: number) {
-    return x + 10 * y;
   }
 }

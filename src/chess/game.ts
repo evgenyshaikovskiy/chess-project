@@ -31,3 +31,72 @@ export const findKingPosition = (
     (pos) => pos.piece && pos.piece.color === color
   ) as Position;
 };
+
+export const calculateNumericKey = (x: number, y: number) => {
+  return x + 10 * y;
+};
+
+export const findMoves = (
+  current_x: number,
+  current_y: number,
+  x_direction: number,
+  y_direction: number,
+  positions: Position[],
+  pieceColor: Color,
+  limit = 9
+): Position[] => {
+  const moves: Position[] = [];
+
+  for (let step = 1; step <= limit; step++) {
+    const targetCoordinateX = current_x + step * x_direction;
+    const targetCoordinateY = current_y + step * y_direction;
+
+    if (
+      targetCoordinateX < 0 ||
+      targetCoordinateX > 9 ||
+      targetCoordinateY < 0 ||
+      targetCoordinateY > 9
+    ) {
+      break;
+    }
+
+    const squareKey = calculateNumericKey(targetCoordinateX, targetCoordinateY);
+
+    const squarePos = findPositionByNumericValue(positions, squareKey);
+
+    if (squarePos) {
+      if (squarePos.isOccupied()) {
+        if (squarePos.isOccupiedByOpponent(pieceColor)) {
+          moves.push(squarePos);
+        }
+
+        break;
+      }
+
+      moves.push(squarePos);
+    }
+  }
+
+  return moves;
+};
+
+// public static isCastlingLegal(current_x: number, current_y: number, x_direction: number, positions: Position[], isShortCastling: boolean): boolean {
+  //   const limit = isShortCastling ? 3 : 4;
+
+  //   for (let step = 1; step < limit; step++) {
+  //     const targetCoordinateX = current_x + step * x_direction;
+  //     const squareKey = calculateNumericKey(targetCoordinateX, current_y);
+  //     const squarePos = findPositionByNumericValue(positions, squareKey);
+  //     if (squarePos.isOccupied()) {
+  //       return false;
+  //     }
+  //   }
+
+  //   const rookSquare = findPositionByNumericValue(positions, calculateNumericKey(current_x + limit * x_direction, current_y));
+  //   if (rookSquare.piece && rookSquare.piece.isRook && (rookSquare.piece as Rook).isFirstMove) {
+  //     return true;
+  //   }
+  //   else {
+  //     return false;
+  //   }
+  // }
