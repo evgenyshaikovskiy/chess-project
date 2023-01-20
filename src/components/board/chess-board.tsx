@@ -7,6 +7,7 @@ import { HORIZONTAL_AXIS, VERTICAL_AXIS } from "../../chess/constants";
 import { Position } from "../../chess/position";
 
 import "./chess-board.styles.scss";
+import { Color } from "../../chess/types";
 
 type ChessBoardProps = {
   performMove: (source: Position, destination: Position) => boolean;
@@ -16,6 +17,7 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
   const {
     positions,
     selectedPiece,
+    isWhiteTurnToMove,
     pickPiece,
     transferRightToMove,
     modifyPositions,
@@ -29,20 +31,18 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
     useState<string[]>(HORIZONTAL_AXIS);
 
   const onTileClickHandler = (position: Position, isHighlighted: boolean) => {
-    console.log("click on", position);
     // update selected piece
     if (!selectedPiece && position.piece) {
       pickPiece(position.piece);
     }
 
     const isOccupied = position.isOccupied();
-    const isOccupiedByOpponent = selectedPiece
-      ? position.isOccupiedByOpponent(selectedPiece.color)
-      : false;
 
-    console.log(isOccupied, isOccupiedByOpponent, selectedPiece);
-
-    if (isOccupied && !isOccupiedByOpponent) {
+    if (
+      isOccupied &&
+      ((isWhiteTurnToMove && position.piece?.color === Color.WHITE) ||
+        (!isWhiteTurnToMove && position.piece?.color === Color.BLACK))
+    ) {
       // highlight possible moves
       setHighlightedSquares([...position.piece!.possibleMoves]);
 
@@ -63,7 +63,7 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
     }
 
     // hide highlighting and reset piece if clicking on not highlighted square
-    if ((!isHighlighted && !isOccupied)) {
+    if (!isHighlighted && !isOccupied) {
       setHighlightedSquares([]);
       pickPiece(null);
     }
