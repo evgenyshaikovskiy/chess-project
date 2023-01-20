@@ -1,10 +1,10 @@
-import { Position } from "../../game/position";
+import { Position } from "../../chess/position";
 import "./chess-board.styles.scss";
 import Tile from "../tile/tile";
 import { useState } from "react";
-import { Piece } from "../../game/piece";
-import { Color } from "../../game/types";
-import { HORIZONTAL_AXIS, VERTICAL_AXIS } from "../../game/constants";
+import { Piece } from "../../chess/piece";
+import { Color } from "../../chess/types";
+import { HORIZONTAL_AXIS, VERTICAL_AXIS } from "../../chess/constants";
 
 type ChessBoardProps = {
   initPositions: Position[];

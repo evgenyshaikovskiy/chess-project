@@ -1,15 +1,15 @@
-import { PieceType } from "./../types";
+import { PieceType } from "../types";
 import { Piece } from "../piece";
 import { Position } from "../position";
 import { Color } from "../types";
 
-export class Queen extends Piece {
+export class Rook extends Piece {
   constructor(
     position: Position,
     color: Color,
     possibleMoves: Position[] = []
   ) {
-    super(position, PieceType.QUEEN, color, possibleMoves);
+    super(position, PieceType.ROOK, color, possibleMoves);
   }
 
   public updatePossibleMoves(positions: Position[]): void {
@@ -26,26 +26,6 @@ export class Queen extends Piece {
           this.color
         )
       );
-      this.possibleMoves.push(
-        ...Piece.findMoves(
-          this.position.x,
-          this.position.y,
-          1,
-          1,
-          positions,
-          this.color
-        )
-      );
-      this.possibleMoves.push(
-        ...Piece.findMoves(
-          this.position.x,
-          this.position.y,
-          -1,
-          1,
-          positions,
-          this.color
-        )
-      );
     }
 
     if (this.position.y !== 0) {
@@ -54,28 +34,6 @@ export class Queen extends Piece {
           this.position.x,
           this.position.y,
           0,
-          -1,
-          positions,
-          this.color
-        )
-      );
-
-      this.possibleMoves.push(
-        ...Piece.findMoves(
-          this.position.x,
-          this.position.y,
-          1,
-          -1,
-          positions,
-          this.color
-        )
-      );
-
-      this.possibleMoves.push(
-        ...Piece.findMoves(
-          this.position.x,
-          this.position.y,
-          -1,
           -1,
           positions,
           this.color
@@ -113,6 +71,6 @@ export class Queen extends Piece {
   }
 
   public clone(): Piece {
-      return new Queen(this.position, this.color, this.possibleMoves);
+    return new Rook(this.position, this.color, this.possibleMoves);
   }
 }

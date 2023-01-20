@@ -1,4 +1,4 @@
-import { PieceType } from "./../types";
+import { PieceType } from "../types";
 import { Piece } from "../piece";
 import { Position } from "../position";
 import { Color } from "../types";

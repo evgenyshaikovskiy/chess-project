@@ -1,20 +1,65 @@
-import { PieceType } from "./../types";
+import { PieceType } from "../types";
 import { Piece } from "../piece";
 import { Position } from "../position";
 import { Color } from "../types";
 
-export class Knight extends Piece {
+export class Lance extends Piece {
   constructor(
     position: Position,
     color: Color,
     possibleMoves: Position[] = []
   ) {
-    super(position, PieceType.KNIGHT, color, possibleMoves);
+    super(position, PieceType.LANCE, color, possibleMoves);
   }
 
   public updatePossibleMoves(positions: Position[]): void {
     this.possibleMoves = [];
 
+    // moves to all sides one square
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        0,
+        2,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        0,
+        -2,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        2,
+        0,
+        positions,
+        this.color,
+        1
+      )
+    );
+    this.possibleMoves.push(
+      ...Piece.findMoves(
+        this.position.x,
+        this.position.y,
+        -2,
+        0,
+        positions,
+        this.color,
+        1
+      )
+    );
     this.possibleMoves.push(
       ...Piece.findMoves(
         this.position.x,
@@ -108,6 +153,6 @@ export class Knight extends Piece {
   }
 
   public clone(): Piece {
-      return new Knight(this.position, this.color, this.possibleMoves);
+      return new Lance(this.position, this.color, this.possibleMoves)
   }
 }

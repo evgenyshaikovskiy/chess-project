@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Board } from "../../game/board";
-import { initialBoard } from "../../game/constants";
+import { Board } from "../../chess/board";
+import { initialBoard } from "../../chess/constants";
 import ChessBoard from "../board/chess-board";
-import { Piece } from "../../game/piece";
-import { Position } from "../../game/position";
-import { GameState } from "../../game/types";
+import { Piece } from "../../chess/piece";
+import { Position } from "../../chess/position";
+import { GameState } from "../../chess/types";
 
 export default function ChessGame() {
   const [board] = useState<Board>(initialBoard);

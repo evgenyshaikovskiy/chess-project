@@ -1,4 +1,4 @@
-import { Position } from "../../game/position";
+import { Position } from "../../chess/position";
 import "./tile.styles.scss";
 
 type TileProps = {
