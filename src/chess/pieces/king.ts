@@ -107,20 +107,6 @@ export class King extends Piece {
     );
 
     this.targetSquares();
-
-    // check short castling
-    // write method to check empty squares
-    // if (this.isFirstMove) {
-    //   if (Piece.isCastlingLegal(this.position.x, this.position.y, 1, positions, true)) {
-    //     console.log('short castling legal');
-    //     console.log(this);
-    //   }
-
-    //   if (Piece.isCastlingLegal(this.position.x, this.position.y, 1, positions, true)) {
-    //     console.log('long castling legal');
-    //     console.log(this);
-    //   }
-    // }
   }
 
   public clone(): Piece {

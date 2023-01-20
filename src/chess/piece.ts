@@ -36,7 +36,7 @@ export abstract class Piece {
     if (this.isFirstMove) {
       this.isFirstMove = false;
     }
-    
+
     position.placePiece(this);
   }
 

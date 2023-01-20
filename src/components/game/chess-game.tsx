@@ -6,9 +6,12 @@ import { Color } from "../../chess/types";
 import {
   findKingPosition,
   findPositionByNumericValue,
+  moveFromSourceToDestination,
   unTargetAllPositions,
+  updateCastlingMove,
   updateMovesForPositions,
 } from "../../chess/game";
+import { King } from "../../chess/pieces/king";
 
 export default function ChessGame() {
   const { isWhiteTurnToMove, gameState, positions, modifyPositions } =
@@ -27,29 +30,33 @@ export default function ChessGame() {
       destination: Position
     ): boolean => {
       const color = source.piece!.color;
-      const localCopy = positions.map((p) => p.clone());
+      const positionsCopy = positions.map((p) => p.clone());
 
-      const sourceFromCopy = findPositionByNumericValue(
-        localCopy,
+      const sourceCopy = findPositionByNumericValue(
+        positionsCopy,
         source.numeric_key
       );
-      const destinationFromCopy = findPositionByNumericValue(
-        localCopy,
+      const destinationCopy = findPositionByNumericValue(
+        positionsCopy,
         destination.numeric_key
       );
 
-      sourceFromCopy.piece!.moveTo(destinationFromCopy);
+      moveFromSourceToDestination(
+        sourceCopy,
+        destinationCopy,
+        positionsCopy
+      );
 
-      unTargetAllPositions(localCopy);
-      updateMovesForPositions(localCopy);
+      unTargetAllPositions(positionsCopy);
+      updateMovesForPositions(positionsCopy);
 
-      const whiteKing = findKingPosition(localCopy, Color.WHITE);
-      const blackKing = findKingPosition(localCopy, Color.BLACK);
+      const whiteKingLocal = findKingPosition(positionsCopy, Color.WHITE);
+      const blackKingLocal = findKingPosition(positionsCopy, Color.BLACK);
 
       if (color === Color.WHITE) {
-        return whiteKing!.isTargetedByBlackPiece;
+        return whiteKingLocal!.isTargetedByBlackPiece;
       } else {
-        return blackKing!.isTargetedByWhitePiece;
+        return blackKingLocal!.isTargetedByWhitePiece;
       }
     };
 
@@ -58,23 +65,27 @@ export default function ChessGame() {
       .filter((pos) => pos.piece)
       .forEach((pos) => {
         const legalMoves = pos.piece!.possibleMoves.filter(
-          (destination) => !isMoveIllegal(pos.clone(), destination.clone())
+          (destination) => !isMoveIllegal(pos, destination)
         ) as Position[];
 
         pos.piece!.possibleMoves = [...legalMoves];
       });
 
+    let whiteKing = findKingPosition(positions, Color.WHITE).piece! as King;
+    let blackKing = findKingPosition(positions, Color.BLACK).piece! as King;
+
+    updateCastlingMove(whiteKing, positions);
+    updateCastlingMove(blackKing, positions);
+
     modifyPositions([...positions]);
   };
 
+  // refactor this later
   const performMoveHandler = (
     source: Position,
     destination: Position
   ): boolean => {
-    // first case, destination is empty => move without capturing
-    // second case, destination is occupied by enemy => move with capturing
-
-    source.piece!.moveTo(destination);
+    moveFromSourceToDestination(source, destination, positions);
 
     return true;
   };
