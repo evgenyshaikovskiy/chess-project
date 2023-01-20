@@ -119,7 +119,7 @@ export const isCastlingLegal = (
   }
 };
 
-export const updateCastlingMove = (king: King, positions: Position[]): void  => {
+export const updateCastlingMove = (king: King, positions: Position[]): void => {
   if (king.isFirstMove) {
     const shortCastleMove = isCastlingLegal(
       king.position.x,
@@ -147,25 +147,42 @@ export const updateCastlingMove = (king: King, positions: Position[]): void  => 
       king.possibleMoves.push(longCastleMove);
     }
   }
-}
+};
 
-export const performCastling = (kingPosition: Position, rookPosition: Position, positions: Position[]) => {
+export const performCastling = (
+  kingPosition: Position,
+  rookPosition: Position,
+  positions: Position[]
+) => {
   // king moves two squares to direction where rook is located
   // rook moves next to king in opposite direction
 
   const kingMoveDirection = rookPosition.x === 9 ? 1 : -1;
-  const kingDestination = findPositionByNumericValue(positions, calculateNumericKey(kingPosition.x + 2 * kingMoveDirection, kingPosition.y));
-  const rookDestination = findPositionByNumericValue(positions, calculateNumericKey(kingDestination.x - 1 * kingMoveDirection, rookPosition.y));
+  const kingDestination = findPositionByNumericValue(
+    positions,
+    calculateNumericKey(kingPosition.x + 2 * kingMoveDirection, kingPosition.y)
+  );
+  const rookDestination = findPositionByNumericValue(
+    positions,
+    calculateNumericKey(
+      kingDestination.x - 1 * kingMoveDirection,
+      rookPosition.y
+    )
+  );
 
   kingPosition.piece!.moveTo(kingDestination);
   rookPosition.piece!.moveTo(rookDestination);
-}
+};
 
-export const moveFromSourceToDestination = (source: Position, destination: Position, positions: Position[]) => {
+export const moveFromSourceToDestination = (
+  source: Position,
+  destination: Position,
+  positions: Position[]
+) => {
   // first case, destination is empty => move without capturing
   // second case, destination is occupied by enemy => move with capturing
   // third case, destination is occupied by rook => move with castling
-  
+
   if (
     destination.isOccupied() &&
     !destination.isOccupiedByOpponent(source.piece!.color)
@@ -176,4 +193,4 @@ export const moveFromSourceToDestination = (source: Position, destination: Posit
     // first and second case
     source.piece!.moveTo(destination);
   }
-}
+};

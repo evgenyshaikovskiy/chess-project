@@ -41,11 +41,7 @@ export default function ChessGame() {
         destination.numeric_key
       );
 
-      moveFromSourceToDestination(
-        sourceCopy,
-        destinationCopy,
-        positionsCopy
-      );
+      moveFromSourceToDestination(sourceCopy, destinationCopy, positionsCopy);
 
       unTargetAllPositions(positionsCopy);
       updateMovesForPositions(positionsCopy);
