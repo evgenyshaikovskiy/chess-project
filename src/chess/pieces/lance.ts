@@ -153,6 +153,6 @@ export class Lance extends Piece {
   }
 
   public clone(): Piece {
-      return new Lance(this.position, this.color, this.possibleMoves)
+    return new Lance(this.position, this.color, this.possibleMoves);
   }
 }

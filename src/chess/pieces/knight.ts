@@ -108,6 +108,6 @@ export class Knight extends Piece {
   }
 
   public clone(): Piece {
-      return new Knight(this.position, this.color, this.possibleMoves);
+    return new Knight(this.position, this.color, this.possibleMoves);
   }
 }

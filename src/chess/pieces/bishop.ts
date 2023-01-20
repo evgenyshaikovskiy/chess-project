@@ -65,6 +65,6 @@ export class Bishop extends Piece {
   }
 
   public clone(): Piece {
-      return new Bishop(this.position, this.color, this.possibleMoves);
+    return new Bishop(this.position, this.color, this.possibleMoves);
   }
 }

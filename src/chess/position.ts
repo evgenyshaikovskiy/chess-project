@@ -17,7 +17,13 @@ export class Position {
   public isTargetedByBlackPiece: boolean;
   public isTargetedByWhitePiece: boolean;
 
-  constructor(x: number, y: number, piece?: Piece, isTargetedByBlackPiece: boolean = false, isTargetedByWhitePiece: boolean = false) {
+  constructor(
+    x: number,
+    y: number,
+    piece?: Piece,
+    isTargetedByBlackPiece: boolean = false,
+    isTargetedByWhitePiece: boolean = false
+  ) {
     this.x = x;
     this.y = y;
     this.key = HORIZONTAL_AXIS[x] + VERTICAL_AXIS[y];
@@ -57,7 +63,13 @@ export class Position {
   }
 
   public clone(): Position {
-    return new Position(this.x, this.y, this.piece?.clone(), this.isTargetedByBlackPiece, this.isTargetedByWhitePiece);
+    return new Position(
+      this.x,
+      this.y,
+      this.piece?.clone(),
+      this.isTargetedByBlackPiece,
+      this.isTargetedByWhitePiece
+    );
   }
 
   public static calculateNumericKey(x: number, y: number) {

@@ -3,6 +3,10 @@ import ChessBoard from "../board/chess-board";
 import { Position } from "../../chess/position";
 import { GameContext } from "../../contexts/game.context";
 import { Color } from "../../chess/types";
+import {
+  unTargetAllPositions,
+  updateMovesForPositions,
+} from "../../chess/game";
 
 export default function ChessGame() {
   const { isWhiteTurnToMove, gameState, positions, modifyPositions } =
@@ -10,16 +14,11 @@ export default function ChessGame() {
 
   const updateMoves = () => {
     // un target all positions
-    positions.forEach((pos) => {
-      pos.isTargetedByBlackPiece = false;
-      pos.isTargetedByWhitePiece = false;
-    });
+    unTargetAllPositions(positions);
 
     // update possible moves for each piece
     // THINK ABOUT BUG, WHEN MOVE IS ILLEGAL, YET IT TARGETS SQUARE
-    positions
-      .filter((pos) => pos.piece)
-      .forEach((pos) => pos.piece!.updatePossibleMoves(positions));
+    updateMovesForPositions(positions);
 
     const isMoveIllegal = (
       source: Position,
@@ -42,14 +41,9 @@ export default function ChessGame() {
       ) as Position;
 
       sourceFromCopy.piece!.moveTo(destinationFromCopy);
-      localCopy.forEach((pos) => {
-        pos.isTargetedByBlackPiece = false;
-        pos.isTargetedByWhitePiece = false;
-      });
+      unTargetAllPositions(localCopy);
 
-      localCopy
-        .filter((pos) => pos.piece)
-        .forEach((pos) => pos.piece!.updatePossibleMoves(localCopy));
+      updateMovesForPositions(localCopy);
 
       if (color === Color.WHITE) {
         return whiteKing!.isTargetedByBlackPiece;

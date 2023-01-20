@@ -113,6 +113,6 @@ export class Queen extends Piece {
   }
 
   public clone(): Piece {
-      return new Queen(this.position, this.color, this.possibleMoves);
+    return new Queen(this.position, this.color, this.possibleMoves);
   }
 }

@@ -39,7 +39,6 @@ export abstract class Piece {
 
   public abstract clone(): Piece;
 
-
   public static findMoves(
     current_x: number,
     current_y: number,
