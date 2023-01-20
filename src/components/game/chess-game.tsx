@@ -30,12 +30,21 @@ export default function ChessGame() {
     board.movePieceTo(piece, position);
   }
 
+  function tryToMovePieceToCallback(piece: Piece, position: Position) {
+    const result =  board.tryToMovePieceTo(piece, position);
+
+    console.log('Result:', !result);
+
+    return result;
+  }
+
   return (
     <div className="chess-game-wrapper">
       <ChessBoard
         isWhiteTurn={isWhiteTurn}
         initPositions={board.positions}
         movePiece={movePieceToPositionCallback}
+        tryToMovePiece={tryToMovePieceToCallback}
         toggleTurn={toggleTurn}
         updateMoves={updateMovesCallback}
       ></ChessBoard>

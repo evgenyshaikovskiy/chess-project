@@ -22,18 +22,23 @@ export class Board {
     this.gameState = GameState.GameIsRunning;
   }
 
+  public updatePiecesConditionFromBoard() {
+    this.pieces = this.positions
+      .filter((p) => p.isOccupied())
+      .map((p) => p.piece as unknown as Piece);
+  }
+
   public updateMovesForAllPieces(): void {
     this.unTargetAllSquares();
     this.pieces.forEach((p) => p.updatePossibleMoves(this.positions));
-    this.excludeIllegalMoves();
 
-    if (this.checkForBlackVictory()) {
-      this.gameState = GameState.BlackVictory;
-    }
+    // if (this.checkForWhiteCheck()) {
+    //   this.gameState = GameState.BlackVictory;
+    // }
 
-    if (this.checkForWhiteVictory()) {
-      this.gameState = GameState.WhiteVictory;
-    }
+    // if (this.checkForWhiteCheck()) {
+    //   this.gameState = GameState.WhiteVictory;
+    // }
   }
 
   public unTargetAllSquares(): void {
@@ -43,27 +48,33 @@ export class Board {
     });
   }
 
-  public checkForWhiteVictory() {
-    return this.findBlackKing() === undefined;
+  public checkForBlackKingCheck() {
+    return this.findBlackKing()!.position.isTargetedByWhitePiece;
   }
 
-  public checkForBlackVictory() {
-    return this.findWhiteKing() === undefined;
+  public checkForWhiteKingCheck() {
+    return this.findWhiteKing()!.position.isTargetedByBlackPiece;
   }
 
   public movePieceTo(piece: Piece, position: Position): void {
-    this.pieces = this.pieces.filter((p) => !p.isSamePosition(position));
     piece.moveTo(position);
+    this.updatePiecesConditionFromBoard();
   }
 
-  // TODO: add moves that prevents
-  public excludeIllegalMoves(): void {
-    const whiteKing = this.findWhiteKing();
-    const blackKing = this.findBlackKing();
+  public tryToMovePieceTo(piece: Piece, position: Position): boolean {
+    console.log('trying to move', piece, 'to', position);
+    const mockBoard = this.clone();
+    mockBoard.movePieceTo(piece, position);
+    mockBoard.updateMovesForAllPieces();
 
-    if (whiteKing && blackKing) {
-      whiteKing.possibleMoves = whiteKing.possibleMoves.filter((p) => !p.isTargetedByBlackPiece);
-      blackKing.possibleMoves = blackKing.possibleMoves.filter((p) => !p.isTargetedByWhitePiece);
+    console.log(mockBoard.findBlackKing());
+    console.log(mockBoard.findWhiteKing());
+
+    if (piece.color === Color.WHITE) {
+      return mockBoard.checkForWhiteKingCheck();
+    }
+    else {
+      return mockBoard.checkForBlackKingCheck();
     }
   }
 

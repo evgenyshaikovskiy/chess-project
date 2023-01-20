@@ -106,4 +106,8 @@ export class Knight extends Piece {
 
     this.targetSquares();
   }
+
+  public clone(): Piece {
+      return new Knight(this.position, this.color, this.possibleMoves);
+  }
 }

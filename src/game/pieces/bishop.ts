@@ -63,4 +63,8 @@ export class Bishop extends Piece {
 
     this.targetSquares();
   }
+
+  public clone(): Piece {
+      return new Bishop(this.position, this.color, this.possibleMoves);
+  }
 }

@@ -17,16 +17,19 @@ export class Position {
   public isTargetedByBlackPiece: boolean;
   public isTargetedByWhitePiece: boolean;
 
-  constructor(x: number, y: number, piece?: Piece) {
+  constructor(x: number, y: number, piece?: Piece, isTargetedByBlackPiece: boolean = false, isTargetedByWhitePiece: boolean = false) {
     this.x = x;
     this.y = y;
     this.key = HORIZONTAL_AXIS[x] + VERTICAL_AXIS[y];
-    this.piece = piece;
+    if (piece) {
+      this.piece = piece;
+      this.piece.position = this;
+    }
     this.numeric_key = Position.calculateNumericKey(x, y);
     this.tileColor = (x + y) % 2 === 0 ? Color.BLACK : Color.WHITE;
 
-    this.isTargetedByBlackPiece = false;
-    this.isTargetedByWhitePiece = false;
+    this.isTargetedByBlackPiece = isTargetedByBlackPiece;
+    this.isTargetedByWhitePiece = isTargetedByWhitePiece;
   }
 
   public isSamePosition(other: Position): boolean {
@@ -54,7 +57,7 @@ export class Position {
   }
 
   public clone(): Position {
-    return new Position(this.x, this.y, this.piece);
+    return new Position(this.x, this.y, this.piece?.clone(), this.isTargetedByBlackPiece, this.isTargetedByWhitePiece);
   }
 
   public static calculateNumericKey(x: number, y: number) {

@@ -37,6 +37,9 @@ export abstract class Piece {
   // abstract methods
   public abstract updatePossibleMoves(positions: Position[]): void;
 
+  public abstract clone(): Piece;
+
+
   public static findMoves(
     current_x: number,
     current_y: number,

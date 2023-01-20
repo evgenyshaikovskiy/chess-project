@@ -111,4 +111,8 @@ export class Queen extends Piece {
 
     this.targetSquares();
   }
+
+  public clone(): Piece {
+      return new Queen(this.position, this.color, this.possibleMoves);
+  }
 }

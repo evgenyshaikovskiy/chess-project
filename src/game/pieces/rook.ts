@@ -69,4 +69,8 @@ export class Rook extends Piece {
 
     this.targetSquares();
   }
+
+  public clone(): Piece {
+    return new Rook(this.position, this.color, this.possibleMoves);
+  }
 }

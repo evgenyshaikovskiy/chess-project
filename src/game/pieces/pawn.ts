@@ -111,6 +111,10 @@ export class Pawn extends Piece {
     }
   }
 
+  public clone(): Piece {
+    return new Pawn(this.position, this.color, this.possibleMoves);
+  }
+
   public moveTo(position: Position): void {
     super.moveTo(position);
     if (this.isFirstMove) {

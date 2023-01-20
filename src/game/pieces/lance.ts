@@ -151,4 +151,8 @@ export class Lance extends Piece {
 
     this.targetSquares();
   }
+
+  public clone(): Piece {
+      return new Lance(this.position, this.color, this.possibleMoves)
+  }
 }

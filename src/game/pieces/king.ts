@@ -107,4 +107,8 @@ export class King extends Piece {
 
     this.targetSquares();
   }
+
+  public clone(): Piece {
+      return new King(this.position, this.color, this.possibleMoves);
+  }
 }

@@ -12,6 +12,7 @@ type ChessBoardProps = {
   toggleTurn: () => void;
   updateMoves: () => void;
   movePiece: (piece: Piece, position: Position) => void;
+  tryToMovePiece: (piece: Piece, position: Position) => boolean;
 };
 
 // TODO:
@@ -23,6 +24,7 @@ export const ChessBoard = ({
   toggleTurn,
   updateMoves,
   movePiece,
+  tryToMovePiece,
 }: ChessBoardProps) => {
   const [positions, setPositions] = useState<Position[]>(initPositions);
   const [isAllMovesUpdated, setIsAllMovesUpdated] = useState<Boolean>(false);
@@ -72,8 +74,8 @@ export const ChessBoard = ({
       ((selectedPiece.color === Color.WHITE && isWhiteTurn) ||
         (selectedPiece.color === Color.BLACK && !isWhiteTurn))
     ) {
-      if (isHighlighted) {
-        movePiece(selectedPiece, position);
+      if (isHighlighted && !tryToMovePiece(selectedPiece, position)) {
+        // movePiece(selectedPiece, position);
         switchMove();
         setHighlightedSquares([]);
         setSelectedPiece(undefined);
