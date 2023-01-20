@@ -7,6 +7,7 @@ export abstract class Piece {
   public type: PieceType;
   public possibleMoves: Position[];
   public color: Color;
+  public isFirstMove: boolean;
 
   constructor(
     position: Position,
@@ -18,6 +19,7 @@ export abstract class Piece {
     this.position = position;
     this.type = type;
     this.color = color;
+    this.isFirstMove = true;
     this.possibleMoves = possibleMoves;
   }
 
@@ -31,6 +33,10 @@ export abstract class Piece {
   }
 
   public moveTo(position: Position): void {
+    if (this.isFirstMove) {
+      this.isFirstMove = false;
+    }
+    
     position.placePiece(this);
   }
 

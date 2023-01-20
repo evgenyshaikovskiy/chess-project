@@ -5,15 +5,12 @@ import { Color } from "../types";
 import { findMoves } from "../game";
 
 export class King extends Piece {
-  public isFirstMove: boolean;
-
   constructor(
     position: Position,
     color: Color,
     possibleMoves: Position[] = []
   ) {
     super(position, PieceType.KING, color, possibleMoves);
-    this.isFirstMove = true;
   }
 
   public updatePossibleMoves(positions: Position[]): void {
@@ -128,12 +125,5 @@ export class King extends Piece {
 
   public clone(): Piece {
     return new King(this.position, this.color, this.possibleMoves);
-  }
-
-  public moveTo(position: Position): void {
-    super.moveTo(position);
-    if (this.isFirstMove) {
-      this.isFirstMove = false;
-    }
   }
 }

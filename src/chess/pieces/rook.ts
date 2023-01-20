@@ -5,15 +5,12 @@ import { Position } from "../position";
 import { Color } from "../types";
 
 export class Rook extends Piece {
-  public isFirstMove: boolean;
-
   constructor(
     position: Position,
     color: Color,
     possibleMoves: Position[] = []
   ) {
     super(position, PieceType.ROOK, color, possibleMoves);
-    this.isFirstMove = true;
   }
 
   public updatePossibleMoves(positions: Position[]): void {
@@ -76,12 +73,5 @@ export class Rook extends Piece {
 
   public clone(): Piece {
     return new Rook(this.position, this.color, this.possibleMoves);
-  }
-
-  public moveTo(position: Position): void {
-    super.moveTo(position);
-    if (this.isFirstMove) {
-      this.isFirstMove = false;
-    }
   }
 }

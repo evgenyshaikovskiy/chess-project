@@ -6,7 +6,6 @@ import { Color } from "../types";
 
 export class Pawn extends Piece {
   private pawnDirection: number;
-  private isFirstMove: boolean;
 
   constructor(
     position: Position,
@@ -114,12 +113,5 @@ export class Pawn extends Piece {
 
   public clone(): Piece {
     return new Pawn(this.position, this.color, this.possibleMoves);
-  }
-
-  public moveTo(position: Position): void {
-    super.moveTo(position);
-    if (this.isFirstMove) {
-      this.isFirstMove = false;
-    }
   }
 }
