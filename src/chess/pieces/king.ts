@@ -105,6 +105,13 @@ export class King extends Piece {
       )
     );
 
+    if (this.color === Color.WHITE) {
+      this.possibleMoves = this.possibleMoves.filter((p) => !p.isTargetedByBlackPiece);
+    }
+    else {
+      this.possibleMoves = this.possibleMoves.filter((p) => !p.isTargetedByWhitePiece);
+    }
+
     this.targetSquares();
   }
 
