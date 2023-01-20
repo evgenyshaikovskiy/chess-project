@@ -2,13 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { GameContextProvider } from "./contexts/game.context";
 
+// refactor context provider and
+// add navigation, authentication
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <GameContextProvider>
+      <App />
+    </GameContextProvider>
   </React.StrictMode>
 );
 

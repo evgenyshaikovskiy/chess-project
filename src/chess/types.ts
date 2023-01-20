@@ -14,9 +14,11 @@ export enum PieceType {
 }
 
 export enum GameState {
-  BlackVictory = -1,
-  GameIsRunning = 0,
-  WhiteVictory = 1,
-  // need to update draw situations
-  Draw = 2,
+  BlackVictory = 'Black Victory!',
+  GameIsRunning = 'Game is still on!',
+  WhiteVictory = 'White Victory!',
+  DrawByRepetition = 'Draw by repetition',
+  Stalemate = 'Stalemate!',
+  WhiteKingIsChecked = 'Check for white king!',
+  BlackKingIsChecked = 'Check for black king!',
 }

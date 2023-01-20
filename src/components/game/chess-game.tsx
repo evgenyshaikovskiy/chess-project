@@ -1,57 +1,66 @@
-import { useState } from "react";
-import { Board } from "../../chess/board";
-import { initialBoard } from "../../chess/constants";
+import { Fragment, useContext, useEffect } from "react";
 import ChessBoard from "../board/chess-board";
-import { Piece } from "../../chess/piece";
 import { Position } from "../../chess/position";
-import { GameState } from "../../chess/types";
+import { GameContext } from "../../contexts/game.context";
 
 export default function ChessGame() {
-  const [board] = useState<Board>(initialBoard);
-  const [isWhiteTurn, setIsWhiteTurn] = useState<Boolean>(
-    board.isWhiteTurnToMove
-  );
-  const [gameState, setGameState] = useState<GameState>(
-    GameState.GameIsRunning
-  );
+  const {
+    isWhiteTurnToMove,
+    gameState,
+    positions,
+    modifyPositions,
+  } = useContext(GameContext);
 
-  function toggleTurn() {
-    setIsWhiteTurn(!isWhiteTurn);
-    board.isWhiteTurnToMove = !board.isWhiteTurnToMove;
-  }
+  const updateMoves = () => {
+    // un target all positions
+    positions.forEach((pos) => {
+      pos.isTargetedByBlackPiece = false;
+      pos.isTargetedByWhitePiece = false;
+    });
 
-  // caused a bug in console
-  function updateMovesCallback() {
-    board.updateMovesForAllPieces();
-    setGameState(board.gameState);
-  }
+    // update possible moves for each piece
+    positions
+      .filter((pos) => pos.piece)
+      .forEach((pos) => pos.piece!.updatePossibleMoves(positions));
 
-  function movePieceToPositionCallback(piece: Piece, position: Position) {
-    board.movePieceTo(piece, position);
-  }
+    modifyPositions([...positions]);
+    // exclude illegal
+  };
 
-  function tryToMovePieceToCallback(piece: Piece, position: Position) {
-    const result =  board.tryToMovePieceTo(piece, position);
+  const performMoveHandler = (
+    source: Position,
+    destination: Position
+  ): boolean => {
+    console.log("FROM", source, "TO", destination);
 
-    console.log('Result:', !result);
+    // first case, destination is empty => move without capturing
+    // second case, destination is occupied by enemy => move with capturing
 
-    return result;
-  }
+    source.piece!.moveTo(destination);
+
+    console.log(
+      positions.filter((pos) => pos.piece).map((pos) => pos.piece!).length
+    );
+
+    return true;
+  };
+
+  useEffect(() => {
+    console.log("move is maded");
+    updateMoves();
+    console.log("position is updated");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isWhiteTurnToMove]);
 
   return (
-    <div className="chess-game-wrapper">
-      <ChessBoard
-        isWhiteTurn={isWhiteTurn}
-        initPositions={board.positions}
-        movePiece={movePieceToPositionCallback}
-        tryToMovePiece={tryToMovePieceToCallback}
-        toggleTurn={toggleTurn}
-        updateMoves={updateMovesCallback}
-      ></ChessBoard>
-      <div>
-        It is {isWhiteTurn ? "white turn to move" : "black turn to move"}
+    <Fragment>
+      <div className="chess-game-wrapper">
+        <ChessBoard performMove={performMoveHandler}></ChessBoard>
       </div>
-      <div>Game state is {gameState}</div>
-    </div>
+      <div>
+        It is {isWhiteTurnToMove ? "white turn to move" : "black turn to move"}
+      </div>
+      <div>Game state: {gameState}</div>
+    </Fragment>
   );
 }
