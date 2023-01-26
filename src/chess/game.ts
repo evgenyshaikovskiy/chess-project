@@ -1,4 +1,5 @@
 import { King } from "./pieces/king";
+import { Pawn } from "./pieces/pawn";
 import { Position } from "./position";
 import { Color } from "./types";
 
@@ -192,5 +193,42 @@ export const moveFromSourceToDestination = (
   } else {
     // first and second case
     source.piece!.moveTo(destination);
+  }
+};
+
+export const returnPawnToPromoteIfExists = (positions: Position[]): Pawn | undefined => {
+  const pawns = positions.filter((p) => p.piece && p.piece.isPawn).map(p => p.piece!) as Pawn[];
+  return pawns.find((p) => p.isReadyToPromote);
+}
+
+export const isMoveIllegal = (
+  source: Position,
+  destination: Position,
+  positions: Position[]
+): boolean => {
+  const color = source.piece!.color;
+  const positionsCopy = positions.map((p) => p.clone());
+
+  const sourceCopy = findPositionByNumericValue(
+    positionsCopy,
+    source.numeric_key
+  );
+  const destinationCopy = findPositionByNumericValue(
+    positionsCopy,
+    destination.numeric_key
+  );
+
+  moveFromSourceToDestination(sourceCopy, destinationCopy, positionsCopy);
+
+  unTargetAllPositions(positionsCopy);
+  updateMovesForPositions(positionsCopy);
+
+  const whiteKingLocal = findKingPosition(positionsCopy, Color.WHITE);
+  const blackKingLocal = findKingPosition(positionsCopy, Color.BLACK);
+
+  if (color === Color.WHITE) {
+    return whiteKingLocal!.isTargetedByBlackPiece;
+  } else {
+    return blackKingLocal!.isTargetedByWhitePiece;
   }
 };

@@ -10,7 +10,7 @@ import "./chess-board.styles.scss";
 import { Color } from "../../chess/types";
 
 type ChessBoardProps = {
-  performMove: (source: Position, destination: Position) => boolean;
+  performMove: (source: Position, destination: Position) => Promise<boolean>;
 };
 
 export const ChessBoard = ({ performMove }: ChessBoardProps) => {
@@ -19,8 +19,8 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
     selectedPiece,
     isWhiteTurnToMove,
     pickPiece,
-    transferRightToMove,
     modifyPositions,
+    transferRightToMove
   } = useContext(GameContext);
 
   const [highlightedSquares, setHighlightedSquares] = useState<Position[]>([]);
@@ -51,15 +51,18 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
     }
 
     // move logic
+    // remove useless boolean value
     if (selectedPiece && isHighlighted) {
-      if (performMove(selectedPiece.position, position)) {
-        setHighlightedSquares([]);
-        pickPiece(null);
-        transferRightToMove();
-        setHorizontalAxis([...horizontalAxis.reverse()]);
-        setVerticalAxis([...verticalAxis.reverse()]);
-        modifyPositions([...positions.reverse()]);
-      }
+      performMove(selectedPiece.position, position).then((val) => {
+        if (val) {
+          setHighlightedSquares([]);
+          pickPiece(null);
+          setHorizontalAxis([...horizontalAxis.reverse()]);
+          setVerticalAxis([...verticalAxis.reverse()]);
+          modifyPositions([...positions.reverse()]);
+          transferRightToMove();
+        }
+      })
     }
 
     // hide highlighting and reset piece if clicking on not highlighted square

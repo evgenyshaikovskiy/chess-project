@@ -6,6 +6,7 @@ import { Color } from "../types";
 
 export class Pawn extends Piece {
   private pawnDirection: number;
+  public isReadyToPromote: boolean;
 
   constructor(
     position: Position,
@@ -17,6 +18,7 @@ export class Pawn extends Piece {
     // black pawns moves downwards, white upwards
     this.pawnDirection = color === "white" ? 1 : -1;
     this.isFirstMove = true;
+    this.isReadyToPromote = false;
   }
 
   public updatePossibleMoves(positions: Position[]): void {
@@ -114,4 +116,17 @@ export class Pawn extends Piece {
   public clone(): Piece {
     return new Pawn(this.position, this.color, this.possibleMoves);
   }
+
+  public moveTo(position: Position): void {
+    if (this.isFirstMove) {
+      this.isFirstMove = false;
+    }
+
+    position.placePiece(this);
+
+    if ((this.pawnDirection === -1 && position.y === 0) || (this.pawnDirection === 1 && position.y === 9)) {
+      this.isReadyToPromote = true;
+    }
+  }
+
 }

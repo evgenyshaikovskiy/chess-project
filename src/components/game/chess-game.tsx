@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import ChessBoard from "../board/chess-board";
 import { Position } from "../../chess/position";
 import { GameContext } from "../../contexts/game.context";
@@ -6,62 +6,40 @@ import { Color } from "../../chess/types";
 import {
   findKingPosition,
   findPositionByNumericValue,
+  isMoveIllegal,
   moveFromSourceToDestination,
+  returnPawnToPromoteIfExists,
   unTargetAllPositions,
   updateCastlingMove,
   updateMovesForPositions,
 } from "../../chess/game";
 import { King } from "../../chess/pieces/king";
+import ModalWindow from "../ui/modal/modal";
+import PromotionSelector from "../ui/promotion-selector/promotion-selector";
+import { Piece } from "../../chess/piece";
+import useModal from "../../hooks/useModal";
 
 export default function ChessGame() {
   const { isWhiteTurnToMove, gameState, positions, modifyPositions } =
     useContext(GameContext);
 
-  const updateMoves = () => {
-    // un target all positions
+  const modal = useModal();
+
+  useEffect(() => {
+    actionsPerMove();
+    console.log("first render");
+  }, []);
+
+  const actionsPerMove = () => {
     unTargetAllPositions(positions);
-
-    // update possible moves for each piece
-    // THINK ABOUT BUG, WHEN MOVE IS ILLEGAL, YET IT TARGETS SQUARE
     updateMovesForPositions(positions);
-
-    const isMoveIllegal = (
-      source: Position,
-      destination: Position
-    ): boolean => {
-      const color = source.piece!.color;
-      const positionsCopy = positions.map((p) => p.clone());
-
-      const sourceCopy = findPositionByNumericValue(
-        positionsCopy,
-        source.numeric_key
-      );
-      const destinationCopy = findPositionByNumericValue(
-        positionsCopy,
-        destination.numeric_key
-      );
-
-      moveFromSourceToDestination(sourceCopy, destinationCopy, positionsCopy);
-
-      unTargetAllPositions(positionsCopy);
-      updateMovesForPositions(positionsCopy);
-
-      const whiteKingLocal = findKingPosition(positionsCopy, Color.WHITE);
-      const blackKingLocal = findKingPosition(positionsCopy, Color.BLACK);
-
-      if (color === Color.WHITE) {
-        return whiteKingLocal!.isTargetedByBlackPiece;
-      } else {
-        return blackKingLocal!.isTargetedByWhitePiece;
-      }
-    };
 
     // could be refactored
     positions
       .filter((pos) => pos.piece)
       .forEach((pos) => {
         const legalMoves = pos.piece!.possibleMoves.filter(
-          (destination) => !isMoveIllegal(pos, destination)
+          (destination) => !isMoveIllegal(pos, destination, positions)
         ) as Position[];
 
         pos.piece!.possibleMoves = [...legalMoves];
@@ -72,27 +50,37 @@ export default function ChessGame() {
 
     updateCastlingMove(whiteKing, positions);
     updateCastlingMove(blackKing, positions);
-
     modifyPositions([...positions]);
   };
 
   // refactor this later
-  const performMoveHandler = (
+  const performMoveHandler = async (
     source: Position,
     destination: Position
-  ): boolean => {
+  ): Promise<boolean> => {
     moveFromSourceToDestination(source, destination, positions);
+    actionsPerMove();
+
+    const possiblePromotionPawn = returnPawnToPromoteIfExists(positions);
+    if (possiblePromotionPawn) {
+      const result = await modal.open("bla-bla");
+
+      findPositionByNumericValue(
+        positions,
+        possiblePromotionPawn.position.numeric_key
+      ).placePiece(result as Piece);
+    }
 
     return true;
   };
 
-  useEffect(() => {
-    updateMoves();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isWhiteTurnToMove]);
-
   return (
     <Fragment>
+      <PromotionSelector
+        submit={modal.submit}
+        visible={modal.opened}
+        color={isWhiteTurnToMove ? Color.WHITE : Color.BLACK}
+      ></PromotionSelector>
       <div className="chess-game-wrapper">
         <ChessBoard performMove={performMoveHandler}></ChessBoard>
       </div>
