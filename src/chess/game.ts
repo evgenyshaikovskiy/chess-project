@@ -196,10 +196,14 @@ export const moveFromSourceToDestination = (
   }
 };
 
-export const returnPawnToPromoteIfExists = (positions: Position[]): Pawn | undefined => {
-  const pawns = positions.filter((p) => p.piece && p.piece.isPawn).map(p => p.piece!) as Pawn[];
+export const returnPawnToPromoteIfExists = (
+  positions: Position[]
+): Pawn | undefined => {
+  const pawns = positions
+    .filter((p) => p.piece && p.piece.isPawn)
+    .map((p) => p.piece!) as Pawn[];
   return pawns.find((p) => p.isReadyToPromote);
-}
+};
 
 export const isMoveIllegal = (
   source: Position,

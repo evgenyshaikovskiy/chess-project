@@ -20,7 +20,7 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
     isWhiteTurnToMove,
     pickPiece,
     modifyPositions,
-    transferRightToMove
+    transferRightToMove,
   } = useContext(GameContext);
 
   const [highlightedSquares, setHighlightedSquares] = useState<Position[]>([]);
@@ -62,7 +62,7 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
           modifyPositions([...positions.reverse()]);
           transferRightToMove();
         }
-      })
+      });
     }
 
     // hide highlighting and reset piece if clicking on not highlighted square

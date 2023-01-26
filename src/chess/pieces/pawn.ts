@@ -124,9 +124,11 @@ export class Pawn extends Piece {
 
     position.placePiece(this);
 
-    if ((this.pawnDirection === -1 && position.y === 0) || (this.pawnDirection === 1 && position.y === 9)) {
+    if (
+      (this.pawnDirection === -1 && position.y === 0) ||
+      (this.pawnDirection === 1 && position.y === 9)
+    ) {
       this.isReadyToPromote = true;
     }
   }
-
 }

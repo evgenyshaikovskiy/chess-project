@@ -22,7 +22,7 @@ export const GameContext = createContext<GameContextType>({
   selectedPiece: null,
   isWhiteTurnToMove: true,
   positions: defaultPositions.flatMap((x) => x.reverse()).reverse(),
-  gameState: GameState.GameIsRunning,
+  gameState: GameState.GAME_IS_RUNNING,
   pawnToPromote: null,
   pickPiece: () => {},
   transferRightToMove: () => {},
@@ -42,7 +42,7 @@ export const GameContextProvider = ({ children }: GameContextProviderProps) => {
     defaultPositions.flatMap((x) => x.reverse()).reverse()
   );
   const [gameState, setGameState] = useState<GameState>(
-    GameState.GameIsRunning
+    GameState.GAME_IS_RUNNING
   );
   const [pawnToPromote, selectPromotionPiece] = useState<Piece | null>(null);
 

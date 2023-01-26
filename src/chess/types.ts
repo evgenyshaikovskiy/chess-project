@@ -14,11 +14,15 @@ export enum PieceType {
 }
 
 export enum GameState {
-  BlackVictory = "Black Victory!",
-  GameIsRunning = "Game is still on!",
-  WhiteVictory = "White Victory!",
-  DrawByRepetition = "Draw by repetition",
-  Stalemate = "Stalemate!",
-  WhiteKingIsChecked = "Check for white king!",
-  BlackKingIsChecked = "Check for black king!",
+  BLACK_VICTORY = "Black Victory!",
+  GAME_IS_RUNNING = "Game is still on!",
+  WHITE_VICTORY = "White Victory!",
+  DRAW_BY_REPETITION = "Draw by repetition",
+  STALEMATE = "Stalemate!",
+}
+
+export enum GameCheckState {
+  WHITE_KING_CHECK = "Check for white king!",
+  BLACK_KING_CHECK = "Check for black king!",
+  NO_CHECKS = "No check for any king",
 }
