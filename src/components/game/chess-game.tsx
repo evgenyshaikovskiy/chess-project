@@ -1,20 +1,17 @@
-import { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect } from "react";
 import ChessBoard from "../board/chess-board";
 import { Position } from "../../chess/position";
 import { GameContext } from "../../contexts/game.context";
 import { Color } from "../../chess/types";
 import {
-  findKingPosition,
+  excludeIllegalMoves,
   findPositionByNumericValue,
-  isMoveIllegal,
   moveFromSourceToDestination,
   returnPawnToPromoteIfExists,
   unTargetAllPositions,
-  updateCastlingMove,
+  updateCastlingMoves,
   updateMovesForPositions,
 } from "../../chess/game";
-import { King } from "../../chess/pieces/king";
-import ModalWindow from "../ui/modal/modal";
 import PromotionSelector from "../ui/promotion-selector/promotion-selector";
 import { Piece } from "../../chess/piece";
 import useModal from "../../hooks/useModal";
@@ -25,32 +22,18 @@ export default function ChessGame() {
 
   const modal = useModal();
 
+  // update state for first move
   useEffect(() => {
-    actionsPerMove();
-    console.log("first render");
+    updateBoardState();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const actionsPerMove = () => {
+  const updateBoardState = () => {
     unTargetAllPositions(positions);
     updateMovesForPositions(positions);
-
-    // could be refactored
-    positions
-      .filter((pos) => pos.piece)
-      .forEach((pos) => {
-        const legalMoves = pos.piece!.possibleMoves.filter(
-          (destination) => !isMoveIllegal(pos, destination, positions)
-        ) as Position[];
-
-        pos.piece!.possibleMoves = [...legalMoves];
-      });
-
-    let whiteKing = findKingPosition(positions, Color.WHITE).piece! as King;
-    let blackKing = findKingPosition(positions, Color.BLACK).piece! as King;
-
-    updateCastlingMove(whiteKing, positions);
-    updateCastlingMove(blackKing, positions);
-    modifyPositions([...positions]);
+    excludeIllegalMoves(positions);
+    updateCastlingMoves(positions);
+    modifyPositions(positions);
   };
 
   // refactor this later
@@ -59,11 +42,12 @@ export default function ChessGame() {
     destination: Position
   ): Promise<boolean> => {
     moveFromSourceToDestination(source, destination, positions);
-    actionsPerMove();
+    updateBoardState();
 
+    // extract code to function
     const possiblePromotionPawn = returnPawnToPromoteIfExists(positions);
     if (possiblePromotionPawn) {
-      const result = await modal.open("bla-bla");
+      const result = await modal.open();
 
       findPositionByNumericValue(
         positions,

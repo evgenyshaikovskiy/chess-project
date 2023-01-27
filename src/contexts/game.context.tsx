@@ -2,20 +2,20 @@ import { createContext, useState } from "react";
 import { Piece } from "../chess/piece";
 import { Position } from "../chess/position";
 import { defaultPositions } from "../chess/constants";
-import { GameState } from "../chess/types";
+import { GameCheckState, GameState } from "../chess/types";
 
-// reflects context of game during unit of time(aka move)
+// reflects context of game during unit of time
 interface GameContextType {
   selectedPiece: Piece | null;
   isWhiteTurnToMove: boolean;
   positions: Position[];
   gameState: GameState;
-  pawnToPromote: Piece | null;
+  checkState: GameCheckState;
   pickPiece: (piece: Piece | null) => void;
   transferRightToMove: () => void;
   modifyPositions: (positions: Position[]) => void;
   modifyGameState: (state: GameState) => void;
-  selectPromotionPiece: (piece: Piece | null) => void;
+  modifyCheckState: (state: GameCheckState) => void;
 }
 
 export const GameContext = createContext<GameContextType>({
@@ -23,12 +23,12 @@ export const GameContext = createContext<GameContextType>({
   isWhiteTurnToMove: true,
   positions: defaultPositions.flatMap((x) => x.reverse()).reverse(),
   gameState: GameState.GAME_IS_RUNNING,
-  pawnToPromote: null,
+  checkState: GameCheckState.NO_CHECKS,
   pickPiece: () => {},
   transferRightToMove: () => {},
   modifyPositions: () => {},
   modifyGameState: () => {},
-  selectPromotionPiece: () => {},
+  modifyCheckState: () => {},
 });
 
 type GameContextProviderProps = {
@@ -44,7 +44,9 @@ export const GameContextProvider = ({ children }: GameContextProviderProps) => {
   const [gameState, setGameState] = useState<GameState>(
     GameState.GAME_IS_RUNNING
   );
-  const [pawnToPromote, selectPromotionPiece] = useState<Piece | null>(null);
+  const [checkState, setCheckState] = useState<GameCheckState>(
+    GameCheckState.NO_CHECKS
+  );
 
   const pickPiece = (piece: Piece | null) => {
     setSelectedPiece(piece);
@@ -62,21 +64,21 @@ export const GameContextProvider = ({ children }: GameContextProviderProps) => {
     setGameState(state);
   };
 
-  // const pickPromotionPiece = (piece: Piece | null) => {
-  //   selectPromotionPiece(piece);
-  // };
+  const modifyCheckState = (state: GameCheckState) => {
+    setCheckState(state);
+  };
 
   const value = {
     selectedPiece,
     isWhiteTurnToMove,
     positions,
     gameState,
-    pawnToPromote,
+    checkState,
     pickPiece,
     transferRightToMove,
     modifyPositions,
     modifyGameState,
-    selectPromotionPiece,
+    modifyCheckState,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

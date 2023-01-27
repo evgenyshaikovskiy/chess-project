@@ -12,7 +12,7 @@ const useModal = (
 
   const [opened, setOpened] = useState<boolean>(initialState);
 
-  const open = useCallback((data: any) => {
+  const open = useCallback((data?: any) => {
     setOpened(true);
     state.data = data;
     return new Promise((resolve) => {

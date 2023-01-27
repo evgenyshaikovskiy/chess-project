@@ -25,7 +25,7 @@ export const findPositionByNumericValue = (
   ) as Position;
 };
 
-export const findKingPosition = (
+const findKingPosition = (
   positions: Position[],
   color: Color
 ): Position => {
@@ -82,7 +82,7 @@ export const findMoves = (
   return moves;
 };
 
-export const isCastlingLegal = (
+const isCastlingLegal = (
   current_x: number,
   current_y: number,
   x_direction: number,
@@ -120,7 +120,7 @@ export const isCastlingLegal = (
   }
 };
 
-export const updateCastlingMove = (king: King, positions: Position[]): void => {
+const updateKingCastlingMove = (king: King, positions: Position[]): void => {
   if (king.isFirstMove) {
     const shortCastleMove = isCastlingLegal(
       king.position.x,
@@ -150,7 +150,7 @@ export const updateCastlingMove = (king: King, positions: Position[]): void => {
   }
 };
 
-export const performCastling = (
+const performCastling = (
   kingPosition: Position,
   rookPosition: Position,
   positions: Position[]
@@ -236,3 +236,23 @@ export const isMoveIllegal = (
     return blackKingLocal!.isTargetedByWhitePiece;
   }
 };
+
+export const excludeIllegalMoves = (positions: Position[]) => {
+  positions
+      .filter((pos) => pos.piece)
+      .forEach((pos) => {
+        const legalMoves = pos.piece!.possibleMoves.filter(
+          (destination) => !isMoveIllegal(pos, destination, positions)
+        ) as Position[];
+
+        pos.piece!.possibleMoves = [...legalMoves];
+      });
+}
+
+export const updateCastlingMoves = (positions: Position[]) => {
+  let whiteKing = findKingPosition(positions, Color.WHITE).piece! as King;
+  let blackKing = findKingPosition(positions, Color.BLACK).piece! as King;
+
+  updateKingCastlingMove(whiteKing, positions);
+  updateKingCastlingMove(blackKing, positions);
+}
