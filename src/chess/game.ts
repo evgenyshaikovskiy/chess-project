@@ -1,7 +1,7 @@
 import { King } from "./pieces/king";
 import { Pawn } from "./pieces/pawn";
 import { Position } from "./position";
-import { Color } from "./types";
+import { Color, GameCheckState, GameState } from "./types";
 
 export const unTargetAllPositions = (positions: Position[]) => {
   positions.forEach((position) => {
@@ -25,10 +25,7 @@ export const findPositionByNumericValue = (
   ) as Position;
 };
 
-const findKingPosition = (
-  positions: Position[],
-  color: Color
-): Position => {
+const findKingPosition = (positions: Position[], color: Color): Position => {
   return positions.find(
     (pos) => pos.piece?.isKing && pos.piece.color === color
   ) as Position;
@@ -239,20 +236,87 @@ export const isMoveIllegal = (
 
 export const excludeIllegalMoves = (positions: Position[]) => {
   positions
-      .filter((pos) => pos.piece)
-      .forEach((pos) => {
-        const legalMoves = pos.piece!.possibleMoves.filter(
-          (destination) => !isMoveIllegal(pos, destination, positions)
-        ) as Position[];
+    .filter((pos) => pos.piece)
+    .forEach((pos) => {
+      const legalMoves = pos.piece!.possibleMoves.filter(
+        (destination) => !isMoveIllegal(pos, destination, positions)
+      ) as Position[];
 
-        pos.piece!.possibleMoves = [...legalMoves];
-      });
-}
+      pos.piece!.possibleMoves = [...legalMoves];
+    });
+};
 
 export const updateCastlingMoves = (positions: Position[]) => {
-  let whiteKing = findKingPosition(positions, Color.WHITE).piece! as King;
-  let blackKing = findKingPosition(positions, Color.BLACK).piece! as King;
+  const whiteKing = findKingPosition(positions, Color.WHITE).piece! as King;
+  const blackKing = findKingPosition(positions, Color.BLACK).piece! as King;
 
   updateKingCastlingMove(whiteKing, positions);
   updateKingCastlingMove(blackKing, positions);
-}
+};
+
+export const updateGameState = (
+  positions: Position[],
+  checkState: GameCheckState,
+  isWhiteToMove: boolean
+): GameState => {
+  const whitePossibleMoves = getPossibleMovesForColor(positions, Color.WHITE);
+  const blackPossibleMoves = getPossibleMovesForColor(positions, Color.BLACK);
+
+  // stalemate condition
+  if (
+    (!isWhiteToMove &&
+      whitePossibleMoves.length === 0 &&
+      checkState !== GameCheckState.WHITE_KING_CHECKED) ||
+    (isWhiteToMove &&
+      blackPossibleMoves.length === 0 &&
+      checkState !== GameCheckState.BLACK_KING_CHECKED)
+  )
+    return GameState.STALEMATE;
+
+  // white victory
+  if (
+    isWhiteToMove &&
+    blackPossibleMoves.length === 0 &&
+    checkState === GameCheckState.BLACK_KING_CHECKED
+  ) {
+    return GameState.WHITE_VICTORY;
+  }
+
+  // black victory
+  if (
+    !isWhiteToMove &&
+    whitePossibleMoves.length === 0 &&
+    checkState === GameCheckState.WHITE_KING_CHECKED
+  ) {
+    return GameState.BLACK_VICTORY;
+  }
+
+  return GameState.GAME_IS_RUNNING;
+};
+
+export const updateCheckState = (positions: Position[]) => {
+  const whiteKingCheck = (
+    findKingPosition(positions, Color.WHITE).piece! as King
+  ).position.isTargetedByBlackPiece;
+  const blackKingCheck = (
+    findKingPosition(positions, Color.BLACK).piece! as King
+  ).position.isTargetedByWhitePiece;
+
+  if (whiteKingCheck) {
+    return GameCheckState.WHITE_KING_CHECKED;
+  } else if (blackKingCheck) {
+    return GameCheckState.BLACK_KING_CHECKED;
+  }
+
+  return GameCheckState.NO_CHECKS;
+};
+
+const getPossibleMovesForColor = (
+  positions: Position[],
+  color: Color
+): Position[] => {
+  return positions
+    .filter((pos) => pos.piece && pos.piece.color === color)
+    .map((pos) => pos.piece!.possibleMoves)
+    .flatMap((x) => x);
+};

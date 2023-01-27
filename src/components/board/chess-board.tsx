@@ -8,6 +8,7 @@ import { Position } from "../../chess/position";
 
 import "./chess-board.styles.scss";
 import { Color } from "../../chess/types";
+import { updateCheckState, updateGameState } from "../../chess/game";
 
 type ChessBoardProps = {
   performMove: (source: Position, destination: Position) => Promise<boolean>;
@@ -18,6 +19,10 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
     positions,
     selectedPiece,
     isWhiteTurnToMove,
+    checkState,
+    gameState,
+    modifyGameState,
+    modifyCheckState,
     pickPiece,
     modifyPositions,
     transferRightToMove,
@@ -59,8 +64,22 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
           pickPiece(null);
           setHorizontalAxis([...horizontalAxis.reverse()]);
           setVerticalAxis([...verticalAxis.reverse()]);
-          modifyPositions([...positions.reverse()]);
+          modifyPositions(positions.reverse());
+
+          console.log(isWhiteTurnToMove);
+          console.log(checkState);
+          modifyCheckState(updateCheckState(positions));
+          console.log(checkState);
+
+          console.log(gameState);
+          modifyGameState(
+            updateGameState(positions, checkState, isWhiteTurnToMove)
+          );
+          console.log(gameState);
+
           transferRightToMove();
+
+          console.log(isWhiteTurnToMove);
         }
       });
     }
@@ -105,5 +124,3 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
     </div>
   );
 };
-
-export default ChessBoard;

@@ -1,5 +1,5 @@
 import { Fragment, useContext, useEffect } from "react";
-import ChessBoard from "../board/chess-board";
+import { ChessBoard } from "../board/chess-board";
 import { Position } from "../../chess/position";
 import { GameContext } from "../../contexts/game.context";
 import { Color } from "../../chess/types";
@@ -17,8 +17,13 @@ import { Piece } from "../../chess/piece";
 import useModal from "../../hooks/useModal";
 
 export default function ChessGame() {
-  const { isWhiteTurnToMove, gameState, positions, modifyPositions } =
-    useContext(GameContext);
+  const {
+    isWhiteTurnToMove,
+    gameState,
+    checkState,
+    positions,
+    modifyPositions,
+  } = useContext(GameContext);
 
   const modal = useModal();
 
@@ -42,7 +47,6 @@ export default function ChessGame() {
     destination: Position
   ): Promise<boolean> => {
     moveFromSourceToDestination(source, destination, positions);
-    updateBoardState();
 
     // extract code to function
     const possiblePromotionPawn = returnPawnToPromoteIfExists(positions);
@@ -55,6 +59,7 @@ export default function ChessGame() {
       ).placePiece(result as Piece);
     }
 
+    updateBoardState();
     return true;
   };
 
@@ -68,9 +73,7 @@ export default function ChessGame() {
       <div className="chess-game-wrapper">
         <ChessBoard performMove={performMoveHandler}></ChessBoard>
       </div>
-      <div>
-        It is {isWhiteTurnToMove ? "white turn to move" : "black turn to move"}
-      </div>
+      <div>Check state: {checkState}</div>
       <div>Game state: {gameState}</div>
     </Fragment>
   );

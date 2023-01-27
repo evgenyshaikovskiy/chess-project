@@ -3,6 +3,7 @@ import { Piece } from "../chess/piece";
 import { Position } from "../chess/position";
 import { defaultPositions } from "../chess/constants";
 import { GameCheckState, GameState } from "../chess/types";
+import useToggle from "../hooks/useToggle";
 
 // reflects context of game during unit of time
 interface GameContextType {
@@ -37,7 +38,7 @@ type GameContextProviderProps = {
 
 export const GameContextProvider = ({ children }: GameContextProviderProps) => {
   const [selectedPiece, setSelectedPiece] = useState<Piece | null>(null);
-  const [isWhiteTurnToMove, setIsWhiteTurnToMove] = useState<boolean>(true);
+  const [isWhiteTurnToMove, toggle] = useToggle(true);
   const [positions, setPositions] = useState<Position[]>(
     defaultPositions.flatMap((x) => x.reverse()).reverse()
   );
@@ -53,7 +54,7 @@ export const GameContextProvider = ({ children }: GameContextProviderProps) => {
   };
 
   const transferRightToMove = () => {
-    setIsWhiteTurnToMove(!isWhiteTurnToMove);
+    toggle();
   };
 
   const modifyPositions = (positions: Position[]) => {

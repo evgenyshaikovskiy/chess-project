@@ -22,7 +22,7 @@ export enum GameState {
 }
 
 export enum GameCheckState {
-  WHITE_KING_CHECK = "Check for white king!",
-  BLACK_KING_CHECK = "Check for black king!",
+  WHITE_KING_CHECKED = "Check for white king!",
+  BLACK_KING_CHECKED = "Check for black king!",
   NO_CHECKS = "No check for any king",
 }
