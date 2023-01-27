@@ -1,7 +1,7 @@
 import { King } from "./pieces/king";
 import { Pawn } from "./pieces/pawn";
 import { Position } from "./position";
-import { Color, GameCheckState, GameState } from "./types";
+import { Color, GameState } from "./types";
 
 export const unTargetAllPositions = (positions: Position[]) => {
   positions.forEach((position) => {
@@ -256,45 +256,11 @@ export const updateCastlingMoves = (positions: Position[]) => {
 
 export const updateGameState = (
   positions: Position[],
-  checkState: GameCheckState,
   isWhiteToMove: boolean
 ): GameState => {
   const whitePossibleMoves = getPossibleMovesForColor(positions, Color.WHITE);
   const blackPossibleMoves = getPossibleMovesForColor(positions, Color.BLACK);
 
-  // stalemate condition
-  if (
-    (!isWhiteToMove &&
-      whitePossibleMoves.length === 0 &&
-      checkState !== GameCheckState.WHITE_KING_CHECKED) ||
-    (isWhiteToMove &&
-      blackPossibleMoves.length === 0 &&
-      checkState !== GameCheckState.BLACK_KING_CHECKED)
-  )
-    return GameState.STALEMATE;
-
-  // white victory
-  if (
-    isWhiteToMove &&
-    blackPossibleMoves.length === 0 &&
-    checkState === GameCheckState.BLACK_KING_CHECKED
-  ) {
-    return GameState.WHITE_VICTORY;
-  }
-
-  // black victory
-  if (
-    !isWhiteToMove &&
-    whitePossibleMoves.length === 0 &&
-    checkState === GameCheckState.WHITE_KING_CHECKED
-  ) {
-    return GameState.BLACK_VICTORY;
-  }
-
-  return GameState.GAME_IS_RUNNING;
-};
-
-export const updateCheckState = (positions: Position[]) => {
   const whiteKingCheck = (
     findKingPosition(positions, Color.WHITE).piece! as King
   ).position.isTargetedByBlackPiece;
@@ -302,13 +268,26 @@ export const updateCheckState = (positions: Position[]) => {
     findKingPosition(positions, Color.BLACK).piece! as King
   ).position.isTargetedByWhitePiece;
 
-  if (whiteKingCheck) {
-    return GameCheckState.WHITE_KING_CHECKED;
-  } else if (blackKingCheck) {
-    return GameCheckState.BLACK_KING_CHECKED;
+  console.log(whiteKingCheck, blackKingCheck);
+
+  // stalemate condition
+  if (
+    (!isWhiteToMove && whitePossibleMoves.length === 0 && !whiteKingCheck) ||
+    (isWhiteToMove && blackPossibleMoves.length === 0 && !blackKingCheck)
+  )
+    return GameState.STALEMATE;
+
+  // white victory
+  if (isWhiteToMove && blackPossibleMoves.length === 0 && blackKingCheck) {
+    return GameState.WHITE_VICTORY;
   }
 
-  return GameCheckState.NO_CHECKS;
+  // black victory
+  if (!isWhiteToMove && whitePossibleMoves.length === 0 && whiteKingCheck) {
+    return GameState.BLACK_VICTORY;
+  }
+
+  return GameState.GAME_IS_RUNNING;
 };
 
 const getPossibleMovesForColor = (

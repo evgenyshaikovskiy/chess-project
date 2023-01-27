@@ -20,9 +20,3 @@ export enum GameState {
   DRAW_BY_REPETITION = "Draw by repetition",
   STALEMATE = "Stalemate!",
 }
-
-export enum GameCheckState {
-  WHITE_KING_CHECKED = "Check for white king!",
-  BLACK_KING_CHECKED = "Check for black king!",
-  NO_CHECKS = "No check for any king",
-}
