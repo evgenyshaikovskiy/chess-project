@@ -1,11 +1,12 @@
-import { PieceType } from "./../types";
+import { calculateNumericKey } from "./../game";
+import { PieceType } from "../types";
 import { Piece } from "../piece";
 import { Position } from "../position";
 import { Color } from "../types";
 
 export class Pawn extends Piece {
   private pawnDirection: number;
-  private isFirstMove: boolean;
+  public isReadyToPromote: boolean;
 
   constructor(
     position: Position,
@@ -17,6 +18,7 @@ export class Pawn extends Piece {
     // black pawns moves downwards, white upwards
     this.pawnDirection = color === "white" ? 1 : -1;
     this.isFirstMove = true;
+    this.isReadyToPromote = false;
   }
 
   public updatePossibleMoves(positions: Position[]): void {
@@ -28,14 +30,14 @@ export class Pawn extends Piece {
     const oneSquareForwardKey =
       this.position.y === 0 || this.position.y === 9
         ? -1
-        : Position.calculateNumericKey(
+        : calculateNumericKey(
             this.position.x,
-            this.position.y + this.pawnDirection * 1
+            this.position.y + this.pawnDirection
           );
 
     const twoSquareForwardKey = !this.isFirstMove
       ? -1
-      : Position.calculateNumericKey(
+      : calculateNumericKey(
           this.position.x,
           this.position.y + this.pawnDirection * 2
         );
@@ -43,17 +45,17 @@ export class Pawn extends Piece {
     const leftSquareCaptureKey =
       this.position.x === 0
         ? -1
-        : Position.calculateNumericKey(
+        : calculateNumericKey(
             this.position.x - 1,
-            this.position.y + this.pawnDirection * 1
+            this.position.y + this.pawnDirection
           );
 
     const rightSquareCaptureKey =
       this.position.x === 9
         ? -1
-        : Position.calculateNumericKey(
+        : calculateNumericKey(
             this.position.x + 1,
-            this.position.y + this.pawnDirection * 1
+            this.position.y + this.pawnDirection
           );
 
     // switch to const??
@@ -109,8 +111,10 @@ export class Pawn extends Piece {
         rightSquareCapturePos!.isTargetedByBlackPiece = true;
       }
     }
+  }
 
-    // this.targetSquares();
+  public clone(): Piece {
+    return new Pawn(this.position, this.color, this.possibleMoves);
   }
 
   public moveTo(position: Position): void {
@@ -119,5 +123,12 @@ export class Pawn extends Piece {
     }
 
     position.placePiece(this);
+
+    if (
+      (this.pawnDirection === -1 && position.y === 0) ||
+      (this.pawnDirection === 1 && position.y === 9)
+    ) {
+      this.isReadyToPromote = true;
+    }
   }
 }

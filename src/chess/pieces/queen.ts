@@ -1,4 +1,5 @@
-import { PieceType } from "./../types";
+import { findMoves } from "./../game";
+import { PieceType } from "../types";
 import { Piece } from "../piece";
 import { Position } from "../position";
 import { Color } from "../types";
@@ -17,7 +18,7 @@ export class Queen extends Piece {
 
     if (this.position.y !== 9) {
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           0,
@@ -27,7 +28,7 @@ export class Queen extends Piece {
         )
       );
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           1,
@@ -37,7 +38,7 @@ export class Queen extends Piece {
         )
       );
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           -1,
@@ -50,7 +51,7 @@ export class Queen extends Piece {
 
     if (this.position.y !== 0) {
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           0,
@@ -61,7 +62,7 @@ export class Queen extends Piece {
       );
 
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           1,
@@ -72,7 +73,7 @@ export class Queen extends Piece {
       );
 
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           -1,
@@ -85,7 +86,7 @@ export class Queen extends Piece {
 
     if (this.position.x !== 0) {
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           -1,
@@ -98,7 +99,7 @@ export class Queen extends Piece {
 
     if (this.position.x !== 9) {
       this.possibleMoves.push(
-        ...Piece.findMoves(
+        ...findMoves(
           this.position.x,
           this.position.y,
           1,
@@ -112,7 +113,7 @@ export class Queen extends Piece {
     this.targetSquares();
   }
 
-  public moveTo(position: Position): void {
-    position.placePiece(this);
+  public clone(): Piece {
+    return new Queen(this.position, this.color, this.possibleMoves);
   }
 }

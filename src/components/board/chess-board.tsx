@@ -1,108 +1,126 @@
-import { Position } from "../../game/position";
-import "./chess-board.styles.scss";
+import { useState, useContext } from "react";
+import { GameContext } from "../../contexts/game.context";
+
 import Tile from "../tile/tile";
-import { useState } from "react";
-import { Piece } from "../../game/piece";
-import { Color } from "../../game/types";
+
+import { HORIZONTAL_AXIS, VERTICAL_AXIS } from "../../chess/constants";
+import { Position } from "../../chess/position";
+
+import "./chess-board.styles.scss";
+import { Color } from "../../chess/types";
+import { updateCheckState, updateGameState } from "../../chess/game";
 
 type ChessBoardProps = {
-  initPositions: Position[];
-  isWhiteTurn: Boolean;
-  toggleTurn: () => void;
-  updateMoves: () => void;
-  movePiece: (piece: Piece, position: Position) => void;
+  performMove: (source: Position, destination: Position) => Promise<boolean>;
 };
 
-export const ChessBoard = ({
-  initPositions,
-  isWhiteTurn,
-  toggleTurn,
-  updateMoves,
-  movePiece,
-}: ChessBoardProps) => {
-  const [positions, setPositions] = useState<Position[]>(initPositions);
-  const [isAllMovesUpdated, setIsAllMovesUpdated] = useState<Boolean>(false);
+export const ChessBoard = ({ performMove }: ChessBoardProps) => {
+  const {
+    positions,
+    selectedPiece,
+    isWhiteTurnToMove,
+    checkState,
+    gameState,
+    modifyGameState,
+    modifyCheckState,
+    pickPiece,
+    modifyPositions,
+    transferRightToMove,
+  } = useContext(GameContext);
+
   const [highlightedSquares, setHighlightedSquares] = useState<Position[]>([]);
-  const [selectedPiece, setSelectedPiece] = useState<Piece>();
+  const [verticalAxis, setVerticalAxis] = useState<string[]>(
+    VERTICAL_AXIS.slice().reverse()
+  );
+  const [horizontalAxis, setHorizontalAxis] =
+    useState<string[]>(HORIZONTAL_AXIS);
 
-  // if all moves aren't updated => update them
-
-  // THERE IS A BUG, THAT HIGHLIGHT OPPONENT PIECES ON YOUR MOVE 
-  if (!isAllMovesUpdated) {
-    updateMoves();
-    setIsAllMovesUpdated(true);
-  }
-
-  // when move is maked, need to set variable to false
-  function onTileClickCallback(position: Position, isHighlighted: boolean) {
-    console.log("clicked", position);
-
-    // occupied tile
-    if (position.isOccupied()) {
-      // it should highlight possible moves for piece on that tile
-
-      console.log("possible moves for square", position.piece?.possibleMoves);
-      setHighlightedSquares([...position.piece!.possibleMoves]);
-
-      // save last selected piece
-      setSelectedPiece(position.piece);
+  const onTileClickHandler = (position: Position, isHighlighted: boolean) => {
+    // update selected piece
+    if (!selectedPiece && position.piece) {
+      pickPiece(position.piece);
     }
 
-    // TO DO probably need to add optimization so
-    // on blacks turn only updating blacks pieces
-    // on whites turn only updating white pieces
+    const isOccupied = position.isOccupied();
 
     if (
-      selectedPiece &&
-      ((selectedPiece.color === Color.WHITE && isWhiteTurn) ||
-        (selectedPiece.color === Color.BLACK && !isWhiteTurn))
+      isOccupied &&
+      ((isWhiteTurnToMove && position.piece?.color === Color.WHITE) ||
+        (!isWhiteTurnToMove && position.piece?.color === Color.BLACK))
     ) {
-      if (isHighlighted) {
-        movePiece(selectedPiece, position);
-        toggleTurn();
-        setHighlightedSquares([]);
-        setSelectedPiece(undefined);
-        setIsAllMovesUpdated(false);
-      }
+      // highlight possible moves
+      setHighlightedSquares([...position.piece!.possibleMoves]);
+
+      // select as last grabbed piece
+      pickPiece(position.piece ? position.piece : null);
     }
 
-    if (!isHighlighted && !position.isOccupied()) {
+    // move logic
+    // remove useless boolean value
+    if (selectedPiece && isHighlighted) {
+      performMove(selectedPiece.position, position).then((val) => {
+        if (val) {
+          setHighlightedSquares([]);
+          pickPiece(null);
+          setHorizontalAxis([...horizontalAxis.reverse()]);
+          setVerticalAxis([...verticalAxis.reverse()]);
+          modifyPositions(positions.reverse());
+
+          console.log(isWhiteTurnToMove);
+          console.log(checkState);
+          modifyCheckState(updateCheckState(positions));
+          console.log(checkState);
+
+          console.log(gameState);
+          modifyGameState(
+            updateGameState(positions, checkState, isWhiteTurnToMove)
+          );
+          console.log(gameState);
+
+          transferRightToMove();
+
+          console.log(isWhiteTurnToMove);
+        }
+      });
+    }
+
+    // hide highlighting and reset piece if clicking on not highlighted square
+    if (!isHighlighted && !isOccupied) {
       setHighlightedSquares([]);
-      setSelectedPiece(undefined);
+      pickPiece(null);
     }
-  }
+  };
 
-  // TODO: refactor so it would pass only position of a tile
-  // careful with rerendering, so it does not call tiles method again
   return (
     <div className="chess-board-wrapper">
-      <div className="tiles-wrapper">
-        {/* could be refactored later */}
-        {positions
-          .flatMap((x) => x)
-          .map((position) => {
-            return (
-              <Tile
-                onTileClick={onTileClickCallback}
-                color={position.tileColor}
-                position={position}
-                image={position.piece?.image}
-                key={position.numeric_key}
-                isHighlighted={highlightedSquares.includes(position)}
-              ></Tile>
-            );
-          })}
+      <div className="chess-board-vertical-axis">
+        {verticalAxis.map((val, index) => (
+          <div className="vertical-axis-element" key={index}>
+            {val}
+          </div>
+        ))}
       </div>
-      <div className="flip-board-btn-wrapper">
-        <button
-          className="flip-board-btn"
-          onClick={() => setPositions([...positions.reverse()])}
-        >
-          Flip Board
-        </button>
+      <div className="chess-board-tiles-wrapper">
+        {positions.map((position) => {
+          return (
+            <Tile
+              onTileClick={onTileClickHandler}
+              color={position.tileColor}
+              position={position}
+              image={position.piece?.image}
+              key={position.numeric_key}
+              isHighlighted={highlightedSquares.includes(position)}
+            ></Tile>
+          );
+        })}
+      </div>
+      <div className="chess-board-horizontal-axis">
+        {horizontalAxis.map((val, index) => (
+          <div className="horizontal-axis-element" key={index}>
+            {val}
+          </div>
+        ))}
       </div>
     </div>
   );
 };
-
-export default ChessBoard;

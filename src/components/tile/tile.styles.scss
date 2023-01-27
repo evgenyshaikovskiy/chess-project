@@ -8,6 +8,9 @@
 
 .black-tile,
 .white-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   place-content: center;
   background-position: center;
   background-repeat: no-repeat;
@@ -25,6 +28,9 @@
 }
 
 .highlighted {
-  background-color: azure;
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  border: 7px solid rgba(50, 50, 50, 0.9);
   cursor: pointer;
 }

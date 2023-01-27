@@ -7,18 +7,19 @@ export abstract class Piece {
   public type: PieceType;
   public possibleMoves: Position[];
   public color: Color;
+  public isFirstMove: boolean;
 
   constructor(
     position: Position,
     type: PieceType,
     color: Color,
-    // maybe be redudant
     possibleMoves: Position[] = []
   ) {
     this.image = `/assets/images/${type}_${color}.png`;
     this.position = position;
     this.type = type;
     this.color = color;
+    this.isFirstMove = true;
     this.possibleMoves = possibleMoves;
   }
 
@@ -31,63 +32,18 @@ export abstract class Piece {
     return this.position.isSamePosition(other);
   }
 
+  public moveTo(position: Position): void {
+    if (this.isFirstMove) {
+      this.isFirstMove = false;
+    }
+
+    position.placePiece(this);
+  }
+
   // abstract methods
   public abstract updatePossibleMoves(positions: Position[]): void;
 
-  public abstract moveTo(position: Position): void;
-
-  public static findMoves(
-    current_x: number,
-    current_y: number,
-    x_direction: number,
-    y_direction: number,
-    positions: Position[],
-    pieceColor: Color,
-    limit = 9
-  ): Position[] {
-    const moves: Position[] = [];
-
-    for (let step = 1; step <= limit; step++) {
-      const targetCoordinateX = current_x + step * x_direction;
-      const targetCoordinateY = current_y + step * y_direction;
-
-      if (
-        targetCoordinateX < 0 ||
-        targetCoordinateX > 9 ||
-        targetCoordinateY < 0 ||
-        targetCoordinateY > 9
-      ) {
-        break;
-      }
-
-      const squareKey = Position.calculateNumericKey(
-        targetCoordinateX,
-        targetCoordinateY
-      );
-      const squarePos = positions.find((p) => p.numeric_key === squareKey);
-
-      if (squarePos) {
-        if (squarePos.isOccupied()) {
-          // move is not available if it is occupied by friendly piece, but nevertheless it is targeted
-          if (pieceColor === Color.WHITE) {
-            squarePos.isTargetedByWhitePiece = true;
-          } else {
-            squarePos.isTargetedByBlackPiece = true;
-          }
-
-          if (squarePos.isOccupiedByOpponent(pieceColor)) {
-            moves.push(squarePos);
-          }
-
-          break;
-        }
-
-        moves.push(squarePos);
-      }
-    }
-
-    return moves;
-  }
+  public abstract clone(): Piece;
 
   public targetSquares() {
     this.possibleMoves.forEach((p) => {

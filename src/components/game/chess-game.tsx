@@ -1,38 +1,80 @@
-import { useState } from "react";
-import { Board } from "../../game/board";
-import { initialBoard } from "../../game/constants";
-import ChessBoard from "../board/chess-board";
-import { Piece } from "../../game/piece";
-import { Position } from "../../game/position";
+import { Fragment, useContext, useEffect } from "react";
+import { ChessBoard } from "../board/chess-board";
+import { Position } from "../../chess/position";
+import { GameContext } from "../../contexts/game.context";
+import { Color } from "../../chess/types";
+import {
+  excludeIllegalMoves,
+  findPositionByNumericValue,
+  moveFromSourceToDestination,
+  returnPawnToPromoteIfExists,
+  unTargetAllPositions,
+  updateCastlingMoves,
+  updateMovesForPositions,
+} from "../../chess/game";
+import PromotionSelector from "../ui/promotion-selector/promotion-selector";
+import { Piece } from "../../chess/piece";
+import useModal from "../../hooks/useModal";
 
 export default function ChessGame() {
-  const [board] = useState<Board>(initialBoard);
-  const [isWhiteTurn, setIsWhiteTurn] = useState<Boolean>(true);
+  const {
+    isWhiteTurnToMove,
+    gameState,
+    checkState,
+    positions,
+    modifyPositions,
+  } = useContext(GameContext);
 
-  function toggleTurn() {
-    setIsWhiteTurn(!isWhiteTurn);
-  }
+  const modal = useModal();
 
-  function updateMovesCallback() {
-    board.updateMovesForAllPieces();
-  }
+  // update state for first move
+  useEffect(() => {
+    updateBoardState();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  function movePieceToPositionCallback(piece: Piece, position: Position) {
-    board.movePieceTo(piece, position);
-  }
+  const updateBoardState = () => {
+    unTargetAllPositions(positions);
+    updateMovesForPositions(positions);
+    excludeIllegalMoves(positions);
+    updateCastlingMoves(positions);
+    modifyPositions(positions);
+  };
+
+  // refactor this later
+  const performMoveHandler = async (
+    source: Position,
+    destination: Position
+  ): Promise<boolean> => {
+    moveFromSourceToDestination(source, destination, positions);
+
+    // extract code to function
+    const possiblePromotionPawn = returnPawnToPromoteIfExists(positions);
+    if (possiblePromotionPawn) {
+      const result = await modal.open();
+
+      findPositionByNumericValue(
+        positions,
+        possiblePromotionPawn.position.numeric_key
+      ).placePiece(result as Piece);
+    }
+
+    updateBoardState();
+    return true;
+  };
 
   return (
-    <div className="chess-game-wrapper">
-      <ChessBoard
-        isWhiteTurn={isWhiteTurn}
-        initPositions={board.positions}
-        movePiece={movePieceToPositionCallback}
-        toggleTurn={toggleTurn}
-        updateMoves={updateMovesCallback}
-      ></ChessBoard>
-      <div>
-        It is {isWhiteTurn ? "white turn to move" : "black turn to move"}
+    <Fragment>
+      <PromotionSelector
+        submit={modal.submit}
+        visible={modal.opened}
+        color={isWhiteTurnToMove ? Color.WHITE : Color.BLACK}
+      ></PromotionSelector>
+      <div className="chess-game-wrapper">
+        <ChessBoard performMove={performMoveHandler}></ChessBoard>
       </div>
-    </div>
+      <div>Check state: {checkState}</div>
+      <div>Game state: {gameState}</div>
+    </Fragment>
   );
 }

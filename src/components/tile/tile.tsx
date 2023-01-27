@@ -1,4 +1,4 @@
-import { Position } from "../../game/position";
+import { Position } from "../../chess/position";
 import "./tile.styles.scss";
 
 type TileProps = {
@@ -16,11 +16,7 @@ export default function Tile({
   onTileClick,
   isHighlighted,
 }: TileProps) {
-  const className: string = [
-    `${color}-tile`,
-    image && "piece-tile",
-    isHighlighted && "highlighted",
-  ]
+  const className: string = [`${color}-tile`, image && "piece-tile"]
     .filter(Boolean)
     .join(" ");
 
@@ -33,6 +29,8 @@ export default function Tile({
           : "none",
       }}
       onClick={() => onTileClick(position, isHighlighted)}
-    ></div>
+    >
+      <div className={isHighlighted ? "highlighted" : "none"}></div>
+    </div>
   );
 }

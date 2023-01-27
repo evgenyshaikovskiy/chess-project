@@ -1,7 +1,8 @@
-import { PieceType } from "./../types";
+import { PieceType } from "../types";
 import { Piece } from "../piece";
 import { Position } from "../position";
 import { Color } from "../types";
+import { findMoves } from "../game";
 
 export class King extends Piece {
   constructor(
@@ -16,7 +17,7 @@ export class King extends Piece {
     this.possibleMoves = [];
 
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         1,
@@ -27,7 +28,7 @@ export class King extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         1,
@@ -38,7 +39,7 @@ export class King extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         -1,
@@ -49,7 +50,7 @@ export class King extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         -1,
@@ -61,7 +62,7 @@ export class King extends Piece {
     );
 
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         1,
@@ -72,7 +73,7 @@ export class King extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         0,
@@ -83,7 +84,7 @@ export class King extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         0,
@@ -94,7 +95,7 @@ export class King extends Piece {
       )
     );
     this.possibleMoves.push(
-      ...Piece.findMoves(
+      ...findMoves(
         this.position.x,
         this.position.y,
         -1,
@@ -105,13 +106,10 @@ export class King extends Piece {
       )
     );
 
-    // target squares
     this.targetSquares();
   }
 
-  public excludeTargetedSquaresFromPossibleMoves(): void {}
-
-  public moveTo(position: Position): void {
-    position.placePiece(this);
+  public clone(): Piece {
+    return new King(this.position, this.color, this.possibleMoves);
   }
 }
