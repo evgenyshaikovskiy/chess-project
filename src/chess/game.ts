@@ -268,8 +268,6 @@ export const updateGameState = (
     findKingPosition(positions, Color.BLACK).piece! as King
   ).position.isTargetedByWhitePiece;
 
-  console.log(whiteKingCheck, blackKingCheck);
-
   // stalemate condition
   if (
     (!isWhiteToMove && whitePossibleMoves.length === 0 && !whiteKingCheck) ||
