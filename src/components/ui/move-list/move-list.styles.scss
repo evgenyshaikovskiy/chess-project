@@ -7,14 +7,25 @@
     font-weight: 800;
     font-size: larger;
     margin: 10px;
+    color: aliceblue;
   }
 
   .move-list-moves-container {
     display: grid;
     grid-template-columns: repeat(2, 8rem);
     .move-description {
+      display: flex;
+      align-items: center;
       justify-content: center;
       text-align: center;
+      border-radius: 3px;
+      margin: 1px;
+      color:aliceblue;
+      background-color: rgb(78, 58, 58);
+      .piece-icon {
+        height: 30px;
+        width: 30px;
+      }
     }
   }
 }
