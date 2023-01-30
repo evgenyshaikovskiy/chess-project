@@ -6,7 +6,7 @@ import { Color } from "../../chess/types";
 import {
   excludeIllegalMoves,
   findPositionByNumericValue,
-  moveFromSourceToDestination,
+  moveFromSourceToDestinationWithLogger,
   returnPawnToPromoteIfExists,
   unTargetAllPositions,
   updateCastlingMoves,
@@ -17,8 +17,14 @@ import { Piece } from "../../chess/piece";
 import useModal from "../../hooks/useModal";
 
 export default function ChessGame() {
-  const { isWhiteTurnToMove, gameState, positions, modifyPositions } =
-    useContext(GameContext);
+  const {
+    isWhiteTurnToMove,
+    gameState,
+    positions,
+    gameMoves,
+    modifyPositions,
+    addMove,
+  } = useContext(GameContext);
 
   const modal = useModal();
 
@@ -41,7 +47,12 @@ export default function ChessGame() {
     source: Position,
     destination: Position
   ): Promise<boolean> => {
-    moveFromSourceToDestination(source, destination, positions);
+    moveFromSourceToDestinationWithLogger(
+      source,
+      destination,
+      positions,
+      addMove
+    );
 
     // extract code to function
     const possiblePromotionPawn = returnPawnToPromoteIfExists(positions);
@@ -69,6 +80,11 @@ export default function ChessGame() {
         <ChessBoard performMove={performMoveHandler}></ChessBoard>
       </div>
       <div>Game state: {gameState}</div>
+      <div>
+        {gameMoves.map((val) => {
+          return <div>{val.moveToString}</div>;
+        })}
+      </div>
     </Fragment>
   );
 }

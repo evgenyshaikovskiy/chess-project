@@ -1,3 +1,4 @@
+import { Move } from "./move";
 import { Bishop } from "./pieces/bishop";
 import { King } from "./pieces/king";
 import { Knight } from "./pieces/knight";
@@ -177,15 +178,24 @@ const performCastling = (
   rookPosition.piece!.moveTo(rookDestination);
 };
 
-export const moveFromSourceToDestination = (
+export const moveFromSourceToDestinationWithLogger =  (
   source: Position,
   destination: Position,
-  positions: Position[]
+  positions: Position[],
+  moveLoggerCallback: (move: Move) => void
+) => {
+  moveLoggerCallback(new Move(source.readableKey, destination.readableKey, source.piece!))
+  moveFromSourceToDestination(source, destination, positions);
+};
+
+const moveFromSourceToDestination = (
+  source: Position,
+  destination: Position,
+  positions: Position[],
 ) => {
   // first case, destination is empty => move without capturing
   // second case, destination is occupied by enemy => move with capturing
   // third case, destination is occupied by rook => move with castling
-
   if (
     destination.isOccupied() &&
     !destination.isOccupiedByOpponent(source.piece!.color)
@@ -196,6 +206,7 @@ export const moveFromSourceToDestination = (
     // first and second case
     source.piece!.moveTo(destination);
   }
+
 };
 
 export const returnPawnToPromoteIfExists = (
