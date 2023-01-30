@@ -20,3 +20,28 @@ export enum GameState {
   DRAW_BY_REPETITION = "Draw by repetition",
   STALEMATE = "Stalemate!",
 }
+
+export const vertical_axis_keys = [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+];
+export const horizontal_axis_keys = [
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+];

@@ -1,10 +1,11 @@
-import { useState, useContext, Fragment } from "react";
+import { useState, useContext } from "react";
 import { GameContext } from "../../contexts/game.context";
 import Tile from "../tile/tile";
 import { Position } from "../../chess/position";
 import "./chess-board.styles.scss";
 import { Color } from "../../chess/types";
 import { updateGameState } from "../../chess/game";
+import MoveList from "../ui/move-list/move-list";
 
 type ChessBoardProps = {
   performMove: (source: Position, destination: Position) => Promise<boolean>;
@@ -67,10 +68,14 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
   };
 
   const insertedGridStyles = `repeat(${Math.sqrt(positions.length)}, 80px)`;
+  const insertedHeightStyles = positions.length === 100 ? 800 : 640;
 
   return (
     <div className="chess-board-wrapper">
-      <Fragment>
+      <div
+        className="chess-board-axis"
+        style={{ gridTemplateColumns: `50px ${insertedHeightStyles}px` }}
+      >
         <div
           className="chess-board-vertical-axis"
           style={{ gridTemplateRows: insertedGridStyles }}
@@ -95,7 +100,7 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
                 color={position.tileColor}
                 position={position}
                 image={position.piece?.image}
-                key={position.numeric_key}
+                key={position.numericKey}
                 isHighlighted={highlightedSquares.includes(position)}
               ></Tile>
             );
@@ -111,7 +116,8 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
             </div>
           ))}
         </div>
-      </Fragment>
+      </div>
+      <MoveList></MoveList>
     </div>
   );
 };

@@ -45,6 +45,8 @@ export abstract class Piece {
 
   public abstract clone(): Piece;
 
+  public abstract get shorthandKey(): string;
+
   public targetSquares() {
     this.possibleMoves.forEach((p) => {
       if (this.color === Color.WHITE) {

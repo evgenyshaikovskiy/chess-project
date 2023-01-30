@@ -5,6 +5,9 @@ import { Position } from "../position";
 import { Color } from "../types";
 
 export class Pawn extends Piece {
+  public get shorthandKey(): string {
+    return "P";
+  }
   private pawnDirection: number;
   public isReadyToPromote: boolean;
 
@@ -60,14 +63,14 @@ export class Pawn extends Piece {
 
     // switch to const??
     let oneSquareForwardPos = positions.find(
-      (p) => p.numeric_key === oneSquareForwardKey
+      (p) => p.numericKey === oneSquareForwardKey
     );
 
     if (oneSquareForwardPos && !oneSquareForwardPos.isOccupied()) {
       this.possibleMoves.push(oneSquareForwardPos);
 
       let twoSquareForwardPos = positions.find(
-        (p) => p.numeric_key === twoSquareForwardKey
+        (p) => p.numericKey === twoSquareForwardKey
       );
 
       if (twoSquareForwardPos && !twoSquareForwardPos.isOccupied()) {
@@ -76,7 +79,7 @@ export class Pawn extends Piece {
     }
 
     let leftSquareCapturePos = positions.find(
-      (p) => p.numeric_key === leftSquareCaptureKey
+      (p) => p.numericKey === leftSquareCaptureKey
     );
 
     if (
@@ -87,7 +90,7 @@ export class Pawn extends Piece {
     }
 
     let rightSquareCapturePos = positions.find(
-      (p) => p.numeric_key === rightSquareCaptureKey
+      (p) => p.numericKey === rightSquareCaptureKey
     );
     if (
       rightSquareCapturePos &&
@@ -126,7 +129,7 @@ export class Pawn extends Piece {
 
     if (
       (this.pawnDirection === -1 && position.y === 0) ||
-      (this.pawnDirection === 1 && position.y === 9)
+      (this.pawnDirection === 1 && (position.y === 9 || position.y === 7))
     ) {
       this.isReadyToPromote = true;
     }

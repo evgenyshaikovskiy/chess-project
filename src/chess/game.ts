@@ -1,3 +1,4 @@
+import { Move } from "./move";
 import { Bishop } from "./pieces/bishop";
 import { King } from "./pieces/king";
 import { Knight } from "./pieces/knight";
@@ -26,7 +27,7 @@ export const findPositionByNumericValue = (
   numeric_key: number
 ): Position => {
   return positions.find(
-    (position) => position.numeric_key === numeric_key
+    (position) => position.numericKey === numeric_key
   ) as Position;
 };
 
@@ -92,7 +93,8 @@ const isCastlingLegal = (
   kingColor: Color,
   isShortCastling: boolean
 ): Position | null => {
-  const limit = isShortCastling ? 4 : 5;
+  const [leftLimit, rightLimit] = positions.length === 100 ? [4, 5] : [3, 4];
+  const limit = isShortCastling ? leftLimit : rightLimit;
 
   for (let step = 1; step < limit; step++) {
     const targetCoordinateX = current_x + step * x_direction;
@@ -160,7 +162,8 @@ const performCastling = (
   // king moves two squares to direction where rook is located
   // rook moves next to king in opposite direction
 
-  const kingMoveDirection = rookPosition.x === 9 ? 1 : -1;
+  const kingMoveDirection =
+    rookPosition.x === 9 || rookPosition.x === 7 ? 1 : -1;
   const kingDestination = findPositionByNumericValue(
     positions,
     calculateNumericKey(kingPosition.x + 2 * kingMoveDirection, kingPosition.y)
@@ -177,7 +180,19 @@ const performCastling = (
   rookPosition.piece!.moveTo(rookDestination);
 };
 
-export const moveFromSourceToDestination = (
+export const moveFromSourceToDestinationWithLogger = (
+  source: Position,
+  destination: Position,
+  positions: Position[],
+  moveLoggerCallback: (move: Move) => void
+) => {
+  moveLoggerCallback(
+    new Move(source.readableKey, destination.readableKey, source.piece!)
+  );
+  moveFromSourceToDestination(source, destination, positions);
+};
+
+const moveFromSourceToDestination = (
   source: Position,
   destination: Position,
   positions: Position[]
@@ -185,7 +200,6 @@ export const moveFromSourceToDestination = (
   // first case, destination is empty => move without capturing
   // second case, destination is occupied by enemy => move with capturing
   // third case, destination is occupied by rook => move with castling
-
   if (
     destination.isOccupied() &&
     !destination.isOccupiedByOpponent(source.piece!.color)
@@ -217,11 +231,11 @@ export const isMoveIllegal = (
 
   const sourceCopy = findPositionByNumericValue(
     positionsCopy,
-    source.numeric_key
+    source.numericKey
   );
   const destinationCopy = findPositionByNumericValue(
     positionsCopy,
-    destination.numeric_key
+    destination.numericKey
   );
 
   moveFromSourceToDestination(sourceCopy, destinationCopy, positionsCopy);
@@ -298,7 +312,9 @@ export const prepareClassicBoard = () => {
   const horizontal_axis_start = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
   const source = [0, 1, 2, 3, 4, 5, 6, 7];
-  const positions_start = source.map((y) => source.map((x) => new Position(x, y)));
+  const positions_start = source.map((y) =>
+    source.map((x) => new Position(x, y))
+  );
   for (let i = 0; i < positions_start[1].length; i++) {
     positions_start[1][i].placePiece(
       new Pawn(positions_start[1][i], Color.WHITE)
@@ -332,7 +348,7 @@ export const prepareClassicBoard = () => {
   positions_start[0][7].placePiece(
     new Rook(positions_start[0][7], Color.WHITE)
   );
-  
+
   positions_start[7][0].placePiece(
     new Rook(positions_start[7][0], Color.BLACK)
   );
@@ -358,17 +374,40 @@ export const prepareClassicBoard = () => {
     new Rook(positions_start[7][7], Color.BLACK)
   );
 
-
   return { horizontal_axis_start, vertical_axis_start, positions_start };
-}
+};
 
 export const prepareCustomBoard = () => {
-  const vertical_axis_start = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-  const horizontal_axis_start = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+  const vertical_axis_start = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+  ];
+  const horizontal_axis_start = [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+  ];
 
   const source = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-  const positions_start = source.map((y) => source.map((x) => new Position(x, y)));
+  const positions_start = source.map((y) =>
+    source.map((x) => new Position(x, y))
+  );
   for (let i = 0; i < positions_start[1].length; i++) {
     positions_start[1][i].placePiece(
       new Pawn(positions_start[1][i], Color.WHITE)
@@ -408,7 +447,7 @@ export const prepareCustomBoard = () => {
   positions_start[0][9].placePiece(
     new Rook(positions_start[0][9], Color.WHITE)
   );
-  
+
   positions_start[9][0].placePiece(
     new Rook(positions_start[9][0], Color.BLACK)
   );
