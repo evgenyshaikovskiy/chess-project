@@ -91,7 +91,7 @@ const isCastlingLegal = (
   x_direction: number,
   positions: Position[],
   kingColor: Color,
-  isShortCastling: boolean,
+  isShortCastling: boolean
 ): Position | null => {
   const [leftLimit, rightLimit] = positions.length === 100 ? [4, 5] : [3, 4];
   const limit = isShortCastling ? leftLimit : rightLimit;
@@ -162,7 +162,8 @@ const performCastling = (
   // king moves two squares to direction where rook is located
   // rook moves next to king in opposite direction
 
-  const kingMoveDirection = rookPosition.x === 9  || rookPosition.x === 7 ? 1 : -1;
+  const kingMoveDirection =
+    rookPosition.x === 9 || rookPosition.x === 7 ? 1 : -1;
   const kingDestination = findPositionByNumericValue(
     positions,
     calculateNumericKey(kingPosition.x + 2 * kingMoveDirection, kingPosition.y)
@@ -175,26 +176,26 @@ const performCastling = (
     )
   );
 
-  console.log(kingDestination, rookDestination);
-
   kingPosition.piece!.moveTo(kingDestination);
   rookPosition.piece!.moveTo(rookDestination);
 };
 
-export const moveFromSourceToDestinationWithLogger =  (
+export const moveFromSourceToDestinationWithLogger = (
   source: Position,
   destination: Position,
   positions: Position[],
   moveLoggerCallback: (move: Move) => void
 ) => {
-  moveLoggerCallback(new Move(source.readableKey, destination.readableKey, source.piece!))
+  moveLoggerCallback(
+    new Move(source.readableKey, destination.readableKey, source.piece!)
+  );
   moveFromSourceToDestination(source, destination, positions);
 };
 
 const moveFromSourceToDestination = (
   source: Position,
   destination: Position,
-  positions: Position[],
+  positions: Position[]
 ) => {
   // first case, destination is empty => move without capturing
   // second case, destination is occupied by enemy => move with capturing
@@ -209,7 +210,6 @@ const moveFromSourceToDestination = (
     // first and second case
     source.piece!.moveTo(destination);
   }
-
 };
 
 export const returnPawnToPromoteIfExists = (

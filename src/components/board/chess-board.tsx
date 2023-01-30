@@ -26,8 +26,6 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
   const [highlightedSquares, setHighlightedSquares] = useState<Position[]>([]);
 
   const onTileClickHandler = (position: Position, isHighlighted: boolean) => {
-    console.log(position);
-
     // update selected piece
     if (!selectedPiece && position.piece) {
       pickPiece(position.piece);

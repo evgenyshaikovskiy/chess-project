@@ -12,6 +12,6 @@ export class Move {
   }
 
   public get moveToString(): string {
-    return `${this.source}${this.pieceShorthandKey}${this.destination}`
+    return `${this.source}${this.pieceShorthandKey}${this.destination}`;
   }
 }
