@@ -129,7 +129,7 @@ export class Pawn extends Piece {
 
     if (
       (this.pawnDirection === -1 && position.y === 0) ||
-      (this.pawnDirection === 1 && position.y === 9)
+      (this.pawnDirection === 1 && (position.y === 9 || position.y === 7))
     ) {
       this.isReadyToPromote = true;
     }

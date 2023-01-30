@@ -91,9 +91,10 @@ const isCastlingLegal = (
   x_direction: number,
   positions: Position[],
   kingColor: Color,
-  isShortCastling: boolean
+  isShortCastling: boolean,
 ): Position | null => {
-  const limit = isShortCastling ? 4 : 5;
+  const [leftLimit, rightLimit] = positions.length === 100 ? [4, 5] : [3, 4];
+  const limit = isShortCastling ? leftLimit : rightLimit;
 
   for (let step = 1; step < limit; step++) {
     const targetCoordinateX = current_x + step * x_direction;
@@ -161,7 +162,7 @@ const performCastling = (
   // king moves two squares to direction where rook is located
   // rook moves next to king in opposite direction
 
-  const kingMoveDirection = rookPosition.x === 9 ? 1 : -1;
+  const kingMoveDirection = rookPosition.x === 9  || rookPosition.x === 7 ? 1 : -1;
   const kingDestination = findPositionByNumericValue(
     positions,
     calculateNumericKey(kingPosition.x + 2 * kingMoveDirection, kingPosition.y)
@@ -173,6 +174,8 @@ const performCastling = (
       rookPosition.y
     )
   );
+
+  console.log(kingDestination, rookDestination);
 
   kingPosition.piece!.moveTo(kingDestination);
   rookPosition.piece!.moveTo(rookDestination);
