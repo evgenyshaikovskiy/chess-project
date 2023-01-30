@@ -1,11 +1,12 @@
 import { calculateNumericKey } from "./game";
 import { Piece } from "./piece";
-import { Color } from "./types";
+import { Color, horizontal_axis_keys, vertical_axis_keys } from "./types";
 export class Position {
   public x: number;
   public y: number;
 
-  public numeric_key: number;
+  public numericKey: number;
+  public readableKey: string;
 
   public tileColor: string;
 
@@ -29,15 +30,17 @@ export class Position {
       this.piece = piece;
       this.piece.position = this;
     }
-    this.numeric_key = calculateNumericKey(x, y);
+    this.numericKey = calculateNumericKey(x, y);
     this.tileColor = (x + y) % 2 === 0 ? Color.BLACK : Color.WHITE;
 
     this.isTargetedByBlackPiece = isTargetedByBlackPiece;
     this.isTargetedByWhitePiece = isTargetedByWhitePiece;
+
+    this.readableKey = horizontal_axis_keys[x] + vertical_axis_keys[y];
   }
 
   public isSamePosition(other: Position): boolean {
-    return other.numeric_key === this.numeric_key;
+    return other.numericKey === this.numericKey;
   }
 
   public isOccupied(): boolean {

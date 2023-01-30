@@ -95,7 +95,7 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
                 color={position.tileColor}
                 position={position}
                 image={position.piece?.image}
-                key={position.numeric_key}
+                key={position.numericKey}
                 isHighlighted={highlightedSquares.includes(position)}
               ></Tile>
             );

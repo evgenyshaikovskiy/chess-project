@@ -5,6 +5,9 @@ import { Position } from "../position";
 import { Color } from "../types";
 
 export class Queen extends Piece {
+  public get shorthandKey(): string {
+    return "Q";
+  }
   constructor(
     position: Position,
     color: Color,

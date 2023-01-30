@@ -50,7 +50,7 @@ export default function ChessGame() {
 
       findPositionByNumericValue(
         positions,
-        possiblePromotionPawn.position.numeric_key
+        possiblePromotionPawn.position.numericKey
       ).placePiece(result as Piece);
     }
 

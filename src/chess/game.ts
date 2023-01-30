@@ -26,7 +26,7 @@ export const findPositionByNumericValue = (
   numeric_key: number
 ): Position => {
   return positions.find(
-    (position) => position.numeric_key === numeric_key
+    (position) => position.numericKey === numeric_key
   ) as Position;
 };
 
@@ -217,11 +217,11 @@ export const isMoveIllegal = (
 
   const sourceCopy = findPositionByNumericValue(
     positionsCopy,
-    source.numeric_key
+    source.numericKey
   );
   const destinationCopy = findPositionByNumericValue(
     positionsCopy,
-    destination.numeric_key
+    destination.numericKey
   );
 
   moveFromSourceToDestination(sourceCopy, destinationCopy, positionsCopy);
@@ -298,7 +298,9 @@ export const prepareClassicBoard = () => {
   const horizontal_axis_start = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
   const source = [0, 1, 2, 3, 4, 5, 6, 7];
-  const positions_start = source.map((y) => source.map((x) => new Position(x, y)));
+  const positions_start = source.map((y) =>
+    source.map((x) => new Position(x, y))
+  );
   for (let i = 0; i < positions_start[1].length; i++) {
     positions_start[1][i].placePiece(
       new Pawn(positions_start[1][i], Color.WHITE)
@@ -332,7 +334,7 @@ export const prepareClassicBoard = () => {
   positions_start[0][7].placePiece(
     new Rook(positions_start[0][7], Color.WHITE)
   );
-  
+
   positions_start[7][0].placePiece(
     new Rook(positions_start[7][0], Color.BLACK)
   );
@@ -358,17 +360,40 @@ export const prepareClassicBoard = () => {
     new Rook(positions_start[7][7], Color.BLACK)
   );
 
-
   return { horizontal_axis_start, vertical_axis_start, positions_start };
-}
+};
 
 export const prepareCustomBoard = () => {
-  const vertical_axis_start = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-  const horizontal_axis_start = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+  const vertical_axis_start = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+  ];
+  const horizontal_axis_start = [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+  ];
 
   const source = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-  const positions_start = source.map((y) => source.map((x) => new Position(x, y)));
+  const positions_start = source.map((y) =>
+    source.map((x) => new Position(x, y))
+  );
   for (let i = 0; i < positions_start[1].length; i++) {
     positions_start[1][i].placePiece(
       new Pawn(positions_start[1][i], Color.WHITE)
@@ -408,7 +433,7 @@ export const prepareCustomBoard = () => {
   positions_start[0][9].placePiece(
     new Rook(positions_start[0][9], Color.WHITE)
   );
-  
+
   positions_start[9][0].placePiece(
     new Rook(positions_start[9][0], Color.BLACK)
   );
