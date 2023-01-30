@@ -1,12 +1,10 @@
 import { calculateNumericKey } from "./game";
-import { HORIZONTAL_AXIS, VERTICAL_AXIS } from "./constants";
 import { Piece } from "./piece";
 import { Color } from "./types";
 export class Position {
   public x: number;
   public y: number;
 
-  public key: string;
   public numeric_key: number;
 
   public tileColor: string;
@@ -27,7 +25,6 @@ export class Position {
   ) {
     this.x = x;
     this.y = y;
-    this.key = HORIZONTAL_AXIS[x] + VERTICAL_AXIS[y];
     if (piece) {
       this.piece = piece;
       this.piece.position = this;

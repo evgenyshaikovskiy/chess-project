@@ -1,11 +1,7 @@
-import { useState, useContext } from "react";
+import { useState, useContext, Fragment } from "react";
 import { GameContext } from "../../contexts/game.context";
-
 import Tile from "../tile/tile";
-
-import { HORIZONTAL_AXIS, VERTICAL_AXIS } from "../../chess/constants";
 import { Position } from "../../chess/position";
-
 import "./chess-board.styles.scss";
 import { Color } from "../../chess/types";
 import { updateGameState } from "../../chess/game";
@@ -23,14 +19,11 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
     pickPiece,
     modifyPositions,
     transferRightToMove,
+    verticalAxis,
+    horizontalAxis,
   } = useContext(GameContext);
 
   const [highlightedSquares, setHighlightedSquares] = useState<Position[]>([]);
-  const [verticalAxis, setVerticalAxis] = useState<string[]>(
-    VERTICAL_AXIS.slice().reverse()
-  );
-  const [horizontalAxis, setHorizontalAxis] =
-    useState<string[]>(HORIZONTAL_AXIS);
 
   const onTileClickHandler = (position: Position, isHighlighted: boolean) => {
     // update selected piece
@@ -59,8 +52,6 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
         if (val) {
           setHighlightedSquares([]);
           pickPiece(null);
-          setHorizontalAxis([...horizontalAxis.reverse()]);
-          setVerticalAxis([...verticalAxis.reverse()]);
           modifyPositions(positions.reverse());
           modifyGameState(updateGameState(positions, isWhiteTurnToMove));
           transferRightToMove();
@@ -75,36 +66,52 @@ export const ChessBoard = ({ performMove }: ChessBoardProps) => {
     }
   };
 
+  const insertedGridStyles = `repeat(${Math.sqrt(positions.length)}, 80px)`;
+
   return (
     <div className="chess-board-wrapper">
-      <div className="chess-board-vertical-axis">
-        {verticalAxis.map((val, index) => (
-          <div className="vertical-axis-element" key={index}>
-            {val}
-          </div>
-        ))}
-      </div>
-      <div className="chess-board-tiles-wrapper">
-        {positions.map((position) => {
-          return (
-            <Tile
-              onTileClick={onTileClickHandler}
-              color={position.tileColor}
-              position={position}
-              image={position.piece?.image}
-              key={position.numeric_key}
-              isHighlighted={highlightedSquares.includes(position)}
-            ></Tile>
-          );
-        })}
-      </div>
-      <div className="chess-board-horizontal-axis">
-        {horizontalAxis.map((val, index) => (
-          <div className="horizontal-axis-element" key={index}>
-            {val}
-          </div>
-        ))}
-      </div>
+      <Fragment>
+        <div
+          className="chess-board-vertical-axis"
+          style={{ gridTemplateRows: insertedGridStyles }}
+        >
+          {verticalAxis.map((val, index) => (
+            <div className="vertical-axis-element" key={index}>
+              {val}
+            </div>
+          ))}
+        </div>
+        <div
+          className="chess-board-tiles-wrapper"
+          style={{
+            gridTemplateColumns: insertedGridStyles,
+            gridTemplateRows: insertedGridStyles,
+          }}
+        >
+          {positions.map((position) => {
+            return (
+              <Tile
+                onTileClick={onTileClickHandler}
+                color={position.tileColor}
+                position={position}
+                image={position.piece?.image}
+                key={position.numeric_key}
+                isHighlighted={highlightedSquares.includes(position)}
+              ></Tile>
+            );
+          })}
+        </div>
+        <div
+          className="chess-board-horizontal-axis"
+          style={{ gridTemplateColumns: insertedGridStyles }}
+        >
+          {horizontalAxis.map((val, index) => (
+            <div className="horizontal-axis-element" key={index}>
+              {val}
+            </div>
+          ))}
+        </div>
+      </Fragment>
     </div>
   );
 };

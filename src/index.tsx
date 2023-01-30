@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { GameContextProvider } from "./contexts/game.context";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
 
 // refactor context provider and
 // add navigation, authentication
@@ -11,9 +11,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <GameContextProvider>
-      <App />
-    </GameContextProvider>
+    <BrowserRouter>
+      <App></App>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

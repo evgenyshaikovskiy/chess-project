@@ -1,5 +1,10 @@
+import { Bishop } from "./pieces/bishop";
 import { King } from "./pieces/king";
+import { Knight } from "./pieces/knight";
+import { Lance } from "./pieces/lance";
 import { Pawn } from "./pieces/pawn";
+import { Queen } from "./pieces/queen";
+import { Rook } from "./pieces/rook";
 import { Position } from "./position";
 import { Color, GameState } from "./types";
 
@@ -286,6 +291,156 @@ export const updateGameState = (
   }
 
   return GameState.GAME_IS_RUNNING;
+};
+
+export const prepareClassicBoard = () => {
+  const vertical_axis_start = ["1", "2", "3", "4", "5", "6", "7", "8"];
+  const horizontal_axis_start = ["a", "b", "c", "d", "e", "f", "g", "h"];
+
+  const source = [0, 1, 2, 3, 4, 5, 6, 7];
+  const positions_start = source.map((y) => source.map((x) => new Position(x, y)));
+  for (let i = 0; i < positions_start[1].length; i++) {
+    positions_start[1][i].placePiece(
+      new Pawn(positions_start[1][i], Color.WHITE)
+    );
+    positions_start[6][i].placePiece(
+      new Pawn(positions_start[6][i], Color.BLACK)
+    );
+  }
+
+  positions_start[0][0].placePiece(
+    new Rook(positions_start[0][0], Color.WHITE)
+  );
+  positions_start[0][1].placePiece(
+    new Knight(positions_start[0][1], Color.WHITE)
+  );
+  positions_start[0][2].placePiece(
+    new Bishop(positions_start[0][2], Color.WHITE)
+  );
+  positions_start[0][3].placePiece(
+    new Queen(positions_start[0][3], Color.WHITE)
+  );
+  positions_start[0][4].placePiece(
+    new King(positions_start[0][4], Color.WHITE)
+  );
+  positions_start[0][5].placePiece(
+    new Bishop(positions_start[0][5], Color.WHITE)
+  );
+  positions_start[0][6].placePiece(
+    new Knight(positions_start[0][6], Color.WHITE)
+  );
+  positions_start[0][7].placePiece(
+    new Rook(positions_start[0][7], Color.WHITE)
+  );
+  
+  positions_start[7][0].placePiece(
+    new Rook(positions_start[7][0], Color.BLACK)
+  );
+  positions_start[7][1].placePiece(
+    new Knight(positions_start[7][1], Color.BLACK)
+  );
+  positions_start[7][2].placePiece(
+    new Bishop(positions_start[7][2], Color.BLACK)
+  );
+  positions_start[7][3].placePiece(
+    new Queen(positions_start[7][3], Color.BLACK)
+  );
+  positions_start[7][4].placePiece(
+    new King(positions_start[7][4], Color.BLACK)
+  );
+  positions_start[7][5].placePiece(
+    new Bishop(positions_start[7][5], Color.BLACK)
+  );
+  positions_start[7][6].placePiece(
+    new Knight(positions_start[7][6], Color.BLACK)
+  );
+  positions_start[7][7].placePiece(
+    new Rook(positions_start[7][7], Color.BLACK)
+  );
+
+
+  return { horizontal_axis_start, vertical_axis_start, positions_start };
+}
+
+export const prepareCustomBoard = () => {
+  const vertical_axis_start = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  const horizontal_axis_start = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+
+  const source = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  const positions_start = source.map((y) => source.map((x) => new Position(x, y)));
+  for (let i = 0; i < positions_start[1].length; i++) {
+    positions_start[1][i].placePiece(
+      new Pawn(positions_start[1][i], Color.WHITE)
+    );
+    positions_start[8][i].placePiece(
+      new Pawn(positions_start[8][i], Color.BLACK)
+    );
+  }
+
+  positions_start[0][0].placePiece(
+    new Rook(positions_start[0][0], Color.WHITE)
+  );
+  positions_start[0][1].placePiece(
+    new Lance(positions_start[0][1], Color.WHITE)
+  );
+  positions_start[0][2].placePiece(
+    new Knight(positions_start[0][2], Color.WHITE)
+  );
+  positions_start[0][3].placePiece(
+    new Bishop(positions_start[0][3], Color.WHITE)
+  );
+  positions_start[0][4].placePiece(
+    new Queen(positions_start[0][4], Color.WHITE)
+  );
+  positions_start[0][5].placePiece(
+    new King(positions_start[0][5], Color.WHITE)
+  );
+  positions_start[0][6].placePiece(
+    new Bishop(positions_start[0][6], Color.WHITE)
+  );
+  positions_start[0][7].placePiece(
+    new Knight(positions_start[0][7], Color.WHITE)
+  );
+  positions_start[0][8].placePiece(
+    new Lance(positions_start[0][8], Color.WHITE)
+  );
+  positions_start[0][9].placePiece(
+    new Rook(positions_start[0][9], Color.WHITE)
+  );
+  
+  positions_start[9][0].placePiece(
+    new Rook(positions_start[9][0], Color.BLACK)
+  );
+  positions_start[9][1].placePiece(
+    new Lance(positions_start[9][1], Color.BLACK)
+  );
+  positions_start[9][2].placePiece(
+    new Knight(positions_start[9][2], Color.BLACK)
+  );
+  positions_start[9][3].placePiece(
+    new Bishop(positions_start[9][3], Color.BLACK)
+  );
+  positions_start[9][4].placePiece(
+    new Queen(positions_start[9][4], Color.BLACK)
+  );
+  positions_start[9][5].placePiece(
+    new King(positions_start[9][5], Color.BLACK)
+  );
+  positions_start[9][6].placePiece(
+    new Bishop(positions_start[9][6], Color.BLACK)
+  );
+  positions_start[9][7].placePiece(
+    new Knight(positions_start[9][7], Color.BLACK)
+  );
+  positions_start[9][8].placePiece(
+    new Lance(positions_start[9][8], Color.BLACK)
+  );
+  positions_start[9][9].placePiece(
+    new Rook(positions_start[9][9], Color.BLACK)
+  );
+
+  return { horizontal_axis_start, vertical_axis_start, positions_start };
 };
 
 const getPossibleMovesForColor = (
