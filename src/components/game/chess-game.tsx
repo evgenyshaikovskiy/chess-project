@@ -17,14 +17,8 @@ import { Piece } from "../../chess/piece";
 import useModal from "../../hooks/useModal";
 
 export default function ChessGame() {
-  const {
-    isWhiteTurnToMove,
-    gameState,
-    positions,
-    gameMoves,
-    modifyPositions,
-    addMove,
-  } = useContext(GameContext);
+  const { isWhiteTurnToMove, gameState, positions, modifyPositions, addMove } =
+    useContext(GameContext);
 
   const modal = useModal();
 
@@ -80,11 +74,6 @@ export default function ChessGame() {
         <ChessBoard performMove={performMoveHandler}></ChessBoard>
       </div>
       <div>Game state: {gameState}</div>
-      <div>
-        {gameMoves.map((val) => {
-          return <div>{val.moveToString}</div>;
-        })}
-      </div>
     </Fragment>
   );
 }
