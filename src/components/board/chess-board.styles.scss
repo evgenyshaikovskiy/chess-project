@@ -11,13 +11,11 @@
 
 .chess-board-vertical-axis {
   display: grid;
-  grid-template-rows: repeat(10, 80px);
   grid-auto-flow: row;
 }
 
 .chess-board-horizontal-axis {
   display: grid;
-  grid-template-columns: repeat(10, 80px);
   grid-auto-flow: column;
 
   margin-left: 50px;
