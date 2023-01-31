@@ -5,9 +5,6 @@ import { Color } from "../types";
 import { findMoves } from "../game";
 
 export class Knight extends Piece {
-  public get shorthandKey(): string {
-    return "K";
-  }
   constructor(
     position: Position,
     color: Color,

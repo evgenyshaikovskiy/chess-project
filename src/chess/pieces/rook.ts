@@ -5,10 +5,6 @@ import { Position } from "../position";
 import { Color } from "../types";
 
 export class Rook extends Piece {
-  public get shorthandKey(): string {
-    return "R";
-  }
-
   constructor(
     position: Position,
     color: Color,

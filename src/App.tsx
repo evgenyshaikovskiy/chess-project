@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/home/home";
 import GameProvider from "./components/game-provider/game-provider";
-import './app.styles.scss'
+import "./app.styles.scss";
 
 function App() {
   return (
