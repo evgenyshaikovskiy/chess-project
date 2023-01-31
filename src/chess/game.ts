@@ -115,8 +115,8 @@ const isCastlingLegal = (
     const squarePos = findPositionByNumericValue(positions, squareKey);
     if (
       squarePos.isOccupied() ||
-      ((kingColor === Color.BLACK && !squarePos.isTargetedByWhitePiece) ||
-        (kingColor === Color.WHITE && !squarePos.isTargetedByBlackPiece))
+      ((kingColor === Color.BLACK && squarePos.isTargetedByWhitePiece) ||
+        (kingColor === Color.WHITE && squarePos.isTargetedByBlackPiece))
     ) {
       return null;
     }
