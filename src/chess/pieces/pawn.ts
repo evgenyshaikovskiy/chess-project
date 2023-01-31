@@ -5,9 +5,6 @@ import { Position } from "../position";
 import { Color } from "../types";
 
 export class Pawn extends Piece {
-  public get shorthandKey(): string {
-    return "P";
-  }
   private pawnDirection: number;
   public isReadyToPromote: boolean;
 

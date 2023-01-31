@@ -5,9 +5,6 @@ import { Color } from "../types";
 import { findMoves } from "../game";
 
 export class Bishop extends Piece {
-  public get shorthandKey(): string {
-    return "B";
-  }
   constructor(
     position: Position,
     color: Color,

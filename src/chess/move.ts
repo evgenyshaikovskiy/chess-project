@@ -9,11 +9,11 @@ export class Move {
   constructor(source: string, destination: string, piece: Piece) {
     this.source = source;
     this.destination = destination;
-    this.pieceShorthandKey = piece.shorthandKey;
+    this.pieceShorthandKey = piece.type;
     this.piecePicturePath = piece.image;
   }
 
-  public get moveToString(): string {
-    return `${this.source}${this.pieceShorthandKey}${this.destination}`;
+  public get interpretation(): string {
+    return `${this.source}-${this.pieceShorthandKey}-${this.destination}`;
   }
 }

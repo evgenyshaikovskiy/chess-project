@@ -9,14 +9,14 @@ import { Rook } from "./pieces/rook";
 import { Position } from "./position";
 import { Color, GameState } from "./types";
 
-export const unTargetAllPositions = (positions: Position[]) => {
+export const unTargetAllPositions = (positions: Position[]): void => {
   positions.forEach((position) => {
     position.isTargetedByBlackPiece = false;
     position.isTargetedByWhitePiece = false;
   });
 };
 
-export const updateMovesForPositions = (positions: Position[]) => {
+export const updateMovesForPositions = (positions: Position[]): void => {
   positions
     .filter((position) => position.piece)
     .forEach((position) => position.piece!.updatePossibleMoves(positions));
@@ -31,10 +31,11 @@ export const findPositionByNumericValue = (
   ) as Position;
 };
 
-const findKingPosition = (positions: Position[], color: Color): Position => {
-  return positions.find(
-    (pos) => pos.piece?.isKing && pos.piece.color === color
-  ) as Position;
+export const findPositionByKey = (
+  key: string,
+  positions: Position[]
+): Position => {
+  return positions.find((position) => position.readableKey === key) as Position;
 };
 
 export const calculateNumericKey = (x: number, y: number) => {
@@ -83,6 +84,18 @@ export const findMoves = (
   }
 
   return moves;
+};
+
+export const moveFromSourceToDestinationWithLogger = (
+  source: Position,
+  destination: Position,
+  positions: Position[],
+  moveLoggerCallback: (move: Move) => void
+) => {
+  moveLoggerCallback(
+    new Move(source.readableKey, destination.readableKey, source.piece!)
+  );
+  moveFromSourceToDestination(source, destination, positions);
 };
 
 const isCastlingLegal = (
@@ -178,18 +191,6 @@ const performCastling = (
 
   kingPosition.piece!.moveTo(kingDestination);
   rookPosition.piece!.moveTo(rookDestination);
-};
-
-export const moveFromSourceToDestinationWithLogger = (
-  source: Position,
-  destination: Position,
-  positions: Position[],
-  moveLoggerCallback: (move: Move) => void
-) => {
-  moveLoggerCallback(
-    new Move(source.readableKey, destination.readableKey, source.piece!)
-  );
-  moveFromSourceToDestination(source, destination, positions);
 };
 
 const moveFromSourceToDestination = (
@@ -490,4 +491,10 @@ const getPossibleMovesForColor = (
     .filter((pos) => pos.piece && pos.piece.color === color)
     .map((pos) => pos.piece!.possibleMoves)
     .flatMap((x) => x);
+};
+
+const findKingPosition = (positions: Position[], color: Color): Position => {
+  return positions.find(
+    (pos) => pos.piece?.isKing && pos.piece.color === color
+  ) as Position;
 };
